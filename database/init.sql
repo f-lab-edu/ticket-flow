@@ -1,0 +1,79 @@
+CREATE TABLE USERS (
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(50) NOT NULL,
+    password VARCHAR(50) NOT NULL,
+    user_name VARCHAR(50) NOT NULL,
+    phone_number CHAR(11) NOT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modify_at DATETIME NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+    deleted_at DATETIME NULL DEFAULT NULL
+);
+
+CREATE TABLE CATEGORY (
+    category_id INT AUTO_INCREMENT PRIMARY KEY,
+    category_name VARCHAR(10) NOT NULL,
+    category_level INT NOT NULL,
+    parent_category_id INT NULL
+);
+
+CREATE TABLE EVENT_LOCATION (
+    event_location_id INT AUTO_INCREMENT PRIMARY KEY,
+    event_location_name VARCHAR(100) NOT NULL,
+    total_seats INT NOT NULL
+);
+
+CREATE TABLE SEAT (
+    seat_id INT AUTO_INCREMENT PRIMARY KEY,
+    event_location_id INT NOT NULL,
+    seat_grade VARCHAR(10) NOT NULL,
+    seat_price INT NOT NULL,
+    seat_grade_total_seats INT NOT NULL
+);
+
+CREATE TABLE EVENT (
+    event_id INT AUTO_INCREMENT PRIMARY KEY,
+    category_id INT NOT NULL,
+    event_location_id INT NOT NULL,
+    event_name VARCHAR(100) NOT NULL,
+    event_description TEXT NULL,
+    date TIMESTAMP NOT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modify_at DATETIME NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+    deleted_at DATETIME NULL DEFAULT NULL
+);
+
+CREATE TABLE TICKET (
+    ticket_id INT AUTO_INCREMENT PRIMARY KEY,
+    event_id INT NOT NULL,
+    event_location_id INT NOT NULL,
+    seat_id INT NOT NULL,
+    ticket_price INT NOT NULL,
+    total_tickets INT NOT NULL,
+    remaining_tickets INT NOT NULL,
+    create_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE PAYMENT (
+    payment_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    ticket_id INT NOT NULL,
+    payment_price INT NOT NULL,
+    create_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    deleted_at DATETIME NULL DEFAULT NULL
+);
+
+CREATE TABLE LIKE (
+    like_id INT AUTO_INCREMENT PRIMARY KEY,
+    event_id INT NOT NULL,
+    user_id INT NOT NULL
+);
+
+CREATE TABLE REVIEW (
+    review_id INT AUTO_INCREMENT PRIMARY KEY,
+    event_id INT NOT NULL,
+    scope INT NOT NULL,
+    content INT NOT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modify_at DATETIME NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+    deleted_at DATETIME NULL DEFAULT NULL
+);

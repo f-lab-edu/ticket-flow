@@ -1,0 +1,7 @@
+spring:
+  datasource:
+    url: jdbc:mysql://ticketflow-db:3306/ticketflow-db
+    username: root
+    password: 1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
+

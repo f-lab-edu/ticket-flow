@@ -1,0 +1,14 @@
+# 공식 MySQL 이미지를 기반으로 합니다.
+FROM mysql:8.0
+
+# 환경 변수 설정 (MySQL 기본 설정)
+ENV MYSQL_ROOT_PASSWORD=dltkdgur12
+ENV MYSQL_DATABASE=ticket_flow_db
+
+# 초기 스크립트를 컨테이너에 복사합니다.
+COPY init.sql /docker-entrypoint-initdb.d/
+
+EXPOSE 3306
+
+# MySQL 데몬 실행
+CMD ["mysqld"]
