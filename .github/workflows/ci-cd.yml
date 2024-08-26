@@ -25,7 +25,7 @@ jobs:
         run: ./gradlew clean build --no-daemon
 
       - name: Build Docker image
-        run: docker build -t tickerflow-my-server
+        run: docker build -t tickerflow-my-server .
 
       - name: Push Docker image to Docker Hub
         uses: docker/build-push-action@v4
@@ -36,3 +36,13 @@ jobs:
         env:
           DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
           DOCKER_HUB_ACCESS_TOKEN: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+      - name: SSH Deploy to Naver Cloud
+        uses: appleboy/ssh-action@v0.1.5
+        with:
+          host: ${{ secrets.NAVER_CLOUD_HOST }}
+          username: ${{ secrets.NAVER_CLOUD_USER }}
+          key: ${{ secrets.NAVER_CLOUD_SSH_KEY }}
+          port: 22
+          script: |
+            docker pull your-dockerhub-username/my-spring-boot-app:latest
+            docker-compose -f /path/to/docker-compose.yml up -d
