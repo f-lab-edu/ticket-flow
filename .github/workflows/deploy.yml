@@ -30,8 +30,6 @@ jobs:
       - name: ECR에 로그인하기
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
-        with:
-            region: ap-northeast-2
 
       - name: Docker 이미지 생성
         run: docker build -t instagram-server .
