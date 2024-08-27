@@ -21,34 +21,60 @@ jobs:
             distribution: temurin
             java-version: 17
 
-      - name: application.yml 파일 만들기
-        run: echo "${{ secrets.APPLICATION_PROPERTIES }}" > ./src/main/resources/application.yml
+#      - name: application.yml 파일 만들기
+#        run: echo "${{ secrets.APPLICATION_PROPERTIES }}" > ./src/main/resources/application.yml
 
       - name: 테스트 및 빌드하기
         run: ./gradlew clean build
 
-      - name: 빌드된 파일 이름 변경하기
-        run: mv ./build/libs/*SNAPSHOT.jar ./project.jar
+      - name: ECR에 로그인하기
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
 
-      - name: 압축하기
-        run: tar -czvf $GITHUB_SHA.tar.gz project.jar appspec.yml scripts
+      - name: Docker 이미지 생성
+        run: docker build -t instagram-server .
 
-      - name: AWS Resource에 접근할 수 있게 AWS credentials 설정
-        uses: aws-actions/configure-aws-credentials@v4
+      - name: Docker 이미지에 Tag 붙이기
+        run: docker tag instagram-server ${{ steps.login-ecr.outputs.registry }}/instagram-server:latest
+
+      - name: ECR에 Docker 이미지 Push하기
+        run: docker push ${{ steps.login-ecr.outputs.registry }}/instagram-server:latest
+
+      - name: SSH로 EC2에 접속하기
+        uses: appleboy/ssh-action@v1.0.3
         with:
-            aws-region: ap-northeast-2
-            aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-            aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_PRIVATE_KEY }}
+          script_stop: true
+          script: |
+            docker stop ticket-flow || true
+            docker rm ticket-flow || true
+            docker pull ${{ steps.login-ecr.outputs.registry }}/instagram-server:latest
+            docker run -d --name instagram-server -p 8080:8080 ${{ steps.login-ecr.outputs.registry }}/instagram-server:latest
 
-      - name: S3에 프로젝트 폴더 업로드하기
-        run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.tar.gz s3://ticket-flow/$GITHUB_SHA.tar.gz
-
-      - name: Code Deploy를 활용해 EC2에 프로젝트 코드 배포
-        run: aws deploy create-deployment
-            --application-name ticket-flow-server
-            --deployment-config-name CodeDeployDefault.AllAtOnce
-            --deployment-group-name Production
-            --s3-location bucket=ticket-flow,bundleType=tgz,key=$GITHUB_SHA.tar.gz
+#      - name: 빌드된 파일 이름 변경하기
+#        run: mv ./build/libs/*SNAPSHOT.jar ./project.jar
+#
+#      - name: 압축하기
+#        run: tar -czvf $GITHUB_SHA.tar.gz project.jar appspec.yml scripts
+#
+#      - name: AWS Resource에 접근할 수 있게 AWS credentials 설정
+#        uses: aws-actions/configure-aws-credentials@v4
+#        with:
+#            aws-region: ap-northeast-2
+#            aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#            aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#
+#      - name: S3에 프로젝트 폴더 업로드하기
+#        run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.tar.gz s3://ticket-flow/$GITHUB_SHA.tar.gz
+#
+#      - name: Code Deploy를 활용해 EC2에 프로젝트 코드 배포
+#        run: aws deploy create-deployment
+#            --application-name ticket-flow-server
+#            --deployment-config-name CodeDeployDefault.AllAtOnce
+#            --deployment-group-name Production
+#            --s3-location bucket=ticket-flow,bundleType=tgz,key=$GITHUB_SHA.tar.gz
 
 #      - name: SCP로 EC2에 빌드된 파일 전송하기
 #        uses: appleboy/scp-action@v0.1.7
