@@ -55,10 +55,11 @@ jobs:
           key: ${{ secrets.EC2_PRIVATE_KEY }}
           script_stop: true
           script: |
-            docker stop ticket-flow || true
-            docker rm ticket-flow || true
-            docker pull ${{ steps.login-ecr.outputs.registry }}/ticket-flow:latest
-            docker run -d --name ticket-flow -p 8080:8080 ${{ steps.login-ecr.outputs.registry }}/ticket-flow:latest
+            docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+            docker pull dktmskf0813/tickerflow-java:latest
+            docker stop ticketflow || true
+            docker rm ticketflow || true
+            docker run -d --name ticketflow -p 80:80 dktmskf0813/tickerflow-java:latest
 
 #      - name: 빌드된 파일 이름 변경하기
 #        run: mv ./build/libs/*SNAPSHOT.jar ./project.jar
