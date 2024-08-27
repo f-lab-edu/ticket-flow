@@ -58,7 +58,7 @@ jobs:
             docker stop ticket-flow || true
             docker rm ticket-flow || true
             docker pull ${{ steps.login-ecr.outputs.registry }}/ticket-flow:latest
-            docker run -d --name ticket-flow -p 8080:8080 ${{ steps.login-ecr.outputs.registry }}/instagram-server:latest
+            docker run -d --name ticket-flow -p 8080:8080 ${{ steps.login-ecr.outputs.registry }}/ticket-flow:latest
 
 #      - name: 빌드된 파일 이름 변경하기
 #        run: mv ./build/libs/*SNAPSHOT.jar ./project.jar
