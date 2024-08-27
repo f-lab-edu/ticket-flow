@@ -42,7 +42,7 @@ jobs:
         run: docker build -t ticket-flow .
 
       - name: Docker 이미지에 Tag 붙이기
-        run: docker tag instagram-server ${{ steps.login-ecr.outputs.registry }}/ticket-flow:latest
+        run: docker tag ticket-flow ${{ steps.login-ecr.outputs.registry }}/ticket-flow:latest
 
       - name: ECR에 Docker 이미지 Push하기
         run: docker push ${{ steps.login-ecr.outputs.registry }}/ticket-flow:latest
