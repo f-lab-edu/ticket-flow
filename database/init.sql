@@ -14,7 +14,7 @@ CREATE TABLE LeaveUser (
     password VARCHAR(50) NOT NULL,
     user_name VARCHAR(50) NOT NULL,
     phone_number CHAR(11) NOT NULL,
-    created_at DATETIME NOT NULL DEFAULT,
+    created_at DATETIME NOT NULL,
     deleted_at DATETIME NULL DEFAULT NULL
 );
 
