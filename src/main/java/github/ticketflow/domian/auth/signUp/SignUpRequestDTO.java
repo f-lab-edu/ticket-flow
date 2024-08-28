@@ -1,11 +1,11 @@
-package github.ticketflow.domian.auth;
+package github.ticketflow.domian.auth.signUp;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public class signUpDTO {
+public class SignUpRequestDTO {
 
     private String email;
     private String password;

@@ -13,19 +13,13 @@ import org.springframework.security.web.SecurityFilterChain;
 public class securityConfig {
 
     @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-
-    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http.csrf((auth) -> auth.disable());
         http.formLogin((auth) -> auth.disable());
         http.httpBasic((auth) -> auth.disable());
         http.authorizeHttpRequests((auth) -> auth
-                .requestMatchers("/login", "/", "/join").permitAll()
+                .requestMatchers("/login", "/", "/signUp").permitAll()
                 .requestMatchers("/admin").hasRole("ADMIN")
                 .anyRequest().authenticated()
         );

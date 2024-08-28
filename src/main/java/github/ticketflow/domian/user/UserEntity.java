@@ -1,5 +1,6 @@
 package github.ticketflow.domian.user;
 
+import github.ticketflow.domian.auth.signUp.SignUpRequestDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,7 +11,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Entity
-@Table(name = "User")
+@Table(name = "user")
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor
 public class UserEntity {
