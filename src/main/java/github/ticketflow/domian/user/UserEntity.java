@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Entity
-@Table(name = "user")
+@Table(name = "Users")
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor
 public class UserEntity {
