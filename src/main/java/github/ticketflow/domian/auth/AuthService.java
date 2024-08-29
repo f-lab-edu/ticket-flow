@@ -1,5 +1,7 @@
 package github.ticketflow.domian.auth;
 
+import github.ticketflow.config.exception.BusinessException;
+import github.ticketflow.config.exception.ErrorCode;
 import github.ticketflow.domian.auth.signUp.SignUpRequestDTO;
 import github.ticketflow.domian.auth.signUp.SignUpResponseDTO;
 import github.ticketflow.domian.user.UserEntity;
@@ -7,6 +9,8 @@ import github.ticketflow.domian.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -16,7 +20,9 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
 
     public SignUpResponseDTO signUp(SignUpRequestDTO dto) {
-        userRepository.existsByEmail(dto.getEmail()).orElseThrow(IllegalArgumentException::new);
+        if (userRepository.existsByEmail(dto.getEmail())) {
+            throw new BusinessException(ErrorCode.DUPLICATED_EMAIL);
+        }
 
         UserEntity newUser = new UserEntity(
                 dto.getEmail(),
