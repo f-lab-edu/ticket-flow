@@ -8,7 +8,6 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Getter
-@RequiredArgsConstructor
 public class SignUpRequestDTO {
 
     @NotBlank(message = "이메일 입력은 필수 입니다.")
@@ -26,4 +25,11 @@ public class SignUpRequestDTO {
 
     @NotBlank(message = "전화번호 입력은 필수 입니다")
     private String phoneNumber;
+
+    public SignUpRequestDTO(String email, String password, String username, String phoneNumber) {
+        this.email = email;
+        this.password = password;
+        this.username = username;
+        this.phoneNumber = phoneNumber;
+    }
 }
