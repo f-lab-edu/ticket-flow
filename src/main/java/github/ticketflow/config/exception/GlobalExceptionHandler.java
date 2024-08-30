@@ -14,13 +14,13 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleException(Exception ex, HttpServletRequest request) {
-        var error = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, ex.getLocalizedMessage());
+        ErrorResponse error = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, ex.getLocalizedMessage());
         return ResponseEntity.internalServerError().body(error);
     }
 
     @ExceptionHandler(GlobalCommonException.class)
     public ResponseEntity<ErrorResponse> handleBusinessException(GlobalCommonException e, HttpServletRequest request) {
-        var error = new ErrorResponse(e.getErrorCode().getStatus(), e.getErrorCode().getMessage());
+        ErrorResponse error = new ErrorResponse(e.getErrorCode().getStatus(), e.getErrorCode().getMessage());
         return ResponseEntity.status(e.getErrorCode().getStatus()).body(error);
     }
 
