@@ -18,8 +18,8 @@ public class GlobalExceptionHandler {
         return ResponseEntity.internalServerError().body(error);
     }
 
-    @ExceptionHandler(BusinessException.class)
-    public ResponseEntity<ErrorResponse> handleBusinessException(BusinessException e, HttpServletRequest request) {
+    @ExceptionHandler(GlobalCommonException.class)
+    public ResponseEntity<ErrorResponse> handleBusinessException(GlobalCommonException e, HttpServletRequest request) {
         var error = new ErrorResponse(e.getErrorCode().getStatus(), e.getErrorCode().getMessage());
         return ResponseEntity.status(e.getErrorCode().getStatus()).body(error);
     }

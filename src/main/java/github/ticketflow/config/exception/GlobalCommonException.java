@@ -1,20 +1,20 @@
 package github.ticketflow.config.exception;
 
-public class BusinessException extends RuntimeException {
+public class GlobalCommonException extends RuntimeException {
 
     private final ErrorCode errorCode;
 
-    public BusinessException(ErrorCode errorCode) {
+    public GlobalCommonException(ErrorCode errorCode) {
         super(errorCode.getMessage());
         this.errorCode = errorCode;
     }
 
-    public BusinessException(ErrorCode errorCode, String message) {
+    public GlobalCommonException(ErrorCode errorCode, String message) {
         super(message);
         this.errorCode = errorCode;
     }
 
-    public BusinessException(ErrorCode errorCode, String message, Throwable cause) {
+    public GlobalCommonException(ErrorCode errorCode, String message, Throwable cause) {
         super(message, cause);
         this.errorCode = errorCode;
     }
