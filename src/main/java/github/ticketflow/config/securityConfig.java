@@ -19,7 +19,7 @@ public class securityConfig {
         http.formLogin((auth) -> auth.disable());
         http.httpBasic((auth) -> auth.disable());
         http.authorizeHttpRequests((auth) -> auth
-                .requestMatchers("/login", "/", "/signUp").permitAll()
+                .requestMatchers("/login", "/", "/sign-up").permitAll()
                 .requestMatchers("/admin").hasRole("ADMIN")
                 .anyRequest().authenticated()
         );

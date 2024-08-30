@@ -3,35 +3,57 @@ package github.ticketflow.domian.auth;
 import github.ticketflow.domian.auth.signUp.SignUpRequestDTO;
 import github.ticketflow.domian.auth.signUp.SignUpResponseDTO;
 
+import github.ticketflow.domian.user.UserEntity;
+import github.ticketflow.domian.user.UserRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.BDDMockito;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 @ActiveProfiles("test")
 class AuthServiceTest {
 
-    @Autowired
+    @Mock
+    private UserRepository userRepository;
+
+    @Mock
+    private PasswordEncoder passwordEncoder;
+
+    @InjectMocks
     private AuthService authService;
 
-
-    @DisplayName("회원 가입을 한다.")
+    @DisplayName("사용자 입력한 정보가 문제가 없으면 회원가입이 된다.")
     @Test
-    void signup () {
-        // given
-        SignUpRequestDTO signUpRequestDTO = new SignUpRequestDTO("test1234@naver.com", "dltkdgur12", "이상혁", "01044825308");
+    void signup() {
+        SignUpRequestDTO dto = new SignUpRequestDTO("test1234@naver.com", "dltkdgur12", "이상혁", "01044825308");
+        BDDMockito.given(userRepository.existsByEmail(dto.getEmail())).willReturn(false);
+        BDDMockito.given(passwordEncoder.encode(dto.getPassword())).willReturn("encodePassword");
+
+        UserEntity userEntity = new UserEntity(dto.getEmail(), "encodePassword", dto.getUsername(), dto.getPhoneNumber());
+        BDDMockito.given(userRepository.save(BDDMockito.any(UserEntity.class))).willReturn(userEntity);
+
         // when
-        SignUpResponseDTO saveUser = authService.signUp(signUpRequestDTO);
+        SignUpResponseDTO saveUser = authService.signUp(dto);
+
         // then
         assertThat(saveUser)
-                .extracting("email", "username", "phoneNumber", "message")
-                .contains("test1234@naver.com", "이상혁", "01044825308", "회원가입에 성공했습니다");
-
-
+                .extracting("email", "username", "phoneNumber", "status")
+                .contains("test1234@naver.com", "이상혁", "01044825308", HttpStatus.CREATED);
     }
-
 }
