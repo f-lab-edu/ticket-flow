@@ -30,8 +30,7 @@ public class AuthService {
         );
 
         UserEntity saveUser = userRepository.save(newUser);
-        String message = "회원가입에 성공했습니다";
-        return SignUpResponseDTO.toSignUpResponseDTO(saveUser, message);
+        return SignUpResponseDTO.toSignUpResponseDTO(saveUser);
     }
 
 }
