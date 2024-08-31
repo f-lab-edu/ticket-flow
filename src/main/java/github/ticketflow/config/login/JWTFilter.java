@@ -40,7 +40,7 @@ public class JWTFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        return StringUtils.startsWithAny(request.getRequestURI(), "/login");
+        return StringUtils.startsWithAny(request.getRequestURI(), "/login", "/logout");
     }
 
 }
