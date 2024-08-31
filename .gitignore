@@ -37,3 +37,6 @@ out/
 .vscode/
 
 .env
+
+# .gitignore
+**/application-jwt.yml
