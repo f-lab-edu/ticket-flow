@@ -1,6 +1,6 @@
 package github.ticketflow.config.login;
 
-import github.ticketflow.config.exception.ErrorCode;
+import github.ticketflow.config.exception.auth.AuthErrorCode;
 import github.ticketflow.config.exception.GlobalCommonException;
 import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
@@ -47,7 +47,7 @@ public class JWTUtil {
         SecretKey secretKey = createSecretKey(secret);
         boolean isExpired = Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().getExpiration().before(new Date());
         if (isExpired) {
-            throw new GlobalCommonException(ErrorCode.TOKEN_EXPIRED);
+            throw new GlobalCommonException(AuthErrorCode.TOKEN_EXPIRED);
         }
         return isExpired;
     }

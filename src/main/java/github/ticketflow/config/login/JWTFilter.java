@@ -1,6 +1,6 @@
 package github.ticketflow.config.login;
 
-import github.ticketflow.config.exception.ErrorCode;
+import github.ticketflow.config.exception.auth.AuthErrorCode;
 import github.ticketflow.config.exception.GlobalCommonException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -8,7 +8,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -25,7 +24,7 @@ public class JWTFilter extends OncePerRequestFilter {
         String authorizationHeader = request.getHeader("Authorization");
 
         if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
-            throw new GlobalCommonException(ErrorCode.ABNORMAL_TOKEN);
+            throw new GlobalCommonException(AuthErrorCode.ABNORMAL_TOKEN);
         }
 
         String token = authorizationHeader.replace("Bearer ", "");
@@ -40,7 +39,7 @@ public class JWTFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        return StringUtils.startsWithAny(request.getRequestURI(), "/login", "/logout");
+        return StringUtils.startsWithAny(request.getRequestURI(), "/login");
     }
 
 }

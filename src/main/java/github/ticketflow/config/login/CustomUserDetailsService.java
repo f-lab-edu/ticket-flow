@@ -1,6 +1,6 @@
 package github.ticketflow.config.login;
 
-import github.ticketflow.config.exception.ErrorCode;
+import github.ticketflow.config.exception.auth.AuthErrorCode;
 import github.ticketflow.config.exception.GlobalCommonException;
 import github.ticketflow.domian.user.UserEntity;
 import github.ticketflow.domian.user.UserRepository;
@@ -19,7 +19,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-        UserEntity userEntity = userRepository.findByEmail(email).orElseThrow(() -> new GlobalCommonException(ErrorCode.NOT_FOUND_EMAIL));
+        UserEntity userEntity = userRepository.findByEmail(email).orElseThrow(() -> new GlobalCommonException(AuthErrorCode.NOT_FOUND_EMAIL));
         return new CustomUserDetails(userEntity);
     }
 }

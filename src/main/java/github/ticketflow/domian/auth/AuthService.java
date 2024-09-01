@@ -1,7 +1,7 @@
 package github.ticketflow.domian.auth;
 
 import github.ticketflow.config.exception.GlobalCommonException;
-import github.ticketflow.config.exception.ErrorCode;
+import github.ticketflow.config.exception.auth.AuthErrorCode;
 import github.ticketflow.domian.auth.signUp.SignUpRequestDTO;
 import github.ticketflow.domian.auth.signUp.SignUpResponseDTO;
 import github.ticketflow.domian.user.UserEntity;
@@ -19,7 +19,7 @@ public class AuthService {
 
     public SignUpResponseDTO signUp(SignUpRequestDTO dto) {
         if (userRepository.existsByEmail(dto.getEmail())) {
-            throw new GlobalCommonException(ErrorCode.DUPLICATED_EMAIL);
+            throw new GlobalCommonException(AuthErrorCode.DUPLICATED_EMAIL);
         }
 
         UserEntity newUser = new UserEntity(

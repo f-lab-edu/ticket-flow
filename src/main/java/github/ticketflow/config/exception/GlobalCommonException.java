@@ -1,25 +1,27 @@
 package github.ticketflow.config.exception;
 
+import github.ticketflow.config.exception.auth.AuthErrorCode;
+
 public class GlobalCommonException extends RuntimeException {
 
-    private final ErrorCode errorCode;
+    private final AuthErrorCode authErrorCode;
 
-    public GlobalCommonException(ErrorCode errorCode) {
-        super(errorCode.getMessage());
-        this.errorCode = errorCode;
+    public GlobalCommonException(AuthErrorCode authErrorCode) {
+        super(authErrorCode.getMessage());
+        this.authErrorCode = authErrorCode;
     }
 
-    public GlobalCommonException(ErrorCode errorCode, String message) {
+    public GlobalCommonException(AuthErrorCode authErrorCode, String message) {
         super(message);
-        this.errorCode = errorCode;
+        this.authErrorCode = authErrorCode;
     }
 
-    public GlobalCommonException(ErrorCode errorCode, String message, Throwable cause) {
+    public GlobalCommonException(AuthErrorCode authErrorCode, String message, Throwable cause) {
         super(message, cause);
-        this.errorCode = errorCode;
+        this.authErrorCode = authErrorCode;
     }
 
-    public ErrorCode getErrorCode() {
-        return errorCode;
+    public AuthErrorCode getErrorCode() {
+        return authErrorCode;
     }
 }
