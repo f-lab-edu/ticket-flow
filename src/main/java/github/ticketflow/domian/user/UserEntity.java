@@ -1,7 +1,9 @@
 package github.ticketflow.domian.user;
 
 import github.ticketflow.domian.auth.signUp.SignUpRequestDTO;
+import github.ticketflow.domian.user.dto.UserUpdateRequestDTO;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
@@ -9,6 +11,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+
 
 @Getter
 @Entity
@@ -42,8 +45,22 @@ public class UserEntity {
     @Column(name = "modify_at")
     private LocalDateTime modifiedDate;
 
+    public void update(UserUpdateRequestDTO dto) {
+        if(dto.getUsername() != null) this.username = dto.getUsername();
+        if(dto.getPhoneNumber() != null) this.phoneNumber = dto.getPhoneNumber();
+    }
+
 
     public UserEntity(String email, String password, String username, String phoneNumber) {
+        this.email = email;
+        this.password = password;
+        this.username = username;
+        this.phoneNumber = phoneNumber;
+    }
+
+    @Builder
+    public UserEntity(Long id, String email, String password, String username, String phoneNumber) {
+        this.id = id;
         this.email = email;
         this.password = password;
         this.username = username;
