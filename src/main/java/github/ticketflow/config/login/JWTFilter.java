@@ -30,9 +30,11 @@ public class JWTFilter extends OncePerRequestFilter {
         String token = authorizationHeader.replace("Bearer ", "");
 
         if(!jwtUtil.isExpired(token)) {
-            Authentication authentication = jwtUtil.getAuthentication(token);
+            Authentication authentication = jwtUtil.getAuthentication(jwtUtil.getEmail(token));
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
+
+
 
         filterChain.doFilter(request, response);
     }

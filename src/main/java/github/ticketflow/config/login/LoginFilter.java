@@ -30,7 +30,6 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         String password = request.getParameter("password");
 
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(email, password);
-
         return authenticationManager.authenticate(authenticationToken);
 
     }
