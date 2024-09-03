@@ -1,0 +1,4 @@
+spring:
+  jwt:
+    secret: "ticket-flow-secret-key-required-jwt-token"
+    expiration-time: 86400000
