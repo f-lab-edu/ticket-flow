@@ -1,7 +1,8 @@
 package github.ticketflow.config.login;
 
-import github.ticketflow.config.exception.auth.AuthErrorCode;
+import github.ticketflow.config.exception.ErrorCode;
 import github.ticketflow.config.exception.GlobalCommonException;
+import github.ticketflow.config.exception.auth.AuthErrorCode;
 import github.ticketflow.domian.user.UserEntity;
 import github.ticketflow.domian.user.UserRepository;
 import lombok.RequiredArgsConstructor;
