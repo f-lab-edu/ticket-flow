@@ -16,7 +16,7 @@ public class UserService {
     public UserResponseDTO updateUser(Long userId, UserUpdateRequestDTO dto) {
         UserEntity userEntity = userRepository
                 .findById(userId)
-                .orElseThrow(() -> new GlobalCommonException(AuthErrorCode.FailUpdate));
+                .orElseThrow(() -> new GlobalCommonException(AuthErrorCode.FAIL_UPDATE));
 
         userEntity.update(dto);
         UserEntity updateUserEntity = userRepository.save(userEntity);
