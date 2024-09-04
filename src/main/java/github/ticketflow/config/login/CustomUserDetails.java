@@ -1,6 +1,6 @@
 package github.ticketflow.config.login;
 
-import github.ticketflow.domian.user.UserEntity;
+import github.ticketflow.domian.user.entity.UserEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

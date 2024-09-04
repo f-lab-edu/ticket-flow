@@ -2,8 +2,8 @@ package github.ticketflow.config.login;
 
 import github.ticketflow.config.exception.GlobalCommonException;
 import github.ticketflow.config.exception.auth.AuthErrorCode;
-import github.ticketflow.domian.user.UserEntity;
-import github.ticketflow.domian.user.UserRepository;
+import github.ticketflow.domian.user.entity.UserEntity;
+import github.ticketflow.domian.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

@@ -2,7 +2,8 @@ package github.ticketflow.domian.user;
 
 import github.ticketflow.domian.user.dto.UserResponseDTO;
 import github.ticketflow.domian.user.dto.UserUpdateRequestDTO;
-import org.assertj.core.api.Assertions;
+import github.ticketflow.domian.user.entity.UserEntity;
+import github.ticketflow.domian.user.repository.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,7 +17,6 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 
 @ExtendWith(MockitoExtension.class)

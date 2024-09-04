@@ -1,6 +1,6 @@
 package github.ticketflow.domian.user.dto;
 
-import github.ticketflow.domian.user.UserEntity;
+import github.ticketflow.domian.user.entity.UserEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
