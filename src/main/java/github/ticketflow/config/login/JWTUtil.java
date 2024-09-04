@@ -43,7 +43,13 @@ public class JWTUtil {
     }
 
     public boolean isExpired(String token) {
-        boolean isExpired = Jwts.parser().verifyWith( createSecretKey(secret)).build().parseSignedClaims(token).getPayload().getExpiration().before(new Date());
+        boolean isExpired = Jwts
+                .parser()
+                .verifyWith(createSecretKey(secret))
+                .build().parseSignedClaims(token)
+                .getPayload().getExpiration()
+                .before(new Date());
+
         if (isExpired) {
             throw new GlobalCommonException(AuthErrorCode.TOKEN_EXPIRED);
         }
@@ -51,7 +57,12 @@ public class JWTUtil {
     }
 
     public String getEmail(String token) {
-        return Jwts.parser().verifyWith(createSecretKey(secret)).build().parseSignedClaims(token).getPayload().get("email", String.class);
+        return Jwts.parser()
+                .verifyWith(createSecretKey(secret))
+                .build()
+                .parseSignedClaims(token)
+                .getPayload()
+                .get("email", String.class);
     }
 
     public Authentication getAuthentication(String email) {
