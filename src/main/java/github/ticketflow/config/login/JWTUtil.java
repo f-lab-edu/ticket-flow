@@ -33,27 +33,40 @@ public class JWTUtil {
 
 
     public String createJwt(String username, Long id) {
-        SecretKey secretKey = createSecretKey(secret);
         return  Jwts.builder()
                 .claim("email", username)
                 .claim("user_id", id.toString())
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + expiredMs))
-                .signWith(secretKey)
+                .signWith(createSecretKey(secret))
                 .compact();
     }
 
     public boolean isExpired(String token) {
-        SecretKey secretKey = createSecretKey(secret);
-        boolean isExpired = Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().getExpiration().before(new Date());
+        boolean isExpired = Jwts
+                .parser()
+                .verifyWith(createSecretKey(secret))
+                .build().parseSignedClaims(token)
+                .getPayload().getExpiration()
+                .before(new Date());
+
         if (isExpired) {
             throw new GlobalCommonException(AuthErrorCode.TOKEN_EXPIRED);
         }
         return isExpired;
     }
 
-    public Authentication getAuthentication(String token) {
-        UserDetails userDetails = userDetailsService.loadUserByUsername(token);
+    public String getEmail(String token) {
+        return Jwts.parser()
+                .verifyWith(createSecretKey(secret))
+                .build()
+                .parseSignedClaims(token)
+                .getPayload()
+                .get("email", String.class);
+    }
+
+    public Authentication getAuthentication(String email) {
+        UserDetails userDetails = userDetailsService.loadUserByUsername(email);
         return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
     }
 
