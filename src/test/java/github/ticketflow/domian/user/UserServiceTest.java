@@ -93,6 +93,7 @@ class UserServiceTest {
                 .extracting("userId", "email", "username", "phoneNumber")
                 .containsExactly(1L, "test1@gmail.com", "이상혁", "01044554455");
 
+        BDDMockito.then(userRepository).should().deleteById(userEntity.getId());
     }
 
 }
