@@ -3,24 +3,18 @@ package github.ticketflow.domian.auth;
 import github.ticketflow.domian.auth.signUp.SignUpRequestDTO;
 import github.ticketflow.domian.auth.signUp.SignUpResponseDTO;
 
-import github.ticketflow.domian.user.UserEntity;
-import github.ticketflow.domian.user.UserRepository;
-import org.junit.jupiter.api.BeforeEach;
+import github.ticketflow.domian.user.entity.UserEntity;
+import github.ticketflow.domian.user.repository.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;

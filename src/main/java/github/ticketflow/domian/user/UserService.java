@@ -4,6 +4,8 @@ import github.ticketflow.config.exception.GlobalCommonException;
 import github.ticketflow.config.exception.auth.AuthErrorCode;
 import github.ticketflow.domian.user.dto.UserResponseDTO;
 import github.ticketflow.domian.user.dto.UserUpdateRequestDTO;
+import github.ticketflow.domian.user.entity.UserEntity;
+import github.ticketflow.domian.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

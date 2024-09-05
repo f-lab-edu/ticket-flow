@@ -1,6 +1,5 @@
-package github.ticketflow.domian.user;
+package github.ticketflow.domian.user.entity;
 
-import github.ticketflow.domian.auth.signUp.SignUpRequestDTO;
 import github.ticketflow.domian.user.dto.UserUpdateRequestDTO;
 import jakarta.persistence.*;
 import lombok.Builder;
