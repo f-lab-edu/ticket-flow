@@ -35,8 +35,8 @@ public class LeaveUserEntity {
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    @Column(name = "join_date")
+    private LocalDateTime joinDate;
 
     @CreatedDate
     @Column(name = "deleted_at", updatable = false)
@@ -48,6 +48,6 @@ public class LeaveUserEntity {
         this.password = userEntity.getPassword();
         this.username = userEntity.getUsername();
         this.phoneNumber = userEntity.getPhoneNumber();
-        this.createdAt = userEntity.getCreatedAt();
+        this.joinDate = userEntity.getCreatedAt();
     }
 }
