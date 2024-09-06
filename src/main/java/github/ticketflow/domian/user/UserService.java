@@ -30,9 +30,9 @@ public class UserService {
     }
 
     public UserResponseDTO deletedUser(Long userId) {
-        UserEntity userEntity = userRepository.findById(userId).orElseThrow(() ->
-                new GlobalCommonException(AuthErrorCode.NOT_FOUND_USER)
-        );
+        UserEntity userEntity = userRepository
+                .findById(userId)
+                .orElseThrow(() -> new GlobalCommonException(AuthErrorCode.NOT_FOUND_USER));
 
         LeaveUserEntity saveLeaveUserEntity = leaveUserRepository.save(new LeaveUserEntity(userEntity));
         userRepository.deleteById(userId);
