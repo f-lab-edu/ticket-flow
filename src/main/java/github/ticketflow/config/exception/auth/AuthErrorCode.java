@@ -1,12 +1,13 @@
 package github.ticketflow.config.exception.auth;
 
+import github.ticketflow.config.exception.ErrorCode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
 @Getter
 @AllArgsConstructor
-public enum AuthErrorCode {
+public enum AuthErrorCode implements ErrorCode {
 
     // user error
     DUPLICATED_EMAIL(HttpStatus.BAD_REQUEST, "이미 존재하는 이메일 입니다."),
@@ -18,9 +19,17 @@ public enum AuthErrorCode {
     TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "토큰이 만료되었습니다."),
     ABNORMAL_TOKEN(HttpStatus.BAD_REQUEST, "토큰이 없거나 정상적이지 않은 토큰입니다.");
 
-
-
     private final HttpStatus status;
     private final String message;
+
+    @Override
+    public HttpStatus getStatus() {
+        return status;
+    }
+
+    @Override
+    public String getMessage() {
+        return message;
+    }
 
 }
