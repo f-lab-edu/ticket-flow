@@ -10,6 +10,7 @@ public enum AuthErrorCode {
 
     // user error
     DUPLICATED_EMAIL(HttpStatus.BAD_REQUEST, "이미 존재하는 이메일 입니다."),
+    NOT_FOUND_USER(HttpStatus.NOT_FOUND, "회원을 찾을 수 없습니다"),
     FAIL_LOGIN(HttpStatus.BAD_REQUEST, "로그인을 할 수 없습니다."),
     FAIL_UPDATE(HttpStatus.BAD_REQUEST, "수정에 실패했습니다."),
 

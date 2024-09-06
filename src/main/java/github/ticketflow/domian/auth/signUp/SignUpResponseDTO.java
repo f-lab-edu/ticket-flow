@@ -1,6 +1,6 @@
 package github.ticketflow.domian.auth.signUp;
 
-import github.ticketflow.domian.user.UserEntity;
+import github.ticketflow.domian.user.entity.UserEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;

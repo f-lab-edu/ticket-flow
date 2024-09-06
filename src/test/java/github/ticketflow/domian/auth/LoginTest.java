@@ -1,7 +1,7 @@
 package github.ticketflow.domian.auth;
 
 import github.ticketflow.domian.auth.signUp.SignUpRequestDTO;
-import github.ticketflow.domian.user.UserRepository;
+import github.ticketflow.domian.user.repository.UserRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
