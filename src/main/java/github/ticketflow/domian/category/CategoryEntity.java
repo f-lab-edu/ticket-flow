@@ -1,6 +1,7 @@
 package github.ticketflow.domian.category;
 
 import github.ticketflow.domian.category.dto.CategoryRequestDTO;
+import github.ticketflow.domian.category.dto.CategoryUpdateRequestDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -31,5 +32,21 @@ public class CategoryEntity {
         this.categoryName = dto.getCategoryName();
         this.categoryLevel = dto.getCategoryLevel();
         this.parentCategoryId = dto.getParentCategoryId();
+    }
+
+    public CategoryEntity update(CategoryUpdateRequestDTO dto) {
+        if (dto.getCategoryName() != null) {
+            this.categoryName = dto.getCategoryName();
+        }
+
+        if (dto.getCategoryLevel() != null) {
+            this.categoryName = dto.getCategoryName();
+        }
+
+        if (dto.getParentCategoryId() != null) {
+            this.parentCategoryId = dto.getParentCategoryId();
+        }
+
+        return this;
     }
 }
