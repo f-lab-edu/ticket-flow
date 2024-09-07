@@ -28,6 +28,12 @@ public class CategoryEntity {
     @Column(name = "parent_category_id")
     private Long parentCategoryId;
 
+    public CategoryEntity(String categoryName, int categoryLevel, Long parentCategoryId) {
+        this.categoryName = categoryName;
+        this.categoryLevel = categoryLevel;
+        this.parentCategoryId = parentCategoryId;
+    }
+
     public CategoryEntity(CategoryRequestDTO dto) {
         this.categoryName = dto.getCategoryName();
         this.categoryLevel = dto.getCategoryLevel();
