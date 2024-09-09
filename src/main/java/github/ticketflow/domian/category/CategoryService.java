@@ -17,11 +17,18 @@ public class CategoryService {
 
     private final CategoryRepository categoryRepository;
 
-    public List<CategoryResponseDTO> getAllCategory() {
+    public List<CategoryResponseDTO> getCategoryByCategoryLevel(int categoryLevel) {
         List<CategoryResponseDTO> categories = new ArrayList<>();
-        categoryRepository.findAll().forEach((categoryEntity) -> {
-            CategoryResponseDTO categoryResponseDTO = new CategoryResponseDTO(categoryEntity);
-            categories.add(categoryResponseDTO);
+        categoryRepository.findAllByCategoryLevel(categoryLevel).forEach(categoryEntity -> {
+            categories.add(new CategoryResponseDTO(categoryEntity));
+        });
+        return categories;
+    }
+
+    public List<CategoryResponseDTO> getCategoryByParentCategoryId(Long parentCategoryId) {
+        List<CategoryResponseDTO> categories = new ArrayList<>();
+        categoryRepository.findAllByParentCategoryId(parentCategoryId).forEach(categoryEntity -> {
+            categories.add(new CategoryResponseDTO(categoryEntity));
         });
         return categories;
     }

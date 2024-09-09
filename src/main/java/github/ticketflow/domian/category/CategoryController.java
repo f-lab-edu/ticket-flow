@@ -16,9 +16,14 @@ public class CategoryController {
 
     private final CategoryService categoryService;
 
-    @GetMapping()
-    public ResponseEntity<List<CategoryResponseDTO>> getCategory() {
-        return ResponseEntity.ok(categoryService.getAllCategory()) ;
+    @GetMapping("/categoryLevel")
+    public ResponseEntity<List<CategoryResponseDTO>> getCategoryByCategoryLevel(@PathVariable int categoryLevel)  {
+        return ResponseEntity.ok(categoryService.getCategoryByCategoryLevel(categoryLevel)) ;
+    }
+
+    @GetMapping("/{parentCategoryId}")
+    public ResponseEntity<List<CategoryResponseDTO>> getCategoryByParentCategoryId(@PathVariable Long parentCategoryId)  {
+        return ResponseEntity.ok(categoryService.getCategoryByParentCategoryId(parentCategoryId));
     }
 
     @GetMapping("/{categoryId}")
