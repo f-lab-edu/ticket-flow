@@ -27,10 +27,7 @@ public class CategoryService {
     }
 
     public CategoryResponseDTO getCategory(Long categoryId) {
-        CategoryEntity categoryEntity = categoryRepository.findById(categoryId).orElseThrow(
-                () -> new GlobalCommonException(CategoryErrorResponsive.NOT_FOUND_CATEGORY)
-        );
-
+        CategoryEntity categoryEntity = getCategoryByCategoryId(categoryId);
         return new CategoryResponseDTO(categoryEntity);
     }
 
@@ -41,10 +38,7 @@ public class CategoryService {
     }
 
     public CategoryResponseDTO updateCategory(Long categoryId, CategoryUpdateRequestDTO dto) {
-        CategoryEntity categoryEntity = categoryRepository.findById(categoryId).orElseThrow(
-                () -> new GlobalCommonException(CategoryErrorResponsive.NOT_FOUND_CATEGORY)
-        );
-
+        CategoryEntity categoryEntity = getCategoryByCategoryId(categoryId);
         categoryEntity.update(dto);
         CategoryEntity updateCategoryEntity = categoryRepository.save(categoryEntity);
 
@@ -52,10 +46,15 @@ public class CategoryService {
     }
 
     public CategoryResponseDTO deletedCategory(Long categoryId) {
+        CategoryEntity categoryEntity = getCategoryByCategoryId(categoryId);
+        categoryRepository.deleteById(categoryId);
+        return new CategoryResponseDTO(categoryEntity);
+    }
+
+    private CategoryEntity getCategoryByCategoryId(Long categoryId) {
         CategoryEntity categoryEntity = categoryRepository.findById(categoryId).orElseThrow(
                 () -> new GlobalCommonException(CategoryErrorResponsive.NOT_FOUND_CATEGORY)
         );
-        categoryRepository.deleteById(categoryId);
-        return new CategoryResponseDTO(categoryEntity);
+        return categoryEntity;
     }
 }
