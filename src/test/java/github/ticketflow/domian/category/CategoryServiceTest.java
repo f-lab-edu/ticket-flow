@@ -29,39 +29,72 @@ class CategoryServiceTest {
     @InjectMocks
     private CategoryService categoryService;
 
-    @DisplayName("카테고리를 조회하면, 모든 카테고리가 나온다.")
+    @DisplayName("카테고리의 level을 넣으면, level에 해당하는 데이터들의 리스트가 나온다.")
     @Test
-    void getAllCategoriesTest() {
+    void getCategoriesByCategoryLevel() {
         // given
         CategoryEntity categoryEntity1 = CategoryEntity.builder()
                 .categoryName("스포츠")
                 .categoryLevel(1)
                 .build();
+
         CategoryEntity categoryEntity2 = CategoryEntity.builder()
                 .categoryName("뮤지컬")
                 .categoryLevel(1)
                 .build();
+
         CategoryEntity categoryEntity3 = CategoryEntity.builder()
                 .categoryName("연극")
                 .categoryLevel(1)
                 .build();
 
-        List<CategoryEntity> categoryEntities = new ArrayList<>(List.of(categoryEntity1, categoryEntity2, categoryEntity3));
-
-        BDDMockito.given(categoryRepository.findAll())
-                .willReturn(categoryEntities);
+        BDDMockito.given(categoryRepository.findAllByCategoryLevel(1))
+                .willReturn(List.of(categoryEntity1, categoryEntity2, categoryEntity3));
 
         // when
-        List<CategoryResponseDTO> categories = categoryService.getAllCategory();
+        List<CategoryResponseDTO> categories = categoryService.getCategoryByCategoryLevel(1);
 
         // then
-        assertThat(categories)
+        assertThat(categories).hasSize(3)
+                .extracting("categoryName", "categoryLevel")
+                .containsExactlyInAnyOrder(
+                        tuple("스포츠", 1),
+                        tuple("뮤지컬", 1),
+                        tuple("연극", 1)
+                );
+
+    }
+
+    @DisplayName("카테고리의 level을 넣으면, level에 해당하는 데이터들의 리스트가 나온다.")
+    @Test
+    void getCategoriesByParentCategoryId() {
+        // given
+        CategoryEntity categoryEntity2 = CategoryEntity.builder()
+                .categoryName("축구")
+                .categoryLevel(2)
+                .parentCategoryId(1L)
+                .build();
+
+        CategoryEntity categoryEntity3 = CategoryEntity.builder()
+                .categoryName("야구")
+                .categoryLevel(2)
+                .parentCategoryId(1L)
+                .build();
+
+        BDDMockito.given(categoryRepository.findAllByParentCategoryId(1L))
+                .willReturn(List.of(categoryEntity2, categoryEntity3));
+
+        // when
+        List<CategoryResponseDTO> categories = categoryService.getCategoryByParentCategoryId(1L);
+
+        // then
+        assertThat(categories).hasSize(2)
                 .extracting("categoryName", "categoryLevel", "parentCategoryId")
                 .containsExactlyInAnyOrder(
-                        tuple("스포츠", 1, null),
-                        tuple("뮤지컬", 1, null),
-                        tuple("연극", 1, null)
+                        tuple("축구", 2, 1L),
+                        tuple("야구", 2, 1L)
                 );
+
     }
 
     @DisplayName("카테고리의 id로 특정한 카테고리를 가지고 온다.")
@@ -113,6 +146,7 @@ class CategoryServiceTest {
     void updateCategoryTest() {
         // give
         CategoryEntity categoryEntity = CategoryEntity.builder()
+                .categoryId(1L)
                 .categoryName("스포츠")
                 .categoryLevel(1)
                 .build();
