@@ -2,10 +2,12 @@ package github.ticketflow.domian.category.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
+@Builder
 public class CategoryRequestDTO {
 
     @NotBlank
@@ -15,5 +17,7 @@ public class CategoryRequestDTO {
     private int categoryLevel;
 
     private Long parentCategoryId;
+
+
 
 }

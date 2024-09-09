@@ -4,6 +4,7 @@ import github.ticketflow.domian.category.dto.CategoryRequestDTO;
 import github.ticketflow.domian.category.dto.CategoryUpdateRequestDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +13,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "Category")
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class CategoryEntity {
 
     @Id

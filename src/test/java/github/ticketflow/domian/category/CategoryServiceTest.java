@@ -33,9 +33,19 @@ class CategoryServiceTest {
     @Test
     void getAllCategoriesTest() {
         // given
-        CategoryEntity categoryEntity1 = new CategoryEntity("스포츠", 1, null);
-        CategoryEntity categoryEntity2 = new CategoryEntity("뮤지컬", 1, null);
-        CategoryEntity categoryEntity3 = new CategoryEntity("연극", 1, null);
+        CategoryEntity categoryEntity1 = CategoryEntity.builder()
+                .categoryName("스포츠")
+                .categoryLevel(1)
+                .build();
+        CategoryEntity categoryEntity2 = CategoryEntity.builder()
+                .categoryName("뮤지컬")
+                .categoryLevel(1)
+                .build();
+        CategoryEntity categoryEntity3 = CategoryEntity.builder()
+                .categoryName("연극")
+                .categoryLevel(1)
+                .build();
+
         List<CategoryEntity> categoryEntities = new ArrayList<>(List.of(categoryEntity1, categoryEntity2, categoryEntity3));
 
         BDDMockito.given(categoryRepository.findAll())
@@ -58,7 +68,12 @@ class CategoryServiceTest {
     @Test
     void getCategoryByIdTest() {
         // given
-        CategoryEntity categoryEntity = new CategoryEntity(1L, "스포츠", 1, null);
+        CategoryEntity categoryEntity = CategoryEntity.builder()
+                .categoryId(1L)
+                .categoryName("스포츠")
+                .categoryLevel(1)
+                .build();
+
         BDDMockito.given(categoryRepository.findById(categoryEntity.getCategoryId()))
                 .willReturn(Optional.of(categoryEntity));
 
@@ -75,7 +90,11 @@ class CategoryServiceTest {
     @Test
     void createCategoryTest() {
         // given
-        CategoryRequestDTO dto = new CategoryRequestDTO("스포츠", 1, null);
+        CategoryRequestDTO dto = CategoryRequestDTO.builder()
+                .categoryName("스포츠")
+                .categoryLevel(1)
+                .build();
+
         CategoryEntity categoryEntity = new CategoryEntity(dto);
         BDDMockito.given(categoryRepository.save(any(CategoryEntity.class)))
                 .willReturn(categoryEntity);
@@ -93,8 +112,14 @@ class CategoryServiceTest {
     @Test
     void updateCategoryTest() {
         // give
-        CategoryEntity categoryEntity = new CategoryEntity(1L,"스포츠", 1, null);
-        CategoryUpdateRequestDTO dto = new CategoryUpdateRequestDTO("뮤지컬", null, null);
+        CategoryEntity categoryEntity = CategoryEntity.builder()
+                .categoryName("스포츠")
+                .categoryLevel(1)
+                .build();
+
+        CategoryUpdateRequestDTO dto = CategoryUpdateRequestDTO.builder()
+                .categoryName("뮤지컬")
+                .build();
 
         BDDMockito.given(categoryRepository.findById(categoryEntity.getCategoryId()))
                 .willReturn(Optional.of(categoryEntity));
@@ -113,7 +138,11 @@ class CategoryServiceTest {
     @Test
     void deleteCategoryTest() {
         // given
-        CategoryEntity categoryEntity = new CategoryEntity(1L,"스포츠", 1, null);
+        CategoryEntity categoryEntity = CategoryEntity.builder()
+                .categoryId(1L)
+                .categoryName("스포츠")
+                .categoryLevel(1)
+                .build();
 
         BDDMockito.given(categoryRepository.findById(categoryEntity.getCategoryId()))
                 .willReturn(Optional.of(categoryEntity));
