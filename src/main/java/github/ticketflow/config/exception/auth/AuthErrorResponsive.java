@@ -1,13 +1,13 @@
 package github.ticketflow.config.exception.auth;
 
-import github.ticketflow.config.exception.ErrorCode;
+import github.ticketflow.config.exception.ErrorResponsive;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
 @Getter
 @AllArgsConstructor
-public enum AuthErrorCode implements ErrorCode {
+public enum AuthErrorResponsive implements ErrorResponsive {
 
     // user error
     DUPLICATED_EMAIL(HttpStatus.BAD_REQUEST, "이미 존재하는 이메일 입니다."),

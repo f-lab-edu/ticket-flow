@@ -1,7 +1,7 @@
 package github.ticketflow.domian.category;
 
 import github.ticketflow.config.exception.GlobalCommonException;
-import github.ticketflow.config.exception.category.CategoryErrorCode;
+import github.ticketflow.config.exception.category.CategoryErrorResponsive;
 import github.ticketflow.domian.category.dto.CategoryRequestDTO;
 import github.ticketflow.domian.category.dto.CategoryResponseDTO;
 import github.ticketflow.domian.category.dto.CategoryUpdateRequestDTO;
@@ -28,7 +28,7 @@ public class CategoryService {
 
     public CategoryResponseDTO getCategory(Long categoryId) {
         CategoryEntity categoryEntity = categoryRepository.findById(categoryId).orElseThrow(
-                () -> new GlobalCommonException(CategoryErrorCode.NOT_FOUND_CATEGORY)
+                () -> new GlobalCommonException(CategoryErrorResponsive.NOT_FOUND_CATEGORY)
         );
 
         return new CategoryResponseDTO(categoryEntity);
@@ -42,7 +42,7 @@ public class CategoryService {
 
     public CategoryResponseDTO updateCategory(Long categoryId, CategoryUpdateRequestDTO dto) {
         CategoryEntity categoryEntity = categoryRepository.findById(categoryId).orElseThrow(
-                () -> new GlobalCommonException(CategoryErrorCode.NOT_FOUND_CATEGORY)
+                () -> new GlobalCommonException(CategoryErrorResponsive.NOT_FOUND_CATEGORY)
         );
 
         categoryEntity.update(dto);
@@ -53,7 +53,7 @@ public class CategoryService {
 
     public CategoryResponseDTO deletedCategory(Long categoryId) {
         CategoryEntity categoryEntity = categoryRepository.findById(categoryId).orElseThrow(
-                () -> new GlobalCommonException(CategoryErrorCode.NOT_FOUND_CATEGORY)
+                () -> new GlobalCommonException(CategoryErrorResponsive.NOT_FOUND_CATEGORY)
         );
         categoryRepository.deleteById(categoryId);
         return new CategoryResponseDTO(categoryEntity);
