@@ -16,7 +16,7 @@ public class CategoryController {
 
     private final CategoryService categoryService;
 
-    @GetMapping("/category-level")
+    @GetMapping("/category-level/{categoryLevel}")
     public ResponseEntity<List<CategoryResponseDTO>> getCategoryByCategoryLevel(@PathVariable int categoryLevel)  {
         return ResponseEntity.ok(categoryService.getCategoryByCategoryLevel(categoryLevel)) ;
     }
