@@ -1,6 +1,6 @@
 package github.ticketflow.config.login;
 
-import github.ticketflow.config.exception.auth.AuthErrorCode;
+import github.ticketflow.config.exception.auth.AuthErrorResponsive;
 import github.ticketflow.config.exception.GlobalCommonException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -24,7 +24,7 @@ public class JWTFilter extends OncePerRequestFilter {
         String authorizationHeader = request.getHeader("Authorization");
 
         if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
-            throw new GlobalCommonException(AuthErrorCode.ABNORMAL_TOKEN);
+            throw new GlobalCommonException(AuthErrorResponsive.ABNORMAL_TOKEN);
         }
 
         String token = authorizationHeader.replace("Bearer ", "");

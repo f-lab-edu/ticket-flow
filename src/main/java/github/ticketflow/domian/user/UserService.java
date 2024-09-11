@@ -1,7 +1,7 @@
 package github.ticketflow.domian.user;
 
 import github.ticketflow.config.exception.GlobalCommonException;
-import github.ticketflow.config.exception.auth.AuthErrorCode;
+import github.ticketflow.config.exception.auth.AuthErrorResponsive;
 import github.ticketflow.domian.user.dto.UserResponseDTO;
 import github.ticketflow.domian.user.dto.UserUpdateRequestDTO;
 import github.ticketflow.domian.user.entity.LeaveUserEntity;
@@ -21,7 +21,7 @@ public class UserService {
     public UserResponseDTO updateUser(Long userId, UserUpdateRequestDTO dto) {
         UserEntity userEntity = userRepository
                 .findById(userId)
-                .orElseThrow(() -> new GlobalCommonException(AuthErrorCode.FAIL_UPDATE));
+                .orElseThrow(() -> new GlobalCommonException(AuthErrorResponsive.FAIL_UPDATE));
 
         userEntity.update(dto);
         UserEntity updateUserEntity = userRepository.save(userEntity);
@@ -32,7 +32,7 @@ public class UserService {
     public UserResponseDTO deletedUser(Long userId) {
         UserEntity userEntity = userRepository
                 .findById(userId)
-                .orElseThrow(() -> new GlobalCommonException(AuthErrorCode.NOT_FOUND_USER));
+                .orElseThrow(() -> new GlobalCommonException(AuthErrorResponsive.NOT_FOUND_USER));
 
         LeaveUserEntity saveLeaveUserEntity = leaveUserRepository.save(new LeaveUserEntity(userEntity));
         userRepository.deleteById(userId);
