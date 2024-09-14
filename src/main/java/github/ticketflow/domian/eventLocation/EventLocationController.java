@@ -22,7 +22,7 @@ public class EventLocationController {
         return ResponseEntity.ok(eventLocationService.getEventLocation(eventLocationId));
     }
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<EventLocationResponseDTO> createEventLocation(@RequestBody EventLocationRequestDTO dto) {
         return ResponseEntity.ok(eventLocationService.createEventLocation(dto));
     }
