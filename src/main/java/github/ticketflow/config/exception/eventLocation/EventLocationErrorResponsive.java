@@ -15,11 +15,11 @@ public enum EventLocationErrorResponsive implements ErrorResponsive {
 
     @Override
     public HttpStatus getStatus() {
-        return null;
+        return status;
     }
 
     @Override
     public String getMessage() {
-        return "";
+        return message;
     }
 }
