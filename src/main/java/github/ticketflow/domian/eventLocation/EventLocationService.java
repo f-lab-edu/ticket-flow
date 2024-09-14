@@ -7,6 +7,7 @@ import github.ticketflow.domian.eventLocation.dto.EventLocationResponseDTO;
 import github.ticketflow.domian.eventLocation.dto.EventLocationUpdateRequestDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +28,7 @@ public class EventLocationService {
         return new EventLocationResponseDTO(saveEventLocationEntity);
     }
 
-
+    @Transactional
     public EventLocationResponseDTO updateEventLocation(Long eventLocationId, EventLocationUpdateRequestDTO dto) {
         EventLocationEntity eventLocationEntity = getEventLocationEntityById(eventLocationId);
 
@@ -37,7 +38,7 @@ public class EventLocationService {
         return new EventLocationResponseDTO(saveEventLocationEntity);
     }
 
-
+    @Transactional
     public EventLocationResponseDTO deletedEventLocation(Long eventLocationId) {
         EventLocationEntity eventLocationEntity = getEventLocationEntityById(eventLocationId);
         eventLocationRepository.delete(eventLocationEntity);
