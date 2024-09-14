@@ -1,6 +1,7 @@
 package github.ticketflow.domian.eventLocation.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,7 +13,7 @@ public class EventLocationUpdateRequestDTO {
 
     @NotBlank
     private String eventLocationName;
-    @NotBlank
+    @NotNull
     private int totalSeats;
 
 }
