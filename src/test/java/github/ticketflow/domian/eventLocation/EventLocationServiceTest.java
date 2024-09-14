@@ -47,7 +47,7 @@ class EventLocationServiceTest {
     @Test
     void createEventLocationTest() {
         // given
-        EventLocationRequestDTO dto = new EventLocationRequestDTO("서울 월드컵 경기자", 50000);
+        EventLocationRequestDTO dto = new EventLocationRequestDTO("서울 월드컵 경기장", 50000);
         EventLocationEntity eventLocationEntity = new EventLocationEntity(dto);
         BDDMockito.given(eventLocationRepository.save(any(EventLocationEntity.class)))
                 .willReturn(eventLocationEntity);
