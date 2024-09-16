@@ -21,7 +21,7 @@ public class SeatGradeController {
         return ResponseEntity.ok(seatGradeService.getSeatGradeById(seatGradeId));
     }
 
-    @GetMapping("eventLocation/{eventLocationId}")
+    @GetMapping("event-location/{eventLocationId}")
     public ResponseEntity<List<SeatGradeResponseDTO>> getSeatGradeByEventLocation(@PathVariable Long eventLocationId) {
         return ResponseEntity.ok(seatGradeService.getSeatGradeByEventLocationId(eventLocationId));
     }
