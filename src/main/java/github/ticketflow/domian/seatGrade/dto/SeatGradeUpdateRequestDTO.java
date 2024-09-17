@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -13,7 +15,7 @@ public class SeatGradeUpdateRequestDTO {
 
     private Long eventLocationId;
     private String seatGradeName;
-    private int seatGradePrice;
+    private BigDecimal seatGradePrice;
     private int seatGradeTotalSeats;
 
 }

@@ -2,9 +2,12 @@ package github.ticketflow.domian.seatGrade.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
 
 @Getter
 @NoArgsConstructor
@@ -16,8 +19,8 @@ public class SeatGradeRequestDTO {
     @NotBlank
     private String seatGradeName;
     @NotNull
-    private int seatGradePrice;
-    @NotNull
+    private BigDecimal seatGradePrice;
+    @Positive
     private int seatGradeTotalSeats;
 
 }

@@ -39,7 +39,7 @@ public class SeatGradeEntity {
                            EventLocationEntity eventLocation) {
         this.eventLocation = eventLocation;
         this.seatGradeName = dto.getSeatGradeName();
-        this.seatGradePrice = BigDecimal.valueOf(dto.getSeatGradePrice());
+        this.seatGradePrice = dto.getSeatGradePrice();
         this.seatGradeTotalSeats = dto.getSeatGradeTotalSeats();
     }
 
@@ -51,8 +51,9 @@ public class SeatGradeEntity {
         if (dto.getSeatGradeName() != null) {
             this.seatGradeName = dto.getSeatGradeName();
         }
-        if (dto.getSeatGradePrice() != this.seatGradePrice.intValue()) {
-            this.seatGradePrice = BigDecimal.valueOf(dto.getSeatGradePrice());
+        if (dto.getSeatGradePrice() != null &&
+                !dto.getSeatGradePrice().equals(this.seatGradePrice)) {
+            this.seatGradePrice = dto.getSeatGradePrice();
         }
         if (dto.getSeatGradeTotalSeats() != this.seatGradeTotalSeats) {
             this.seatGradeTotalSeats = dto.getSeatGradeTotalSeats();
