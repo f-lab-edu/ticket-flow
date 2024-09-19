@@ -3,6 +3,7 @@ package github.ticketflow.domian.seat;
 import github.ticketflow.domian.seat.dto.SeatRequestDTO;
 import github.ticketflow.domian.seat.dto.SeatResponseDTO;
 import github.ticketflow.domian.seat.dto.SeatUpdateRequestDTO;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,13 +28,13 @@ public class SeatController {
     }
 
     @PostMapping
-    public ResponseEntity<SeatResponseDTO> createSeat(@RequestBody SeatRequestDTO dto) {
+    public ResponseEntity<SeatResponseDTO> createSeat(@Valid @RequestBody SeatRequestDTO dto) {
         return ResponseEntity.ok(seatService.createSeat(dto));
     }
 
     @PatchMapping("/{seatId}")
     public ResponseEntity<SeatResponseDTO> updateSeat(@PathVariable Long seatId,
-                                                      @RequestBody SeatUpdateRequestDTO dto) {
+                                                      @Valid @RequestBody SeatUpdateRequestDTO dto) {
         return ResponseEntity.ok(seatService.updateSeat(seatId, dto));
     }
 
