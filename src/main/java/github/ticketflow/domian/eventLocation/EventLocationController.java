@@ -3,6 +3,7 @@ package github.ticketflow.domian.eventLocation;
 import github.ticketflow.domian.eventLocation.dto.EventLocationRequestDTO;
 import github.ticketflow.domian.eventLocation.dto.EventLocationResponseDTO;
 import github.ticketflow.domian.eventLocation.dto.EventLocationUpdateRequestDTO;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
@@ -23,13 +24,13 @@ public class EventLocationController {
     }
 
     @PostMapping
-    public ResponseEntity<EventLocationResponseDTO> createEventLocation(@RequestBody EventLocationRequestDTO dto) {
+    public ResponseEntity<EventLocationResponseDTO> createEventLocation(@Valid @RequestBody EventLocationRequestDTO dto) {
         return ResponseEntity.ok(eventLocationService.createEventLocation(dto));
     }
 
     @PatchMapping("/{eventLocationId}")
     public ResponseEntity<EventLocationResponseDTO> updateEventLocation(@PathVariable Long eventLocationId,
-                                                                        @RequestBody EventLocationUpdateRequestDTO dto) {
+                                                                        @Valid @RequestBody EventLocationUpdateRequestDTO dto) {
         return ResponseEntity.ok(eventLocationService.updateEventLocation(eventLocationId, dto));
     }
 

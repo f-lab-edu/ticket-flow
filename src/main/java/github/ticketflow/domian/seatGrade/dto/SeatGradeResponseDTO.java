@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 @Getter
 @NoArgsConstructor
@@ -27,5 +28,18 @@ public class SeatGradeResponseDTO {
         this.seatGradeName = seatGradeEntity.getSeatGradeName();
         this.seatGradePrice = seatGradeEntity.getSeatGradePrice();
         this.seatGradeTotalSeats = seatGradeEntity.getSeatGradeTotalSeats();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SeatGradeResponseDTO that = (SeatGradeResponseDTO) o;
+        return seatGradeTotalSeats == that.seatGradeTotalSeats && Objects.equals(seatGradeId, that.seatGradeId) && Objects.equals(eventLocation, that.eventLocation) && Objects.equals(seatGradeName, that.seatGradeName) && Objects.equals(seatGradePrice, that.seatGradePrice);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(seatGradeId, eventLocation, seatGradeName, seatGradePrice, seatGradeTotalSeats);
     }
 }

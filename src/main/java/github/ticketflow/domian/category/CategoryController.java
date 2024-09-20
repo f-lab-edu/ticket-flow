@@ -3,6 +3,7 @@ package github.ticketflow.domian.category;
 import github.ticketflow.domian.category.dto.CategoryRequestDTO;
 import github.ticketflow.domian.category.dto.CategoryResponseDTO;
 import github.ticketflow.domian.category.dto.CategoryUpdateRequestDTO;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,13 +33,13 @@ public class CategoryController {
     }
 
     @PostMapping
-    public ResponseEntity<CategoryResponseDTO> createCategory(@RequestBody CategoryRequestDTO dto) {
+    public ResponseEntity<CategoryResponseDTO> createCategory(@Valid  @RequestBody CategoryRequestDTO dto) {
          return ResponseEntity.ok(categoryService.createCategory(dto));
     }
 
     @PatchMapping("/{categoryId}")
     public ResponseEntity<CategoryResponseDTO> updateCategory(@PathVariable Long categoryId,
-                                                              @RequestBody CategoryUpdateRequestDTO dto) {
+                                                              @Valid @RequestBody CategoryUpdateRequestDTO dto) {
         return ResponseEntity.ok(categoryService.updateCategory(categoryId, dto));
     }
 

@@ -3,6 +3,7 @@ package github.ticketflow.domian.seatGrade;
 import github.ticketflow.domian.seatGrade.dto.SeatGradeRequestDTO;
 import github.ticketflow.domian.seatGrade.dto.SeatGradeResponseDTO;
 import github.ticketflow.domian.seatGrade.dto.SeatGradeUpdateRequestDTO;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,13 +28,13 @@ public class SeatGradeController {
     }
 
     @PostMapping
-    public ResponseEntity<SeatGradeResponseDTO> createSeatGrade(@RequestBody SeatGradeRequestDTO dto) {
+    public ResponseEntity<SeatGradeResponseDTO> createSeatGrade(@Valid @RequestBody SeatGradeRequestDTO dto) {
         return ResponseEntity.ok(seatGradeService.createSeatGrade(dto));
     }
 
     @PatchMapping("/{seatGradeId}")
     public ResponseEntity<SeatGradeResponseDTO> updateSeatGrade(@PathVariable Long seatGradeId,
-                                                                @RequestBody SeatGradeUpdateRequestDTO dto) {
+                                                                @Valid @RequestBody SeatGradeUpdateRequestDTO dto) {
         return ResponseEntity.ok(seatGradeService.updateSeatGrade(seatGradeId, dto));
     }
 
