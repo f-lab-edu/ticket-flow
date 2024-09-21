@@ -140,6 +140,7 @@ class EventServiceTest {
         // given
         EventRequestDTO dto = EventRequestDTO.builder()
                 .eventLocationId(1L)
+                .categoryId(1L)
                 .eventName("대한민축 vs 일본 축구 친선경기")
                 .eventDescription("축구 경가")
                 .date(LocalDate.of(2024, 10, 15))
@@ -148,10 +149,20 @@ class EventServiceTest {
 
         EventLocationEntity eventLocationEntity = getEventLocationEntity(1L, "서울 월드컵 경기장");
         EventEntity eventEntity = getEventEntity(eventLocationEntity, dto.getEventName());
+        CategoryEntity categoryEntity = CategoryEntity.builder()
+                .categoryId(1L)
+                .categoryName("스포츠")
+                .categoryLevel(1)
+                .build();
+
+        CategoryEventEntity categoryEventEntity = new CategoryEventEntity(categoryEntity, eventEntity);
 
         BDDMockito.given(eventLocationRepository.findById(any(Long.class)))
                 .willReturn(Optional.of(eventLocationEntity));
-
+        BDDMockito.given(categoryRepository.findById(any(Long.class)))
+                .willReturn(Optional.of(categoryEntity));
+        BDDMockito.given(categoryEventRepository.save(any(CategoryEventEntity.class)))
+                .willReturn(categoryEventEntity);
         BDDMockito.given(eventRepository.save(any(EventEntity.class)))
                 .willReturn(eventEntity);
 
