@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Objects;
+
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -43,4 +45,16 @@ public class EventLocationEntity {
         return this;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        EventLocationEntity that = (EventLocationEntity) o;
+        return totalSeats == that.totalSeats && Objects.equals(eventLocationId, that.eventLocationId) && Objects.equals(eventLocationName, that.eventLocationName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(eventLocationId, eventLocationName, totalSeats);
+    }
 }
