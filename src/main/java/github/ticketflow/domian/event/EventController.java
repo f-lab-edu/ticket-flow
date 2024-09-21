@@ -22,7 +22,7 @@ public class EventController {
         return ResponseEntity.ok(eventService.getEventById(eventId));
     }
 
-    @GetMapping("{/categoryId}")
+    @GetMapping("/category/{categoryId}")
     public ResponseEntity<List<EventEntity>> getEventByCategoryId(@PathVariable Long categoryId,
                                                                   @RequestParam(required = false, defaultValue = "0", value = "page") int pageNo) {
         return ResponseEntity.ok(eventService.getEventByCategoryId(categoryId, pageNo));
