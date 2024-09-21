@@ -29,4 +29,8 @@ public class CategoryEventEntity {
     @JoinColumn(name = "event_id")
     private EventEntity eventEntity;
 
+    public CategoryEventEntity(CategoryEntity categoryEntity, EventEntity eventEntity) {
+        this.categoryEntity = categoryEntity;
+        this.eventEntity = eventEntity;
+    }
 }

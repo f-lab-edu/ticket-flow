@@ -46,9 +46,7 @@ public class EventService {
     public List<EventEntity> getEventByCategoryId(Long categoryId, int pageNo) {
         List<EventEntity> eventEntities = new ArrayList<>();
 
-        CategoryEntity categoryEntity = categoryRepository.findById(categoryId).orElseThrow(() ->
-                new GlobalCommonException(CategoryErrorResponsive.NOT_FOUND_CATEGORY)
-        );
+        CategoryEntity categoryEntity = getCategoryEntity(categoryId);
 
         Pageable pageable = PageRequest.of(pageNo, 10);
 
@@ -64,8 +62,12 @@ public class EventService {
     @Transactional
     public EventEntity createEvent(EventRequestDTO dto) {
         EventLocationEntity eventLocationEntity = getEventLocationEntity(dto.getEventLocationId());
-
+        CategoryEntity categoryEntity = getCategoryEntity(dto.getCategoryId());
         EventEntity newEventEntity = new EventEntity(dto, eventLocationEntity);
+
+        CategoryEventEntity categoryEventEntity = new CategoryEventEntity(categoryEntity, newEventEntity);
+
+        categoryEventRepository.save(categoryEventEntity);
         return eventRepository.save(newEventEntity);
     }
 
@@ -106,5 +108,9 @@ public class EventService {
         );
     }
 
-
+    private CategoryEntity getCategoryEntity(Long categoryId) {
+        return categoryRepository.findById(categoryId).orElseThrow(() ->
+                new GlobalCommonException(CategoryErrorResponsive.NOT_FOUND_CATEGORY)
+        );
+    }
 }

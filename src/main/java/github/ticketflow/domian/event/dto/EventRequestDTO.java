@@ -18,6 +18,8 @@ public class EventRequestDTO {
 
     @NotNull
     private Long eventLocationId;
+    @NotNull
+    private Long categoryId;
     @NotBlank
     private String eventName;
     @NotBlank
