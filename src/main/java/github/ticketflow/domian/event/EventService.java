@@ -31,30 +31,22 @@ import java.util.List;
 @RequiredArgsConstructor
 public class EventService {
 
-    private final EventRepository eventRepository;
-    private final EventLocationRepository eventLocationRepository;
-    private final DeletedEventRepository deletedEventRepository;
-    private final CategoryRepository categoryRepository;
-    private final CategoryEventRepository categoryEventRepository;
+    private final EventRepositoryLayer eventRepositoryLayer;
 
     private static final int PAGE_SIZE = 10;
 
-
     public EventEntity getEventById(Long eventId) {
-        return eventRepository.findById(eventId).orElseThrow(() ->
-                new GlobalCommonException(EventErrorResponsive.NOT_FOUND_EVENT)
-        );
+        return eventRepositoryLayer.getEventById(eventId);
     }
 
     @Transactional
     public List<EventEntity> getEventByCategoryId(Long categoryId, int pageNo) {
         List<EventEntity> eventEntities = new ArrayList<>();
 
-        CategoryEntity categoryEntity = getCategoryEntity(categoryId);
-
+        CategoryEntity categoryEntity = eventRepositoryLayer.getCategoryEntity(categoryId);
         Pageable pageable = PageRequest.of(pageNo, PAGE_SIZE);
 
-        Page<CategoryEventEntity> categoryEventEntities = categoryEventRepository.findByCategoryEntity(categoryEntity, pageable);
+        Page<CategoryEventEntity> categoryEventEntities = eventRepositoryLayer.getCategoryEventEntity(categoryEntity, pageable);
 
         categoryEventEntities.forEach(categoryEventEntity -> {
             eventEntities.add(categoryEventEntity.getEventEntity());
@@ -65,29 +57,29 @@ public class EventService {
 
     @Transactional
     public EventEntity createEvent(EventRequestDTO dto) {
-        EventLocationEntity eventLocationEntity = getEventLocationEntity(dto.getEventLocationId());
-        CategoryEntity categoryEntity = getCategoryEntity(dto.getCategoryId());
+        EventLocationEntity eventLocationEntity = eventRepositoryLayer.getEventLocationEntity(dto.getEventLocationId());
+        CategoryEntity categoryEntity = eventRepositoryLayer.getCategoryEntity(dto.getCategoryId());
         EventEntity newEventEntity = new EventEntity(dto, eventLocationEntity);
 
         CategoryEventEntity categoryEventEntity = new CategoryEventEntity(categoryEntity, newEventEntity);
 
-        categoryEventRepository.save(categoryEventEntity);
-        return eventRepository.save(newEventEntity);
+        eventRepositoryLayer.saveCategoryEvent(categoryEventEntity);
+        return eventRepositoryLayer.saveEvent(newEventEntity);
     }
 
 
     @Transactional
-    public EventEntity updateEvent(Long eventId ,EventUpdateRequestDTO dto) {
+    public EventEntity updateEvent(Long eventId, EventUpdateRequestDTO dto) {
         EventEntity eventEntity = getEventById(eventId);
 
         if(dto.getEventLocationId() != null) {
-            EventLocationEntity eventLocationEntity = getEventLocationEntity(dto.getEventLocationId());
+            EventLocationEntity eventLocationEntity = eventRepositoryLayer.getEventLocationEntity(dto.getEventLocationId());
             EventEntity updateEventEntity = eventEntity.update(dto, eventLocationEntity);
-            return eventRepository.save(updateEventEntity);
+            return eventRepositoryLayer.saveEvent(updateEventEntity);
         }
 
         EventEntity updateEventEntity = eventEntity.update(dto);
-        return eventRepository.save(updateEventEntity);
+        return eventRepositoryLayer.saveEvent(updateEventEntity);
     }
 
     @Transactional
@@ -95,21 +87,9 @@ public class EventService {
         EventEntity eventEntity = getEventById(eventId);
         DeletedEventEntity deletedEventEntity = new DeletedEventEntity(eventEntity);
 
-        deletedEventRepository.save(deletedEventEntity);
-        eventRepository.delete(eventEntity);
+        eventRepositoryLayer.saveDeletedEvent(deletedEventEntity);
+        eventRepositoryLayer.deletedEvent(eventEntity);
 
         return eventEntity;
-    }
-
-    private EventLocationEntity getEventLocationEntity(Long eventLocationId) {
-        return eventLocationRepository.findById(eventLocationId).orElseThrow(() ->
-                new GlobalCommonException(EventLocationErrorResponsive.NOT_FOUND_EVENT_LOCATION)
-        );
-    }
-
-    private CategoryEntity getCategoryEntity(Long categoryId) {
-        return categoryRepository.findById(categoryId).orElseThrow(() ->
-                new GlobalCommonException(CategoryErrorResponsive.NOT_FOUND_CATEGORY)
-        );
     }
 }
