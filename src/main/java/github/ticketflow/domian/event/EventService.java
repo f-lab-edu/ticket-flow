@@ -43,7 +43,7 @@ public class EventService {
     public List<EventEntity> getEventByCategoryId(Long categoryId, int pageNo) {
         List<EventEntity> eventEntities = new ArrayList<>();
 
-        CategoryEntity categoryEntity = eventRepositoryLayer.getCategoryEntity(categoryId);
+        CategoryEntity categoryEntity = eventRepositoryLayer.getCategoryById(categoryId);
         Pageable pageable = PageRequest.of(pageNo, PAGE_SIZE);
 
         Page<CategoryEventEntity> categoryEventEntities = eventRepositoryLayer.getCategoryEventEntity(categoryEntity, pageable);
@@ -58,7 +58,7 @@ public class EventService {
     @Transactional
     public EventEntity createEvent(EventRequestDTO dto) {
         EventLocationEntity eventLocationEntity = eventRepositoryLayer.getEventLocationEntity(dto.getEventLocationId());
-        CategoryEntity categoryEntity = eventRepositoryLayer.getCategoryEntity(dto.getCategoryId());
+        CategoryEntity categoryEntity = eventRepositoryLayer.getCategoryById(dto.getCategoryId());
         EventEntity newEventEntity = new EventEntity(dto, eventLocationEntity);
 
         CategoryEventEntity categoryEventEntity = new CategoryEventEntity(categoryEntity, newEventEntity);

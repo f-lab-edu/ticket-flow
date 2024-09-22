@@ -37,7 +37,7 @@ public class EventRepositoryLayer {
         );
     }
 
-    CategoryEntity getCategoryEntity(Long categoryId) {
+    CategoryEntity getCategoryById(Long categoryId) {
         return categoryRepository.findById(categoryId).orElseThrow(() ->
                 new GlobalCommonException(CategoryErrorResponsive.NOT_FOUND_CATEGORY)
         );

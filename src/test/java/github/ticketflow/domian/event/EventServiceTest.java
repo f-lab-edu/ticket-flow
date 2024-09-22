@@ -39,19 +39,7 @@ import static org.mockito.ArgumentMatchers.any;
 class EventServiceTest {
 
     @Mock
-    private EventRepository eventRepository;
-
-    @Mock
-    private EventLocationRepository eventLocationRepository;
-
-    @Mock
-    private DeletedEventRepository deletedEventRepository;
-
-    @Mock
-    private CategoryRepository categoryRepository;
-
-    @Mock
-    private CategoryEventRepository categoryEventRepository;
+    private EventRepositoryLayer eventRepositoryLayer;
 
     @InjectMocks
     private EventService eventService;
@@ -63,8 +51,8 @@ class EventServiceTest {
         EventLocationEntity eventLocationEntity = getEventLocationEntity(1L, "서울월드컵 경기장");
         EventEntity eventEntity = getEventEntity(eventLocationEntity, "대한민축 vs 일본 축구 친선경기");
 
-        BDDMockito.given(eventRepository.findById(any(Long.class)))
-                .willReturn(Optional.ofNullable(eventEntity));
+        BDDMockito.given(eventRepositoryLayer.getEventById(any(Long.class)))
+                .willReturn(eventEntity);
 
         // when
         EventEntity result = eventService.getEventById(any(Long.class));
@@ -115,10 +103,10 @@ class EventServiceTest {
         List<CategoryEventEntity> categoryEventEntities = List.of(categoryEventEntitySeoul, categoryEventEntitySuwon, categoryEventEntityUlsan);
         Page<CategoryEventEntity> categoryEventEntityPage = new PageImpl<>(categoryEventEntities);
 
-        BDDMockito.given(categoryRepository.findById(any(Long.class)))
-                .willReturn(Optional.of(categoryEntity));
+        BDDMockito.given(eventRepositoryLayer.getCategoryById(any(Long.class)))
+                .willReturn(categoryEntity);
 
-        BDDMockito.given(categoryEventRepository.findByCategoryEntity(any(CategoryEntity.class), any(Pageable.class)))
+        BDDMockito.given(eventRepositoryLayer.getCategoryEventEntity(any(CategoryEntity.class), any(Pageable.class)))
                 .willReturn(categoryEventEntityPage);
 
         // when
@@ -157,13 +145,13 @@ class EventServiceTest {
 
         CategoryEventEntity categoryEventEntity = new CategoryEventEntity(categoryEntity, eventEntity);
 
-        BDDMockito.given(eventLocationRepository.findById(any(Long.class)))
-                .willReturn(Optional.of(eventLocationEntity));
-        BDDMockito.given(categoryRepository.findById(any(Long.class)))
-                .willReturn(Optional.of(categoryEntity));
-        BDDMockito.given(categoryEventRepository.save(any(CategoryEventEntity.class)))
+        BDDMockito.given(eventRepositoryLayer.getEventLocationEntity(any(Long.class)))
+                .willReturn(eventLocationEntity);
+        BDDMockito.given(eventRepositoryLayer.getCategoryById(any(Long.class)))
+                .willReturn(categoryEntity);
+        BDDMockito.given(eventRepositoryLayer.saveCategoryEvent(any(CategoryEventEntity.class)))
                 .willReturn(categoryEventEntity);
-        BDDMockito.given(eventRepository.save(any(EventEntity.class)))
+        BDDMockito.given(eventRepositoryLayer.saveEvent(any(EventEntity.class)))
                 .willReturn(eventEntity);
 
         // when
@@ -192,13 +180,13 @@ class EventServiceTest {
 
         eventEntity.update(dto, eventLocationEntitySuwon);
 
-        BDDMockito.given(eventLocationRepository.findById(any(Long.class)))
-                .willReturn(Optional.of(eventLocationEntitySeoul));
+        BDDMockito.given(eventRepositoryLayer.getEventById(any(Long.class)))
+                .willReturn(eventEntity);
 
-        BDDMockito.given(eventRepository.findById(any(Long.class)))
-                .willReturn(Optional.of(eventEntity));
+        BDDMockito.given(eventRepositoryLayer.getEventLocationEntity(any(Long.class)))
+                .willReturn(eventLocationEntitySeoul);
 
-        BDDMockito.given(eventRepository.save(any(EventEntity.class)))
+        BDDMockito.given(eventRepositoryLayer.saveEvent(any(EventEntity.class)))
                 .willReturn(eventEntity);
 
         // when
@@ -217,11 +205,11 @@ class EventServiceTest {
         EventEntity eventEntity = getEventEntity(eventLocationEntitySeoul, "FC서울 vs 수원삼섬");
         DeletedEventEntity deletedEventEntity = new DeletedEventEntity(eventEntity);
 
-        BDDMockito.given(eventRepository.findById(any(Long.class)))
-                .willReturn(Optional.of(eventEntity));
-        BDDMockito.given(deletedEventRepository.save(any(DeletedEventEntity.class)))
+        BDDMockito.given(eventRepositoryLayer.getEventById(any(Long.class)))
+                .willReturn(eventEntity);
+        BDDMockito.given(eventRepositoryLayer.saveDeletedEvent(any(DeletedEventEntity.class)))
                 .willReturn(deletedEventEntity);
-       BDDMockito.willDoNothing().given(eventRepository).delete(any(EventEntity.class));
+        BDDMockito.willDoNothing().given(eventRepositoryLayer).deletedEvent(any(EventEntity.class));
 
         // when
         EventEntity result = eventService.deletedEvent(any(Long.class));
