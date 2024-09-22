@@ -37,6 +37,8 @@ public class EventService {
     private final CategoryRepository categoryRepository;
     private final CategoryEventRepository categoryEventRepository;
 
+    private static final int PAGE_SIZE = 10;
+
 
     public EventEntity getEventById(Long eventId) {
         return eventRepository.findById(eventId).orElseThrow(() ->
@@ -50,7 +52,7 @@ public class EventService {
 
         CategoryEntity categoryEntity = getCategoryEntity(categoryId);
 
-        Pageable pageable = PageRequest.of(pageNo, 10);
+        Pageable pageable = PageRequest.of(pageNo, PAGE_SIZE);
 
         Page<CategoryEventEntity> categoryEventEntities = categoryEventRepository.findByCategoryEntity(categoryEntity, pageable);
 
