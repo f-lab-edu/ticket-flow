@@ -39,7 +39,9 @@ public class EventService {
 
 
     public EventEntity getEventById(Long eventId) {
-        return getEventEntity(eventId);
+        return eventRepository.findById(eventId).orElseThrow(() ->
+                new GlobalCommonException(EventErrorResponsive.NOT_FOUND_EVENT)
+        );
     }
 
     @Transactional
@@ -79,7 +81,7 @@ public class EventService {
             eventLocationEntity = getEventLocationEntity(dto.getEventLocationId());
         }
 
-        EventEntity eventEntity = getEventEntity(eventId);
+        EventEntity eventEntity = getEventById(eventId);
         EventEntity updateEventEntity = eventEntity.update(dto, eventLocationEntity);
 
         return eventRepository.save(updateEventEntity);
@@ -87,19 +89,13 @@ public class EventService {
 
     @Transactional
     public EventEntity deletedEvent(Long eventId) {
-        EventEntity eventEntity = getEventEntity(eventId);
+        EventEntity eventEntity = getEventById(eventId);
         DeletedEventEntity deletedEventEntity = new DeletedEventEntity(eventEntity);
 
         deletedEventRepository.save(deletedEventEntity);
         eventRepository.delete(eventEntity);
 
         return eventEntity;
-    }
-
-    private EventEntity getEventEntity(Long eventId) {
-        return eventRepository.findById(eventId).orElseThrow(() ->
-                new GlobalCommonException(EventErrorResponsive.NOT_FOUND_EVENT)
-        );
     }
 
     private EventLocationEntity getEventLocationEntity(Long eventLocationId) {
