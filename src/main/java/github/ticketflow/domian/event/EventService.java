@@ -78,14 +78,15 @@ public class EventService {
 
     @Transactional
     public EventEntity updateEvent(Long eventId ,EventUpdateRequestDTO dto) {
-        EventLocationEntity eventLocationEntity = null;
+        EventEntity eventEntity = getEventById(eventId);
+
         if(dto.getEventLocationId() != null) {
-            eventLocationEntity = getEventLocationEntity(dto.getEventLocationId());
+            EventLocationEntity eventLocationEntity = getEventLocationEntity(dto.getEventLocationId());
+            EventEntity updateEventEntity = eventEntity.update(dto, eventLocationEntity);
+            return eventRepository.save(updateEventEntity);
         }
 
-        EventEntity eventEntity = getEventById(eventId);
-        EventEntity updateEventEntity = eventEntity.update(dto, eventLocationEntity);
-
+        EventEntity updateEventEntity = eventEntity.update(dto);
         return eventRepository.save(updateEventEntity);
     }
 

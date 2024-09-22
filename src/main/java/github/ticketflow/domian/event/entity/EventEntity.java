@@ -60,10 +60,18 @@ public class EventEntity {
         this.startTime = dto.getStartTime();
     }
 
+    public EventEntity update(EventUpdateRequestDTO dto) {
+        return getEventEntity(dto);
+    }
+
     public EventEntity update(EventUpdateRequestDTO dto, EventLocationEntity eventLocationEntity) {
         if (eventLocationEntity != null) {
             this.eventLocation = eventLocationEntity;
         }
+        return getEventEntity(dto);
+    }
+
+    private EventEntity getEventEntity(EventUpdateRequestDTO dto) {
         if (dto.getEventName() != null) {
             this.eventName = dto.getEventName();
         }
