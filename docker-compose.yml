@@ -11,9 +11,7 @@ services:
     image: mysql
     environment:
       MYSQL_ROOT_PASSWORD: 1234
-      MYSQL_DATABASE: ticketflow-db
-    volumes:
-      - ./mysql_data:/var/lib/mysql
+      MYSQL_DATABASE: ticketflow
     ports:
       - 3306:3306
     healthcheck:

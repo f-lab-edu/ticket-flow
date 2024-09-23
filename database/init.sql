@@ -14,7 +14,7 @@ CREATE TABLE LeaveUser (
     password VARCHAR(50) NOT NULL,
     user_name VARCHAR(50) NOT NULL,
     phone_number CHAR(11) NOT NULL,
-    created_at DATETIME NOT NULL DEFAULT,
+    created_at DATETIME NOT NULL,
     deleted_at DATETIME NULL DEFAULT NULL
 );
 
@@ -109,6 +109,7 @@ CREATE TABLE LIKES (
 CREATE TABLE REVIEW (
     review_id INT AUTO_INCREMENT PRIMARY KEY,
     event_id INT NOT NULL,
+    user_id INT NOT NULL,
     scope INT NOT NULL,
     content INT NOT NULL,
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
