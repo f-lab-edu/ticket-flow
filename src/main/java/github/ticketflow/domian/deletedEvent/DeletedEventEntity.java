@@ -1,15 +1,15 @@
-package github.ticketflow.domian.event.entity;
+package github.ticketflow.domian.deletedEvent;
 
+import github.ticketflow.domian.event.EventEntity;
 import github.ticketflow.domian.eventLocation.EventLocationEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Getter
@@ -17,6 +17,7 @@ import java.time.LocalTime;
 @AllArgsConstructor
 @Entity
 @Table(name = "DeletedEventEntity")
+@Builder
 public class DeletedEventEntity {
 
     @Id

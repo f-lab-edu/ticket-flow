@@ -1,6 +1,7 @@
 package github.ticketflow.domian.eventLocation;
 
 import github.ticketflow.domian.eventLocation.dto.EventLocationRequestDTO;
+import github.ticketflow.domian.eventLocation.dto.EventLocationResponseDTO;
 import github.ticketflow.domian.eventLocation.dto.EventLocationUpdateRequestDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -29,6 +30,12 @@ public class EventLocationEntity {
 
 
     public EventLocationEntity(EventLocationRequestDTO dto) {
+        this.eventLocationName = dto.getEventLocationName();
+        this.totalSeats = dto.getTotalSeats();
+    }
+
+    public EventLocationEntity(EventLocationResponseDTO dto) {
+        this.eventLocationId = dto.getEventLocationId();
         this.eventLocationName = dto.getEventLocationName();
         this.totalSeats = dto.getTotalSeats();
     }

@@ -1,7 +1,7 @@
 package github.ticketflow.domian.CategoryEvent;
 
 import github.ticketflow.domian.category.CategoryEntity;
-import github.ticketflow.domian.event.entity.EventEntity;
+import github.ticketflow.domian.event.EventEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

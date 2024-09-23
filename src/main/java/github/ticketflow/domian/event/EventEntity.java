@@ -1,6 +1,7 @@
-package github.ticketflow.domian.event.entity;
+package github.ticketflow.domian.event;
 
 import github.ticketflow.domian.event.dto.EventRequestDTO;
+import github.ticketflow.domian.event.dto.EventResponseDTO;
 import github.ticketflow.domian.event.dto.EventUpdateRequestDTO;
 import github.ticketflow.domian.eventLocation.EventLocationEntity;
 import jakarta.persistence.*;
@@ -12,8 +13,8 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Objects;
 
 @Getter
 @NoArgsConstructor
@@ -58,6 +59,17 @@ public class EventEntity {
         this.eventDescription = dto.getEventDescription();
         this.date = dto.getDate();
         this.startTime = dto.getStartTime();
+    }
+
+    public EventEntity(EventResponseDTO dto) {
+        this.eventId = dto.getEventId();
+        this.eventLocation = new EventLocationEntity(dto.getEventLocationResponseDTO());
+        this.eventName = dto.getEventName();
+        this.eventDescription = dto.getEventDescription();
+        this.date = dto.getDate();
+        this.startTime = dto.getStartTime();
+        this.createdAt = dto.getCreateAt();
+        this.modifiedAt = dto.getModifyAt();
     }
 
     public EventEntity update(EventUpdateRequestDTO dto) {
