@@ -1,18 +1,13 @@
 package github.ticketflow.domian.event;
 
 import github.ticketflow.domian.CategoryEvent.CategoryEventEntity;
-import github.ticketflow.domian.CategoryEvent.CategoryEventRepository;
 import github.ticketflow.domian.category.CategoryEntity;
-import github.ticketflow.domian.category.CategoryRepository;
 import github.ticketflow.domian.event.dto.EventRequestDTO;
+import github.ticketflow.domian.event.dto.EventResponseDTO;
 import github.ticketflow.domian.event.dto.EventUpdateRequestDTO;
-import github.ticketflow.domian.event.entity.DeletedEventEntity;
-import github.ticketflow.domian.event.entity.EventEntity;
-import github.ticketflow.domian.event.repository.DeletedEventRepository;
-import github.ticketflow.domian.event.repository.EventRepository;
+import github.ticketflow.domian.deletedEvent.DeletedEventEntity;
 import github.ticketflow.domian.eventLocation.EventLocationEntity;
-import github.ticketflow.domian.eventLocation.EventLocationRepository;
-import org.assertj.core.api.Assertions;
+import github.ticketflow.domian.eventLocation.dto.EventLocationResponseDTO;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,24 +17,21 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 
 @ExtendWith(MockitoExtension.class)
 class EventServiceTest {
 
     @Mock
-    private EventRepositoryLayer eventRepositoryLayer;
+    private EventRepository eventRepository;
 
     @InjectMocks
     private EventService eventService;
@@ -51,17 +43,17 @@ class EventServiceTest {
         EventLocationEntity eventLocationEntity = getEventLocationEntity(1L, "서울월드컵 경기장");
         EventEntity eventEntity = getEventEntity(eventLocationEntity, "대한민축 vs 일본 축구 친선경기");
 
-        BDDMockito.given(eventRepositoryLayer.getEventById(any(Long.class)))
-                .willReturn(eventEntity);
+        BDDMockito.given(eventRepository.findById(any(Long.class)))
+                .willReturn(Optional.of(eventEntity));
 
         // when
-        EventEntity result = eventService.getEventById(any(Long.class));
+        EventResponseDTO result = eventService.getEventById(any(Long.class));
 
         // then
         assertThat(result).extracting("eventName", "eventDescription", "date", "startTime")
                 .contains(eventEntity.getEventName(), eventEntity.getEventDescription(), eventEntity.getDate(), eventEntity.getStartTime());
-        assertThat(result).extracting("eventLocation")
-                .isEqualTo(eventLocationEntity);
+        assertThat(result).extracting("eventLocationResponseDTO")
+                .isEqualTo(new EventLocationResponseDTO(eventLocationEntity));
     }
 
     @DisplayName("카테고리 id로 이벤트 목록을 가지고 오면, 리스트에 정보가 담긴다.")
@@ -103,14 +95,9 @@ class EventServiceTest {
         List<CategoryEventEntity> categoryEventEntities = List.of(categoryEventEntitySeoul, categoryEventEntitySuwon, categoryEventEntityUlsan);
         Page<CategoryEventEntity> categoryEventEntityPage = new PageImpl<>(categoryEventEntities);
 
-        BDDMockito.given(eventRepositoryLayer.getCategoryById(any(Long.class)))
-                .willReturn(categoryEntity);
-
-        BDDMockito.given(eventRepositoryLayer.getCategoryEventEntity(any(CategoryEntity.class), any(Pageable.class)))
-                .willReturn(categoryEventEntityPage);
 
         // when
-        List<EventEntity> result = eventService.getEventByCategoryId(categoryEntity.getCategoryId(), 0);
+        List<EventResponseDTO> result = eventService.getEventByCategoryId(categoryEventEntityPage);
 
         // then
         assertThat(result).extracting("eventName", "eventDescription", "date", "startTime")
@@ -137,6 +124,8 @@ class EventServiceTest {
 
         EventLocationEntity eventLocationEntity = getEventLocationEntity(1L, "서울 월드컵 경기장");
         EventEntity eventEntity = getEventEntity(eventLocationEntity, dto.getEventName());
+        EventResponseDTO responseDTO = new EventResponseDTO(eventEntity);
+
         CategoryEntity categoryEntity = CategoryEntity.builder()
                 .categoryId(1L)
                 .categoryName("스포츠")
@@ -145,23 +134,17 @@ class EventServiceTest {
 
         CategoryEventEntity categoryEventEntity = new CategoryEventEntity(categoryEntity, eventEntity);
 
-        BDDMockito.given(eventRepositoryLayer.getEventLocationEntity(any(Long.class)))
-                .willReturn(eventLocationEntity);
-        BDDMockito.given(eventRepositoryLayer.getCategoryById(any(Long.class)))
-                .willReturn(categoryEntity);
-        BDDMockito.given(eventRepositoryLayer.saveCategoryEvent(any(CategoryEventEntity.class)))
-                .willReturn(categoryEventEntity);
-        BDDMockito.given(eventRepositoryLayer.saveEvent(any(EventEntity.class)))
+        BDDMockito.given(eventRepository.save(any(EventEntity.class)))
                 .willReturn(eventEntity);
 
         // when
-        EventEntity result = eventService.createEvent(dto);
+        EventResponseDTO result = eventService.createEvent(dto, eventLocationEntity);
 
         // then
         assertThat(result).extracting("eventName", "eventDescription", "date", "startTime")
-                .contains(eventEntity.getEventName(), eventEntity.getEventDescription(), eventEntity.getDate(), eventEntity.getStartTime());
-        assertThat(result).extracting("eventLocation")
-                .isEqualTo(eventLocationEntity);
+                .contains(responseDTO.getEventName(), responseDTO.getEventDescription(), responseDTO.getDate(), responseDTO.getStartTime());
+        assertThat(result).extracting("eventLocationResponseDTO")
+                .isEqualTo(new EventLocationResponseDTO(eventLocationEntity));
     }
 
     @DisplayName("수정하고 싶은 이벤트 정보를 수정하면, 수정된 정보가 나온다.")
@@ -179,22 +162,20 @@ class EventServiceTest {
                 .build();
 
         eventEntity.update(dto, eventLocationEntitySuwon);
+        EventResponseDTO responseDTO = new EventResponseDTO(eventEntity);
 
-        BDDMockito.given(eventRepositoryLayer.getEventById(any(Long.class)))
-                .willReturn(eventEntity);
+        BDDMockito.given(eventRepository.findById(any(Long.class)))
+                .willReturn(Optional.of(eventEntity));
 
-        BDDMockito.given(eventRepositoryLayer.getEventLocationEntity(any(Long.class)))
-                .willReturn(eventLocationEntitySeoul);
-
-        BDDMockito.given(eventRepositoryLayer.saveEvent(any(EventEntity.class)))
+        BDDMockito.given(eventRepository.save(any(EventEntity.class)))
                 .willReturn(eventEntity);
 
         // when
-        eventService.updateEvent(1L, dto);
+        EventResponseDTO result = eventService.updateEvent(1L, dto);
 
         // then
-        assertThat(eventEntity).extracting("eventName", "eventDescription", "date", "startTime")
-                .contains(eventEntity.getEventName(), eventEntity.getEventDescription(), eventEntity.getDate(), eventEntity.getStartTime());
+        assertThat(result).extracting("eventName", "eventDescription", "date", "startTime")
+                .contains(responseDTO.getEventName(), responseDTO.getEventDescription(), responseDTO.getDate(), responseDTO.getStartTime());
     }
 
     @DisplayName("삭제하고 싶은 이벤트를 삭제하고, 삭제된 이벤트 정보를 반환읋 한다.")
@@ -203,20 +184,18 @@ class EventServiceTest {
         // given
         EventLocationEntity eventLocationEntitySeoul = getEventLocationEntity(1L, "서울 월드컵 경기장");
         EventEntity eventEntity = getEventEntity(eventLocationEntitySeoul, "FC서울 vs 수원삼섬");
-        DeletedEventEntity deletedEventEntity = new DeletedEventEntity(eventEntity);
+        EventResponseDTO responseDTO = new EventResponseDTO(eventEntity);
 
-        BDDMockito.given(eventRepositoryLayer.getEventById(any(Long.class)))
-                .willReturn(eventEntity);
-        BDDMockito.given(eventRepositoryLayer.saveDeletedEvent(any(DeletedEventEntity.class)))
-                .willReturn(deletedEventEntity);
-        BDDMockito.willDoNothing().given(eventRepositoryLayer).deletedEvent(any(EventEntity.class));
+        BDDMockito.given(eventRepository.findById(any(Long.class)))
+                .willReturn(Optional.of(eventEntity));
+        BDDMockito.willDoNothing().given(eventRepository).delete(eventEntity);
 
         // when
-        EventEntity result = eventService.deletedEvent(any(Long.class));
+        EventResponseDTO result = eventService.deletedEvent(any(Long.class));
 
         // then
         assertThat(result).extracting("eventName", "eventDescription", "date", "startTime")
-                .contains(eventEntity.getEventName(), eventEntity.getEventDescription(), eventEntity.getDate(), eventEntity.getStartTime());
+                .contains(responseDTO.getEventName(), responseDTO.getEventDescription(), responseDTO.getDate(), responseDTO.getStartTime());
 
     }
 
@@ -235,5 +214,4 @@ class EventServiceTest {
         EventLocationEntity eventLocationEntity = new EventLocationEntity(eventLocationId, eventLocationName, 50000);
         return eventLocationEntity;
     }
-
 }
