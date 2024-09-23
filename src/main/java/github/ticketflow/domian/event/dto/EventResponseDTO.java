@@ -1,6 +1,6 @@
 package github.ticketflow.domian.event.dto;
 
-import github.ticketflow.domian.event.entity.EventEntity;
+import github.ticketflow.domian.event.EventEntity;
 import github.ticketflow.domian.eventLocation.dto.EventLocationResponseDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,7 +19,7 @@ public class EventResponseDTO {
     private String eventName;
     private String eventDescription;
     private LocalDate date;
-    private LocalTime start_time;
+    private LocalTime startTime;
     private LocalDate createAt;
     private LocalDate modifyAt;
 
@@ -29,7 +29,7 @@ public class EventResponseDTO {
         this.eventName = eventEntity.getEventName();
         this.eventDescription = eventEntity.getEventDescription();
         this.date = eventEntity.getDate();
-        this.start_time = eventEntity.getStartTime();
+        this.startTime = eventEntity.getStartTime();
         this.createAt = eventEntity.getCreatedAt();
         this.modifyAt = eventEntity.getModifiedAt();
     }
