@@ -1,26 +1,15 @@
 package github.ticketflow.domian.event;
 
 import github.ticketflow.config.exception.GlobalCommonException;
-import github.ticketflow.config.exception.category.CategoryErrorResponsive;
 import github.ticketflow.config.exception.event.EventErrorResponsive;
-import github.ticketflow.config.exception.eventLocation.EventLocationErrorResponsive;
 import github.ticketflow.domian.CategoryEvent.CategoryEventEntity;
-import github.ticketflow.domian.CategoryEvent.CategoryEventRepository;
 import github.ticketflow.domian.category.CategoryEntity;
-import github.ticketflow.domian.category.CategoryRepository;
 import github.ticketflow.domian.event.dto.EventRequestDTO;
+import github.ticketflow.domian.event.dto.EventResponseDTO;
 import github.ticketflow.domian.event.dto.EventUpdateRequestDTO;
-import github.ticketflow.domian.event.entity.DeletedEventEntity;
-import github.ticketflow.domian.event.entity.EventEntity;
-import github.ticketflow.domian.event.repository.DeletedEventRepository;
-import github.ticketflow.domian.event.repository.EventRepository;
 import github.ticketflow.domian.eventLocation.EventLocationEntity;
-import github.ticketflow.domian.eventLocation.EventLocationRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,65 +20,57 @@ import java.util.List;
 @RequiredArgsConstructor
 public class EventService {
 
-    private final EventRepositoryLayer eventRepositoryLayer;
+    private final EventRepository eventRepository;
 
-    private static final int PAGE_SIZE = 10;
+    public EventResponseDTO getEventById(Long eventId) {
+         EventEntity eventEntity = getEventEntity(eventId);
 
-    public EventEntity getEventById(Long eventId) {
-        return eventRepositoryLayer.getEventById(eventId);
+        return new EventResponseDTO(eventEntity);
     }
 
-    @Transactional
-    public List<EventEntity> getEventByCategoryId(Long categoryId, int pageNo) {
-        List<EventEntity> eventEntities = new ArrayList<>();
-
-        CategoryEntity categoryEntity = eventRepositoryLayer.getCategoryById(categoryId);
-        Pageable pageable = PageRequest.of(pageNo, PAGE_SIZE);
-
-        Page<CategoryEventEntity> categoryEventEntities = eventRepositoryLayer.getCategoryEventEntity(categoryEntity, pageable);
+    public List<EventResponseDTO> getEventByCategoryId(Page<CategoryEventEntity> categoryEventEntities) {
+        List<EventResponseDTO> eventEntities = new ArrayList<>();
 
         categoryEventEntities.forEach(categoryEventEntity -> {
-            eventEntities.add(categoryEventEntity.getEventEntity());
+            eventEntities.add(new EventResponseDTO(categoryEventEntity.getEventEntity()));
         });
 
         return eventEntities;
     }
 
-    @Transactional
-    public EventEntity createEvent(EventRequestDTO dto) {
-        EventLocationEntity eventLocationEntity = eventRepositoryLayer.getEventLocationEntity(dto.getEventLocationId());
-        CategoryEntity categoryEntity = eventRepositoryLayer.getCategoryById(dto.getCategoryId());
+    public EventResponseDTO createEvent(EventRequestDTO dto,
+                                   EventLocationEntity eventLocationEntity) {
         EventEntity newEventEntity = new EventEntity(dto, eventLocationEntity);
-
-        CategoryEventEntity categoryEventEntity = new CategoryEventEntity(categoryEntity, newEventEntity);
-
-        eventRepositoryLayer.saveCategoryEvent(categoryEventEntity);
-        return eventRepositoryLayer.saveEvent(newEventEntity);
+        EventEntity saveEventEntity = eventRepository.save(newEventEntity);
+        return  new EventResponseDTO(saveEventEntity);
     }
 
-
-    @Transactional
-    public EventEntity updateEvent(Long eventId, EventUpdateRequestDTO dto) {
-        EventEntity eventEntity = getEventById(eventId);
-
-        if(dto.getEventLocationId() != null) {
-            EventLocationEntity eventLocationEntity = eventRepositoryLayer.getEventLocationEntity(dto.getEventLocationId());
-            EventEntity updateEventEntity = eventEntity.update(dto, eventLocationEntity);
-            return eventRepositoryLayer.saveEvent(updateEventEntity);
-        }
-
+    public EventResponseDTO updateEvent(Long eventId,
+                                   EventUpdateRequestDTO dto) {
+        EventEntity eventEntity = getEventEntity(eventId);
         EventEntity updateEventEntity = eventEntity.update(dto);
-        return eventRepositoryLayer.saveEvent(updateEventEntity);
+        return new EventResponseDTO(eventRepository.save(updateEventEntity));
     }
 
-    @Transactional
-    public EventEntity deletedEvent(Long eventId) {
-        EventEntity eventEntity = getEventById(eventId);
-        DeletedEventEntity deletedEventEntity = new DeletedEventEntity(eventEntity);
+    public EventResponseDTO updateEvent(Long eventId,
+                                   EventUpdateRequestDTO dto,
+                                   EventLocationEntity eventLocationEntity) {
+        EventEntity eventEntity = getEventEntity(eventId);
+        EventEntity updateEventEntity = eventEntity.update(dto, eventLocationEntity);
+        return new EventResponseDTO(eventRepository.save(updateEventEntity));
 
-        eventRepositoryLayer.saveDeletedEvent(deletedEventEntity);
-        eventRepositoryLayer.deletedEvent(eventEntity);
+    }
 
-        return eventEntity;
+    public EventResponseDTO deletedEvent(Long eventId) {
+        EventEntity eventEntity = getEventEntity(eventId);
+        eventRepository.delete(eventEntity);
+
+        return new EventResponseDTO(eventEntity);
+    }
+
+    private EventEntity getEventEntity(Long eventId) {
+        return eventRepository.findById(eventId).orElseThrow(() ->
+                new GlobalCommonException(EventErrorResponsive.NOT_FOUND_EVENT)
+        );
     }
 }
