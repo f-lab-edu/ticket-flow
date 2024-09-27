@@ -2,6 +2,7 @@ package github.ticketflow.domian.seatGrade;
 
 import github.ticketflow.domian.eventLocation.EventLocationEntity;
 import github.ticketflow.domian.seatGrade.dto.SeatGradeRequestDTO;
+import github.ticketflow.domian.seatGrade.dto.SeatGradeResponseDTO;
 import github.ticketflow.domian.seatGrade.dto.SeatGradeUpdateRequestDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -41,6 +42,14 @@ public class SeatGradeEntity {
         this.seatGradeName = dto.getSeatGradeName();
         this.seatGradePrice = dto.getSeatGradePrice();
         this.seatGradeTotalSeats = dto.getSeatGradeTotalSeats();
+    }
+
+    public SeatGradeEntity(SeatGradeResponseDTO responseDTO) {
+        this.seatGradeId = responseDTO.getSeatGradeId();
+        this.eventLocation = new EventLocationEntity(responseDTO.getEventLocation());
+        this.seatGradeName = responseDTO.getSeatGradeName();
+        this.seatGradePrice = responseDTO.getSeatGradePrice();
+        this.seatGradeTotalSeats = responseDTO.getSeatGradeTotalSeats();
     }
 
     public SeatGradeEntity update(SeatGradeUpdateRequestDTO dto,
