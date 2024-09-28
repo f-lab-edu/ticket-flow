@@ -7,6 +7,7 @@ import github.ticketflow.domian.gradeTicketInfo.dto.GradeTicketInfoUpdateRequest
 import github.ticketflow.domian.seatGrade.SeatGradeEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -15,6 +16,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table(name = "GradeTicketInfo")
+@Builder
 public class GradeTicketInfoEntity {
 
     @Id

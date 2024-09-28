@@ -6,16 +6,19 @@ import github.ticketflow.domian.seatGrade.dto.SeatGradeResponseDTO;
 import github.ticketflow.domian.seatGrade.dto.SeatGradeUpdateRequestDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "SeatGrade")
+@Builder
 public class SeatGradeEntity {
 
     @Id
