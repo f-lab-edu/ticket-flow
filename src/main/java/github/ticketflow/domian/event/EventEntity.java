@@ -104,7 +104,7 @@ public class EventEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         EventEntity that = (EventEntity) o;
-        return Objects.equals(eventId, that.eventId) && Objects.equals(eventLocation, that.eventLocation) && Objects.equals(eventName, that.eventName) && Objects.equals(eventDescription, that.eventDescription) && Objects.equals(date, that.date) && Objects.equals(startTime, that.startTime) && Objects.equals(createdAt, that.createdAt) && Objects.equals(modifiedAt, that.modifiedAt);
+        return Objects.equals(eventId, that.eventId);
     }
 
     @Override
