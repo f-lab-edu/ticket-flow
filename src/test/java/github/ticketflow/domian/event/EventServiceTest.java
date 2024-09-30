@@ -47,7 +47,7 @@ class EventServiceTest {
                 .willReturn(Optional.of(eventEntity));
 
         // when
-        EventResponseDTO result = eventService.getEventById(any(Long.class));
+        EventEntity result = eventService.getEventById(any(Long.class));
 
         // then
         assertThat(result).extracting("eventName", "eventDescription", "date", "startTime")
@@ -124,27 +124,18 @@ class EventServiceTest {
 
         EventLocationEntity eventLocationEntity = getEventLocationEntity(1L, "서울 월드컵 경기장");
         EventEntity eventEntity = getEventEntity(eventLocationEntity, dto.getEventName());
-        EventResponseDTO responseDTO = new EventResponseDTO(eventEntity);
-
-        CategoryEntity categoryEntity = CategoryEntity.builder()
-                .categoryId(1L)
-                .categoryName("스포츠")
-                .categoryLevel(1)
-                .build();
-
-        CategoryEventEntity categoryEventEntity = new CategoryEventEntity(categoryEntity, eventEntity);
 
         BDDMockito.given(eventRepository.save(any(EventEntity.class)))
                 .willReturn(eventEntity);
 
         // when
-        EventResponseDTO result = eventService.createEvent(dto, eventLocationEntity);
+        EventEntity result = eventService.createEvent(dto, eventLocationEntity);
 
         // then
         assertThat(result).extracting("eventName", "eventDescription", "date", "startTime")
-                .contains(responseDTO.getEventName(), responseDTO.getEventDescription(), responseDTO.getDate(), responseDTO.getStartTime());
+                .contains(eventEntity.getEventName(), eventEntity.getEventDescription(), eventEntity.getDate(),eventEntity.getStartTime());
         assertThat(result).extracting("eventLocationResponseDTO")
-                .isEqualTo(new EventLocationResponseDTO(eventLocationEntity));
+                .isEqualTo(eventLocationEntity);
     }
 
     @DisplayName("수정하고 싶은 이벤트 정보를 수정하면, 수정된 정보가 나온다.")
@@ -162,7 +153,6 @@ class EventServiceTest {
                 .build();
 
         eventEntity.update(dto, eventLocationEntitySuwon);
-        EventResponseDTO responseDTO = new EventResponseDTO(eventEntity);
 
         BDDMockito.given(eventRepository.findById(any(Long.class)))
                 .willReturn(Optional.of(eventEntity));
@@ -171,11 +161,11 @@ class EventServiceTest {
                 .willReturn(eventEntity);
 
         // when
-        EventResponseDTO result = eventService.updateEvent(1L, dto);
+        EventEntity result = eventService.updateEvent(1L, dto);
 
         // then
         assertThat(result).extracting("eventName", "eventDescription", "date", "startTime")
-                .contains(responseDTO.getEventName(), responseDTO.getEventDescription(), responseDTO.getDate(), responseDTO.getStartTime());
+                .contains(eventEntity.getEventName(), eventEntity.getEventDescription(), eventEntity.getDate(), eventEntity.getStartTime());
     }
 
     @DisplayName("삭제하고 싶은 이벤트를 삭제하고, 삭제된 이벤트 정보를 반환읋 한다.")
@@ -184,18 +174,17 @@ class EventServiceTest {
         // given
         EventLocationEntity eventLocationEntitySeoul = getEventLocationEntity(1L, "서울 월드컵 경기장");
         EventEntity eventEntity = getEventEntity(eventLocationEntitySeoul, "FC서울 vs 수원삼섬");
-        EventResponseDTO responseDTO = new EventResponseDTO(eventEntity);
 
         BDDMockito.given(eventRepository.findById(any(Long.class)))
                 .willReturn(Optional.of(eventEntity));
         BDDMockito.willDoNothing().given(eventRepository).delete(eventEntity);
 
         // when
-        EventResponseDTO result = eventService.deletedEvent(any(Long.class));
+        EventEntity result = eventService.deletedEvent(any(Long.class));
 
         // then
         assertThat(result).extracting("eventName", "eventDescription", "date", "startTime")
-                .contains(responseDTO.getEventName(), responseDTO.getEventDescription(), responseDTO.getDate(), responseDTO.getStartTime());
+                .contains(eventEntity.getEventName(), eventEntity.getEventDescription(), eventEntity.getDate(), eventEntity.getStartTime());
 
     }
 
