@@ -31,7 +31,7 @@ public class EventEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "event_location_id")
-    private EventLocationEntity eventLocation;
+    private EventLocationEntity eventLocationEntity;
 
     @Column(name = "event_name")
     private String eventName;
@@ -54,7 +54,7 @@ public class EventEntity {
     private LocalDate modifiedAt;
 
     public EventEntity(EventRequestDTO dto, EventLocationEntity eventLocationEntity) {
-        this.eventLocation = eventLocationEntity;
+        this.eventLocationEntity = eventLocationEntity;
         this.eventName = dto.getEventName();
         this.eventDescription = dto.getEventDescription();
         this.date = dto.getDate();
@@ -63,7 +63,7 @@ public class EventEntity {
 
     public EventEntity(EventResponseDTO dto) {
         this.eventId = dto.getEventId();
-        this.eventLocation = new EventLocationEntity(dto.getEventLocationResponseDTO());
+        this.eventLocationEntity = new EventLocationEntity(dto.getEventLocationResponseDTO());
         this.eventName = dto.getEventName();
         this.eventDescription = dto.getEventDescription();
         this.date = dto.getDate();
@@ -78,7 +78,7 @@ public class EventEntity {
 
     public EventEntity update(EventUpdateRequestDTO dto, EventLocationEntity eventLocationEntity) {
         if (eventLocationEntity != null) {
-            this.eventLocation = eventLocationEntity;
+            this.eventLocationEntity = eventLocationEntity;
         }
         return getEventEntity(dto);
     }
@@ -109,6 +109,6 @@ public class EventEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(eventId, eventLocation, eventName, eventDescription, date, startTime, createdAt, modifiedAt);
+        return Objects.hash(eventId, eventLocationEntity, eventName, eventDescription, date, startTime, createdAt, modifiedAt);
     }
 }

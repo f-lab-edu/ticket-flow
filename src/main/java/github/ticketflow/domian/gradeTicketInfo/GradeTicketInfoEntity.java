@@ -68,7 +68,7 @@ public class GradeTicketInfoEntity {
     public GradeTicketInfoEntity update(GradeTicketInfoUpdateRequestDTO dto, GradeTicketInfoUpdate gradeTicketInfoUpdate) {
         if (gradeTicketInfoUpdate.getEventEntity() != null) {
             this.eventEntity = gradeTicketInfoUpdate.getEventEntity();
-            this.eventLocationEntity = gradeTicketInfoUpdate.getEventEntity().getEventLocation();
+            this.eventLocationEntity = gradeTicketInfoUpdate.getEventEntity().getEventLocationEntity();
         }
 
         if (gradeTicketInfoUpdate.getEventLocationEntity() != null) {

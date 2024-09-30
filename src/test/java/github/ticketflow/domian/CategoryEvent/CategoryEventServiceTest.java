@@ -88,7 +88,7 @@ class CategoryEventServiceTest {
                 .containsExactly("FC서울 vs 대전하나시티즌", "수원 삼성 vs 전남 드래곤즈", "울산현대 vs 전북현대");
 
         assertThat(result.getContent())
-                .extracting("eventEntity.eventLocation.eventLocationName")
+                .extracting("eventEntity.eventLocationEntity.eventLocationName")
                 .containsExactly("서울 월드컵 경기징", "수원 빅버드 경기징", "울산 문수 경기징");
 
     }
@@ -107,7 +107,7 @@ class CategoryEventServiceTest {
 
         EventEntity eventEntity = EventEntity.builder()
                 .eventId(1L)
-                .eventLocation(eventLocationEntity)
+                .eventLocationEntity(eventLocationEntity)
                 .eventName("FC 서울 vs 수원 삼성")
                 .eventDescription("축구 경기")
                 .date(LocalDate.of(2024, 10, 15))
@@ -135,7 +135,7 @@ class CategoryEventServiceTest {
     private static EventEntity getEventEntity(EventLocationEntity eventLocationEntity, String eventName) {
         return EventEntity.builder()
                 .eventId(1L)
-                .eventLocation(eventLocationEntity)
+                .eventLocationEntity(eventLocationEntity)
                 .eventName(eventName)
                 .eventDescription("축구 경기")
                 .date(LocalDate.of(2024, 10, 15))

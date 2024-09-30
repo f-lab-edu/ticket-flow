@@ -14,7 +14,7 @@ public class Fixture {
     public static EventEntity getEventEntity(EventLocationEntity eventLocationEntity, String eventName) {
         return EventEntity.builder()
                 .eventId(1L)
-                .eventLocation(eventLocationEntity)
+                .eventLocationEntity(eventLocationEntity)
                 .eventName(eventName)
                 .eventDescription("축구 경기")
                 .date(LocalDate.of(2024, 10, 15))
@@ -40,7 +40,7 @@ public class Fixture {
         return GradeTicketInfoEntity.builder()
                 .gradeTicketInfoId(gradeTicketId)
                 .eventEntity(eventEntity)
-                .eventLocationEntity(eventEntity.getEventLocation())
+                .eventLocationEntity(eventEntity.getEventLocationEntity())
                 .seatGradeEntity(seatGradeEntity)
                 .numberTotalTicket(120)
                 .numberOfRemainingTickets(120)

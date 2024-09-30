@@ -52,8 +52,8 @@ class EventServiceTest {
         // then
         assertThat(result).extracting("eventName", "eventDescription", "date", "startTime")
                 .contains(eventEntity.getEventName(), eventEntity.getEventDescription(), eventEntity.getDate(), eventEntity.getStartTime());
-        assertThat(result).extracting("eventLocationResponseDTO")
-                .isEqualTo(new EventLocationResponseDTO(eventLocationEntity));
+        assertThat(result).extracting("EventLocationEntity")
+                .isEqualTo(eventLocationEntity);
     }
 
     @DisplayName("카테고리 id로 이벤트 목록을 가지고 오면, 리스트에 정보가 담긴다.")
@@ -134,7 +134,7 @@ class EventServiceTest {
         // then
         assertThat(result).extracting("eventName", "eventDescription", "date", "startTime")
                 .contains(eventEntity.getEventName(), eventEntity.getEventDescription(), eventEntity.getDate(),eventEntity.getStartTime());
-        assertThat(result).extracting("eventLocationResponseDTO")
+        assertThat(result).extracting("eventLocationEntity")
                 .isEqualTo(eventLocationEntity);
     }
 
@@ -191,7 +191,7 @@ class EventServiceTest {
     private static EventEntity getEventEntity(EventLocationEntity eventLocationEntity, String eventName) {
         return EventEntity.builder()
                 .eventId(1L)
-                .eventLocation(eventLocationEntity)
+                .eventLocationEntity(eventLocationEntity)
                 .eventName(eventName)
                 .eventDescription("축구 경기")
                 .date(LocalDate.of(2024, 10, 15))

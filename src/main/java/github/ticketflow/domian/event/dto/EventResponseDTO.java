@@ -26,7 +26,7 @@ public class EventResponseDTO {
 
     public EventResponseDTO(EventEntity eventEntity) {
         this.eventId = eventEntity.getEventId();
-        this.eventLocationResponseDTO = new EventLocationResponseDTO(eventEntity.getEventLocation());
+        this.eventLocationResponseDTO = new EventLocationResponseDTO(eventEntity.getEventLocationEntity());
         this.eventName = eventEntity.getEventName();
         this.eventDescription = eventEntity.getEventDescription();
         this.date = eventEntity.getDate();

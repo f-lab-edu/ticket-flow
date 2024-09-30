@@ -138,7 +138,7 @@ class GradeTicketInfoServiceTest {
                 .willReturn(gradeTicketInfoEntity);
 
         // when
-        GradeTicketInfoResponseDTO result = gradeTicketInfoService.createGradeTicketInfo(dto, eventEntity, eventEntity.getEventLocation(), seatGradeEntity);
+        GradeTicketInfoResponseDTO result = gradeTicketInfoService.createGradeTicketInfo(dto, eventEntity, eventEntity.getEventLocationEntity(), seatGradeEntity);
 
         // then
         assertThat(result).extracting("numberTotalTicket", "numberOfRemainingTickets")
