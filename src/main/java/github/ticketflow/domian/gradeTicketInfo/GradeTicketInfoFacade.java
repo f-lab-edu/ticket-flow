@@ -29,23 +29,23 @@ public class GradeTicketInfoFacade {
     }
 
     public List<GradeTicketInfoResponseDTO> getGradeTicketInfoByEventEntity(Long eventId) {
-        EventEntity eventEntity = getEventEntity(eventId);
+        EventEntity eventEntity = eventService.getEventById(eventId);
 
         return gradeTicketInfoService.getGradeTicketInfoByEventEntity(eventEntity);
     }
 
     public GradeTicketInfoResponseDTO getGradeTicketInfoByEventEntityAndSeatGradeEntity(Long eventId, Long seatGradeId) {
-        EventEntity eventEntity = getEventEntity(eventId);
-        SeatGradeEntity seatGradeEntity = getSeatGradeEntity(seatGradeId);
+        EventEntity eventEntity = eventService.getEventById(eventId);
+        SeatGradeEntity seatGradeEntity = seatGradeService.getSeatGradeById(seatGradeId);
 
         return gradeTicketInfoService.getGradeTicketInfoByEventEntityAndSeatGradeEntity(eventEntity, seatGradeEntity);
     }
 
     @Transactional
     public GradeTicketInfoResponseDTO createGradeTicketInfo(GradeTicketInfoRequestDTO dto) {
-        EventEntity eventEntity = getEventEntity(dto.getEventId());
+        EventEntity eventEntity = eventService.getEventById(dto.getEventId());
         EventLocationEntity eventLocationEntity = eventEntity.getEventLocation();
-        SeatGradeEntity seatGradeEntity = getSeatGradeEntity(dto.getSeatGradeId());
+        SeatGradeEntity seatGradeEntity = seatGradeService.getSeatGradeById(dto.getSeatGradeId());
 
         return gradeTicketInfoService.createGradeTicketInfo(dto, eventEntity, eventLocationEntity, seatGradeEntity);
     }
@@ -53,9 +53,9 @@ public class GradeTicketInfoFacade {
     @Transactional
     public GradeTicketInfoResponseDTO updateGradeTicketInfo(Long gradeTicketInfoId, GradeTicketInfoUpdateRequestDTO dto) {
         if (dto.getEventId() != null || dto.getEventLocationId() != null ||dto.getSeatGradeId() != null) {
-            EventEntity eventEntity = getEventEntity(dto.getEventId());
+            EventEntity eventEntity = eventService.getEventById(dto.getEventId());
             EventLocationEntity eventLocationEntity = eventEntity.getEventLocation();
-            SeatGradeEntity seatGradeEntity = getSeatGradeEntity(dto.getSeatGradeId());
+            SeatGradeEntity seatGradeEntity = seatGradeService.getSeatGradeById(dto.getSeatGradeId());
             GradeTicketInfoUpdate gradeTicketInfoUpdate = new GradeTicketInfoUpdate(eventEntity, eventLocationEntity, seatGradeEntity);
 
             return gradeTicketInfoService.updateGradeTicketInfo(gradeTicketInfoId, dto, gradeTicketInfoUpdate);
@@ -68,15 +68,4 @@ public class GradeTicketInfoFacade {
        return gradeTicketInfoService.deleteGradeTicketInfo(gradeTicketInfoId);
     }
 
-    private EventEntity getEventEntity(Long eventId) {
-        EventResponseDTO eventResponseDTO = eventService.getEventById(eventId);
-        EventEntity eventEntity = new EventEntity(eventResponseDTO);
-        return eventEntity;
-    }
-
-    private SeatGradeEntity getSeatGradeEntity(Long seatGradeId) {
-        SeatGradeResponseDTO seatGradeResponseDTO = seatGradeService.getSeatGradeById(seatGradeId);
-        SeatGradeEntity seatGradeEntity = new SeatGradeEntity(seatGradeResponseDTO);
-        return seatGradeEntity;
-    }
 }
