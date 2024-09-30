@@ -1,5 +1,6 @@
 package github.ticketflow.domian.gradeTicketInfo;
 
+import github.ticketflow.domian.Fixture;
 import github.ticketflow.domian.event.EventEntity;
 import github.ticketflow.domian.event.dto.EventResponseDTO;
 import github.ticketflow.domian.eventLocation.EventLocationEntity;
@@ -19,13 +20,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
+import static github.ticketflow.domian.Fixture.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -44,7 +43,7 @@ class GradeTicketInfoServiceTest {
     void getGradeTicketInfoByIdTest() {
         // given
         EventLocationEntity eventLocationEntity = getEventLocationEntity(1L, "서울 월드컵 경기장");
-        EventEntity eventEntity = getEventEntity(eventLocationEntity, "FC서울 VS 수원 삼성");
+        EventEntity eventEntity =  getEventEntity(eventLocationEntity, "FC서울 VS 수원 삼성");
         SeatGradeEntity seatGradeEntity = getSeatGradeEntity(1L, eventLocationEntity);
         GradeTicketInfoEntity gradeTicketInfoEntity = gradeTicketInfoEntity(1L, eventEntity, seatGradeEntity);
 
@@ -211,41 +210,4 @@ class GradeTicketInfoServiceTest {
         assertThat(result.getEventResponseDTO().getEventLocationResponseDTO()).isEqualTo(new EventLocationResponseDTO(eventLocationEntity));
         assertThat(result.getSeatGradeResponseDTO()).isEqualTo(new SeatGradeResponseDTO(seatGradeEntity));
     }
-
-    private static EventEntity getEventEntity(EventLocationEntity eventLocationEntity, String eventName) {
-        return EventEntity.builder()
-                .eventId(1L)
-                .eventLocation(eventLocationEntity)
-                .eventName(eventName)
-                .eventDescription("축구 경기")
-                .date(LocalDate.of(2024, 10, 15))
-                .startTime(LocalTime.of(20, 30))
-                .build();
-    }
-
-    private static EventLocationEntity getEventLocationEntity(Long eventLocationId, String eventLocationName) {
-        return new EventLocationEntity(eventLocationId, eventLocationName, 50000);
-    }
-
-    private static SeatGradeEntity getSeatGradeEntity(Long seatGradeId, EventLocationEntity eventLocationEntity) {
-        return SeatGradeEntity.builder()
-                .seatGradeId(seatGradeId)
-                .eventLocation(eventLocationEntity)
-                .seatGradeName("1구역")
-                .seatGradePrice(BigDecimal.valueOf(100000))
-                .seatGradeTotalSeats(120)
-                .build();
-    }
-
-    private static GradeTicketInfoEntity gradeTicketInfoEntity(Long gradeTicketId, EventEntity eventEntity, SeatGradeEntity seatGradeEntity) {
-        return GradeTicketInfoEntity.builder()
-                .gradeTicketInfoId(gradeTicketId)
-                .eventEntity(eventEntity)
-                .eventLocationEntity(eventEntity.getEventLocation())
-                .seatGradeEntity(seatGradeEntity)
-                .numberTotalTicket(120)
-                .numberOfRemainingTickets(120)
-                .build();
-    }
-
 }
