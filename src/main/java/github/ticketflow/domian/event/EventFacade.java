@@ -36,8 +36,7 @@ public class EventFacade {
 
     @Transactional
     List<EventResponseDTO> getEventByCategoryId (Long categoryId, int page) {
-        CategoryResponseDTO categoryResponseDTO =  categoryService.getCategory(categoryId);
-        CategoryEntity categoryEntity = new CategoryEntity(categoryResponseDTO);
+        CategoryEntity categoryEntity =  categoryService.getCategory(categoryId);
 
         Page<CategoryEventEntity> categoryEventEntities = categoryEventService.getCategoryEventsByCategory(categoryEntity, page);
         return eventService.getEventByCategoryId(categoryEventEntities);
@@ -48,9 +47,7 @@ public class EventFacade {
         EventLocationResponseDTO eventLocationResponseDTO = eventLocationService.getEventLocation(dto.getEventLocationId());
         EventLocationEntity eventLocationEntity = new EventLocationEntity(eventLocationResponseDTO);
 
-        CategoryResponseDTO categoryResponseDTO =  categoryService.getCategory(dto.getCategoryId());
-        CategoryEntity categoryEntity = new CategoryEntity(categoryResponseDTO);
-
+        CategoryEntity categoryEntity =  categoryService.getCategory(dto.getCategoryId());
         EventEntity eventEntity = eventService.createEvent(dto, eventLocationEntity);
 
         categoryEventService.createCategoryEvent(categoryEntity, eventEntity);
