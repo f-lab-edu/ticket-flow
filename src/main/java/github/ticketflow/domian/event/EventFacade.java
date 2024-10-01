@@ -42,9 +42,7 @@ public class EventFacade {
 
     @Transactional
     EventEntity createEvent(EventRequestDTO dto) {
-        EventLocationResponseDTO eventLocationResponseDTO = eventLocationService.getEventLocation(dto.getEventLocationId());
-        EventLocationEntity eventLocationEntity = new EventLocationEntity(eventLocationResponseDTO);
-
+        EventLocationEntity eventLocationEntity = eventLocationService.getEventLocation(dto.getEventLocationId());
         CategoryEntity categoryEntity =  categoryService.getCategory(dto.getCategoryId());
         EventEntity eventEntity = eventService.createEvent(dto, eventLocationEntity);
 
@@ -57,9 +55,7 @@ public class EventFacade {
         if (dto.getEventLocationId() == null) {
             return eventService.updateEvent(eventId, dto);
         }
-
-        EventLocationResponseDTO eventLocationResponseDTO = eventLocationService.getEventLocation(dto.getEventLocationId());
-        EventLocationEntity eventLocationEntity = new EventLocationEntity(eventLocationResponseDTO);
+        EventLocationEntity eventLocationEntity = eventLocationService.getEventLocation(dto.getEventLocationId());
 
         return eventService.updateEvent(eventId, dto, eventLocationEntity);
     }

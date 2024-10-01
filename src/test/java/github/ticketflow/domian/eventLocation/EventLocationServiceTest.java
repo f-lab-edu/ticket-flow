@@ -36,7 +36,7 @@ class EventLocationServiceTest {
                 .willReturn(Optional.of(eventLocationEntity));
 
         // when
-        EventLocationResponseDTO result = eventLocationService.getEventLocation(eventLocationEntity.getEventLocationId());
+        EventLocationEntity result = eventLocationService.getEventLocation(eventLocationEntity.getEventLocationId());
 
         // then
         assertThat(result).extracting("eventLocationId", "eventLocationName", "totalSeats")
@@ -54,7 +54,7 @@ class EventLocationServiceTest {
 
 
         // when
-        EventLocationResponseDTO result = eventLocationService.createEventLocation(dto);
+        EventLocationEntity result = eventLocationService.createEventLocation(dto);
 
         // then
         assertThat(result).extracting("eventLocationName", "totalSeats")
@@ -78,7 +78,7 @@ class EventLocationServiceTest {
                 .willReturn(updateEventLocationEntity);
 
         // when
-        EventLocationResponseDTO result = eventLocationService.updateEventLocation(eventLocationEntity.getEventLocationId(), dto);
+        EventLocationEntity result = eventLocationService.updateEventLocation(eventLocationEntity.getEventLocationId(), dto);
 
         // then
         assertThat(result).extracting("eventLocationId", "eventLocationName", "totalSeats")
@@ -95,7 +95,7 @@ class EventLocationServiceTest {
         BDDMockito.willDoNothing().given(eventLocationRepository).delete(eventLocationEntity);
 
         // when
-        EventLocationResponseDTO result = eventLocationService.deletedEventLocation(eventLocationEntity.getEventLocationId());
+        EventLocationEntity result = eventLocationService.deletedEventLocation(eventLocationEntity.getEventLocationId());
 
         // then
         assertThat(result).extracting("eventLocationId", "eventLocationName", "totalSeats")
