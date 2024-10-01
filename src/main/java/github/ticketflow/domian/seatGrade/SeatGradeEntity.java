@@ -72,4 +72,17 @@ public class SeatGradeEntity {
         }
         return this;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SeatGradeEntity that = (SeatGradeEntity) o;
+        return seatGradeTotalSeats == that.seatGradeTotalSeats && Objects.equals(seatGradeId, that.seatGradeId) && Objects.equals(eventLocation, that.eventLocation) && Objects.equals(seatGradeName, that.seatGradeName) && Objects.equals(seatGradePrice, that.seatGradePrice);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(seatGradeId, eventLocation, seatGradeName, seatGradePrice, seatGradeTotalSeats);
+    }
 }
