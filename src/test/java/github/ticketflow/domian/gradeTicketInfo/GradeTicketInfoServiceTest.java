@@ -47,15 +47,15 @@ class GradeTicketInfoServiceTest {
                 .willReturn(Optional.of(gradeTicketInfoEntity));
 
         // when
-        GradeTicketInfoResponseDTO result = gradeTicketInfoService.getGradeTicketInfoById(gradeTicketInfoEntity.getGradeTicketInfoId());
+        GradeTicketInfoEntity result = gradeTicketInfoService.getGradeTicketInfoById(gradeTicketInfoEntity.getGradeTicketInfoId());
 
         // then
         assertThat(result).extracting("numberTotalTicket", "numberOfRemainingTickets")
                 .contains(gradeTicketInfoEntity.getNumberTotalTicket(), gradeTicketInfoEntity.getNumberOfRemainingTickets());
 
-        assertThat(result.getEventResponseDTO()).isEqualTo(new EventResponseDTO(eventEntity));
-        assertThat(result.getEventResponseDTO().getEventLocationResponseDTO()).isEqualTo(new EventLocationResponseDTO(eventLocationEntity));
-        assertThat(result.getSeatGradeResponseDTO()).isEqualTo(new SeatGradeResponseDTO(seatGradeEntity));
+        assertThat(result.getEventEntity()).isEqualTo(eventEntity);
+        assertThat(result.getEventLocationEntity()).isEqualTo(eventLocationEntity);
+        assertThat(result.getSeatGradeEntity()).isEqualTo(seatGradeEntity);
 
     }
 
@@ -107,15 +107,15 @@ class GradeTicketInfoServiceTest {
                 .willReturn(Optional.of(gradeTicketInfoEntity));
 
         // when
-        GradeTicketInfoResponseDTO result = gradeTicketInfoService.getGradeTicketInfoByEventEntityAndSeatGradeEntity(eventEntity, seatGradeEntity);
+        GradeTicketInfoEntity result = gradeTicketInfoService.getGradeTicketInfoByEventEntityAndSeatGradeEntity(eventEntity, seatGradeEntity);
 
         // then
         assertThat(result).extracting("numberTotalTicket", "numberOfRemainingTickets")
                 .contains(gradeTicketInfoEntity.getNumberTotalTicket(), gradeTicketInfoEntity.getNumberOfRemainingTickets());
 
-        assertThat(result.getEventResponseDTO()).isEqualTo(new EventResponseDTO(eventEntity));
-        assertThat(result.getEventResponseDTO().getEventLocationResponseDTO()).isEqualTo(new EventLocationResponseDTO(eventLocationEntity));
-        assertThat(result.getSeatGradeResponseDTO()).isEqualTo(new SeatGradeResponseDTO(seatGradeEntity));
+        assertThat(result.getEventEntity()).isEqualTo(eventEntity);
+        assertThat(result.getEventLocationEntity()).isEqualTo(eventLocationEntity);
+        assertThat(result.getSeatGradeEntity()).isEqualTo(seatGradeEntity);
     }
 
     @DisplayName("등급별 좌석 정보를 생성을 하면, 등급별 좌석 정보가 나온다.")
@@ -134,14 +134,14 @@ class GradeTicketInfoServiceTest {
                 .willReturn(gradeTicketInfoEntity);
 
         // when
-        GradeTicketInfoResponseDTO result = gradeTicketInfoService.createGradeTicketInfo(dto, eventEntity, eventEntity.getEventLocationEntity(), seatGradeEntity);
+        GradeTicketInfoEntity result = gradeTicketInfoService.createGradeTicketInfo(dto, eventEntity, eventEntity.getEventLocationEntity(), seatGradeEntity);
 
         // then
         assertThat(result).extracting("numberTotalTicket", "numberOfRemainingTickets")
                 .contains(gradeTicketInfoEntity.getNumberTotalTicket(), gradeTicketInfoEntity.getNumberOfRemainingTickets());
-        assertThat(result.getEventResponseDTO()).isEqualTo(new EventResponseDTO(eventEntity));
-        assertThat(result.getEventResponseDTO().getEventLocationResponseDTO()).isEqualTo(new EventLocationResponseDTO(eventLocationEntity));
-        assertThat(result.getSeatGradeResponseDTO()).isEqualTo(new SeatGradeResponseDTO(seatGradeEntity));
+        assertThat(result.getEventEntity()).isEqualTo(eventEntity);
+        assertThat(result.getEventLocationEntity()).isEqualTo(eventLocationEntity);
+        assertThat(result.getSeatGradeEntity()).isEqualTo(seatGradeEntity);
     }
 
     @DisplayName("등급별 좌석 정보에 수정이 필요한 부분을 수정을 하면, 수정된 정보가 나온다.")
@@ -173,13 +173,13 @@ class GradeTicketInfoServiceTest {
                 .willReturn(updateGradeTicketInfoEntity);
 
         // then
-        GradeTicketInfoResponseDTO result = gradeTicketInfoService.updateGradeTicketInfo(gradeTicketInfoEntity.getGradeTicketInfoId(), dto, update);
+        GradeTicketInfoEntity result = gradeTicketInfoService.updateGradeTicketInfo(gradeTicketInfoEntity.getGradeTicketInfoId(), dto, update);
 
         // then
         assertThat(result).extracting("numberTotalTicket", "numberOfRemainingTickets")
                 .contains(updateGradeTicketInfoEntity.getNumberTotalTicket(), updateGradeTicketInfoEntity.getNumberOfRemainingTickets());
-        assertThat(result.getEventResponseDTO()).isEqualTo(new EventResponseDTO(eventEntity2));
-        assertThat(result.getEventResponseDTO().getEventLocationResponseDTO()).isEqualTo(new EventLocationResponseDTO(eventLocationEntitySuwon));
+        assertThat(result.getEventEntity()).isEqualTo(eventEntity2);
+        assertThat(result.getEventLocationEntity()).isEqualTo(eventLocationEntitySuwon);
     }
 
     @DisplayName("등급별 좌석 정보를 삭제를 하면, 삭제된 등급별 좌석 정보가 나온다.")
@@ -197,13 +197,13 @@ class GradeTicketInfoServiceTest {
         BDDMockito.willDoNothing().given(gradeTicketInfoRepository).delete(any(GradeTicketInfoEntity.class));
 
         // when
-        GradeTicketInfoResponseDTO result = gradeTicketInfoService.deleteGradeTicketInfo(gradeTicketInfoEntity.getGradeTicketInfoId());
+        GradeTicketInfoEntity result = gradeTicketInfoService.deleteGradeTicketInfo(gradeTicketInfoEntity.getGradeTicketInfoId());
 
         // then
         assertThat(result).extracting("numberTotalTicket", "numberOfRemainingTickets")
                 .contains(gradeTicketInfoEntity.getNumberTotalTicket(), gradeTicketInfoEntity.getNumberOfRemainingTickets());
-        assertThat(result.getEventResponseDTO()).isEqualTo(new EventResponseDTO(eventEntity));
-        assertThat(result.getEventResponseDTO().getEventLocationResponseDTO()).isEqualTo(new EventLocationResponseDTO(eventLocationEntity));
-        assertThat(result.getSeatGradeResponseDTO()).isEqualTo(new SeatGradeResponseDTO(seatGradeEntity));
+        assertThat(result.getEventEntity()).isEqualTo(eventEntity);
+        assertThat(result.getEventLocationEntity()).isEqualTo(eventLocationEntity);
+        assertThat(result.getSeatGradeEntity()).isEqualTo(seatGradeEntity);
     }
 }
