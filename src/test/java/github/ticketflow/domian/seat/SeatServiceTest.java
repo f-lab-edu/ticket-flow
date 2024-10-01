@@ -1,5 +1,6 @@
 package github.ticketflow.domian.seat;
 
+import github.ticketflow.domian.CommonTestFixture;
 import github.ticketflow.domian.eventLocation.EventLocationEntity;
 import github.ticketflow.domian.seat.dto.SeatRequestDTO;
 import github.ticketflow.domian.seat.dto.SeatResponseDTO;
@@ -23,6 +24,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
+import static github.ticketflow.domian.CommonTestFixture.getEventLocationEntity;
+import static github.ticketflow.domian.CommonTestFixture.getSeatGradeEntity;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -44,8 +47,8 @@ class SeatServiceTest {
     @Test
     public void getSeatByIdTest() {
         // given
-        EventLocationEntity eventLocationEntity = getEventLocationEntity(1L, "서울 월드컵 경기장", 50000);
-        SeatGradeEntity seatGradeEntity = getSeatGradeEntity(1L, eventLocationEntity, "1등급", 150000, 5000);
+        EventLocationEntity eventLocationEntity = getEventLocationEntity(1L, "서울 월드컵 경기장");
+        SeatGradeEntity seatGradeEntity = getSeatGradeEntity(1L, eventLocationEntity);
         SeatEntity seatEntity = getSeatEntity(1L, seatGradeEntity, "1구역", 2, 25);
 
         BDDMockito.given(seatRepository.findById(any(Long.class)))
@@ -66,8 +69,8 @@ class SeatServiceTest {
     @Test
     void getSeatBySeatGradeTest() {
         // given
-        EventLocationEntity eventLocationEntity = getEventLocationEntity(1L, "서울 월드컵 경기장", 50000);
-        SeatGradeEntity seatGradeEntity = getSeatGradeEntity(1L, eventLocationEntity, "1등급", 150000, 5000);
+        EventLocationEntity eventLocationEntity = getEventLocationEntity(1L, "서울 월드컵 경기장");
+        SeatGradeEntity seatGradeEntity = getSeatGradeEntity(1L, eventLocationEntity);
         SeatGradeResponseDTO dto = new SeatGradeResponseDTO(seatGradeEntity);
         SeatEntity seatEntity1 = getSeatEntity(1L, seatGradeEntity, "1구역", 2, 25);
         SeatEntity seatEntity2 = getSeatEntity(2L, seatGradeEntity, "1구역", 2, 26);
@@ -106,8 +109,8 @@ class SeatServiceTest {
     @Test
     void createSeatTest() {
         // given
-        EventLocationEntity eventLocationEntity = getEventLocationEntity(1L, "서울 월드컵 경기장", 50000);
-        SeatGradeEntity seatGradeEntity = getSeatGradeEntity(1L, eventLocationEntity, "1등급", 150000, 5000);
+        EventLocationEntity eventLocationEntity = getEventLocationEntity(1L, "서울 월드컵 경기장");
+        SeatGradeEntity seatGradeEntity = getSeatGradeEntity(1L, eventLocationEntity);
         SeatRequestDTO seatRequestDTO = new SeatRequestDTO(seatGradeEntity.getSeatGradeId(),"1구역", 2, 25);
         SeatEntity seatEntity = new SeatEntity(seatRequestDTO, seatGradeEntity);
 
@@ -132,8 +135,8 @@ class SeatServiceTest {
     @Test
     void updateSeatTest() {
         // given
-        EventLocationEntity eventLocationEntity = getEventLocationEntity(1L, "서울 월드컵 경기장", 50000);
-        SeatGradeEntity seatGradeEntity = getSeatGradeEntity(1L, eventLocationEntity, "1등급", 150000, 5000);
+        EventLocationEntity eventLocationEntity = getEventLocationEntity(1L, "서울 월드컵 경기장");
+        SeatGradeEntity seatGradeEntity = getSeatGradeEntity(1L, eventLocationEntity);
         SeatUpdateRequestDTO updateDTO = SeatUpdateRequestDTO.builder()
                 .seatRow(3)
                 .seatNumber(36)
@@ -161,8 +164,8 @@ class SeatServiceTest {
     @Test
     void deleteSeatTest() {
         // given
-        EventLocationEntity eventLocationEntity = getEventLocationEntity(1L, "서울 월드컵 경기장", 50000);
-        SeatGradeEntity seatGradeEntity = getSeatGradeEntity(1L, eventLocationEntity, "1등급", 150000, 5000);
+        EventLocationEntity eventLocationEntity = getEventLocationEntity(1L, "서울 월드컵 경기장");
+        SeatGradeEntity seatGradeEntity = getSeatGradeEntity(1L, eventLocationEntity);
         SeatEntity seatEntity = getSeatEntity(1L, seatGradeEntity, "1구역", 2, 25);
         BDDMockito.given(seatRepository.findById(any(Long.class)))
                 .willReturn(Optional.of(seatEntity));
@@ -184,13 +187,4 @@ class SeatServiceTest {
     private static SeatEntity getSeatEntity(Long id, SeatGradeEntity seatGradeEntity, String seatZone, int seatRow ,int seatNumber) {
         return new SeatEntity(id, seatGradeEntity, seatZone, seatRow, seatNumber);
     }
-
-    private static EventLocationEntity getEventLocationEntity(Long id, String name, int totalSeats) {
-        return new EventLocationEntity(id, name, totalSeats);
-    }
-
-    private static SeatGradeEntity getSeatGradeEntity(Long id, EventLocationEntity eventLocationEntity, String seatGrade, int price, int seatGradeTotalSeats) {
-        return new SeatGradeEntity(id, eventLocationEntity, seatGrade, BigDecimal.valueOf(price), seatGradeTotalSeats);
-    }
-
 }
