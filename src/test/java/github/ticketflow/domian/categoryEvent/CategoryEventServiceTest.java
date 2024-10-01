@@ -1,9 +1,8 @@
-package github.ticketflow.domian.CategoryEvent;
+package github.ticketflow.domian.categoryEvent;
 
 import github.ticketflow.domian.category.CategoryEntity;
 import github.ticketflow.domian.event.EventEntity;
 import github.ticketflow.domian.eventLocation.EventLocationEntity;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,7 +20,6 @@ import java.time.LocalTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 class CategoryEventServiceTest {

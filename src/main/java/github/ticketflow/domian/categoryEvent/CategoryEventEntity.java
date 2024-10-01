@@ -1,4 +1,4 @@
-package github.ticketflow.domian.CategoryEvent;
+package github.ticketflow.domian.categoryEvent;
 
 import github.ticketflow.domian.category.CategoryEntity;
 import github.ticketflow.domian.event.EventEntity;

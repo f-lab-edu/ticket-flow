@@ -1,13 +1,11 @@
 package github.ticketflow.domian.event;
 
-import github.ticketflow.domian.CategoryEvent.CategoryEventEntity;
+import github.ticketflow.domian.categoryEvent.CategoryEventEntity;
 import github.ticketflow.domian.category.CategoryEntity;
 import github.ticketflow.domian.event.dto.EventRequestDTO;
 import github.ticketflow.domian.event.dto.EventResponseDTO;
 import github.ticketflow.domian.event.dto.EventUpdateRequestDTO;
-import github.ticketflow.domian.deletedEvent.DeletedEventEntity;
 import github.ticketflow.domian.eventLocation.EventLocationEntity;
-import github.ticketflow.domian.eventLocation.dto.EventLocationResponseDTO;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,7 +15,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDate;
 import java.time.LocalTime;

@@ -2,8 +2,7 @@ package github.ticketflow.domian.event;
 
 import github.ticketflow.config.exception.GlobalCommonException;
 import github.ticketflow.config.exception.event.EventErrorResponsive;
-import github.ticketflow.domian.CategoryEvent.CategoryEventEntity;
-import github.ticketflow.domian.category.CategoryEntity;
+import github.ticketflow.domian.categoryEvent.CategoryEventEntity;
 import github.ticketflow.domian.event.dto.EventRequestDTO;
 import github.ticketflow.domian.event.dto.EventResponseDTO;
 import github.ticketflow.domian.event.dto.EventUpdateRequestDTO;
@@ -11,7 +10,6 @@ import github.ticketflow.domian.eventLocation.EventLocationEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
