@@ -1,5 +1,6 @@
 package github.ticketflow.domian.event;
 
+import github.ticketflow.domian.CommonTestFixture;
 import github.ticketflow.domian.categoryEvent.CategoryEventEntity;
 import github.ticketflow.domian.category.CategoryEntity;
 import github.ticketflow.domian.event.dto.EventRequestDTO;
@@ -21,6 +22,8 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
+import static github.ticketflow.domian.CommonTestFixture.*;
+import static github.ticketflow.domian.CommonTestFixture.getEventEntity;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 
@@ -183,21 +186,5 @@ class EventServiceTest {
         assertThat(result).extracting("eventName", "eventDescription", "date", "startTime")
                 .contains(eventEntity.getEventName(), eventEntity.getEventDescription(), eventEntity.getDate(), eventEntity.getStartTime());
 
-    }
-
-    private static EventEntity getEventEntity(EventLocationEntity eventLocationEntity, String eventName) {
-        return EventEntity.builder()
-                .eventId(1L)
-                .eventLocationEntity(eventLocationEntity)
-                .eventName(eventName)
-                .eventDescription("축구 경기")
-                .date(LocalDate.of(2024, 10, 15))
-                .startTime(LocalTime.of(20, 30))
-                .build();
-    }
-
-    private static EventLocationEntity getEventLocationEntity(Long eventLocationId, String eventLocationName) {
-        EventLocationEntity eventLocationEntity = new EventLocationEntity(eventLocationId, eventLocationName, 50000);
-        return eventLocationEntity;
     }
 }

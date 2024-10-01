@@ -14,6 +14,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
+
+import static github.ticketflow.domian.CommonTestFixture.getEventLocationEntity;
 import static org.mockito.ArgumentMatchers.any;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -31,7 +33,7 @@ class EventLocationServiceTest {
     @Test
     void getEventLocationByIdTest() {
         // given
-        EventLocationEntity eventLocationEntity = new EventLocationEntity(1L, "서울 월드컵 경기장", 50000);
+        EventLocationEntity eventLocationEntity = getEventLocationEntity(1L, "서울월드컵 경기장");
         BDDMockito.given(eventLocationRepository.findById(eventLocationEntity.getEventLocationId()))
                 .willReturn(Optional.of(eventLocationEntity));
 
@@ -65,7 +67,7 @@ class EventLocationServiceTest {
     @Test
     void updateEventLocationTest() {
         // given
-        EventLocationEntity eventLocationEntity = new EventLocationEntity(1L, "서울 월드컵 경기장", 50000);
+        EventLocationEntity eventLocationEntity = getEventLocationEntity(1L, "서울월드컵 경기장");
         EventLocationUpdateRequestDTO dto = new EventLocationUpdateRequestDTO("빅버드 스타디움", 40000);
         EventLocationEntity updateEventLocationEntity = eventLocationEntity.update(dto);
 
@@ -89,7 +91,7 @@ class EventLocationServiceTest {
     @Test
     void deleteEventLocationTest() {
         // given
-        EventLocationEntity eventLocationEntity = new EventLocationEntity(1L, "서울 월드컵 경기장", 50000);
+        EventLocationEntity eventLocationEntity =  getEventLocationEntity(1L, "서울월드컵 경기장");
         BDDMockito.given(eventLocationRepository.findById(eventLocationEntity.getEventLocationId()))
                 .willReturn(Optional.of(eventLocationEntity));
         BDDMockito.willDoNothing().given(eventLocationRepository).delete(eventLocationEntity);
