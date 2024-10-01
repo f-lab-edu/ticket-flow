@@ -3,7 +3,10 @@ package github.ticketflow.domian;
 import github.ticketflow.domian.event.EventEntity;
 import github.ticketflow.domian.eventLocation.EventLocationEntity;
 import github.ticketflow.domian.gradeTicketInfo.GradeTicketInfoEntity;
+import github.ticketflow.domian.seat.SeatEntity;
 import github.ticketflow.domian.seatGrade.SeatGradeEntity;
+import github.ticketflow.domian.ticket.TicketEntity;
+import github.ticketflow.domian.ticket.TicketStatus;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -47,4 +50,23 @@ public class CommonTestFixture {
                 .build();
     }
 
+    public static SeatEntity getSeatEntity(Long seatId, SeatGradeEntity seatGradeEntity) {
+        return SeatEntity.builder()
+                .seatId(seatId)
+                .seatGradeEntity(seatGradeEntity)
+                .seatZone("1구역")
+                .seatRow(1)
+                .seatNumber(1)
+                .build();
+    }
+
+    public static TicketEntity getTicketEntity(Long ticketId, EventEntity eventEntity, SeatEntity seatEntity, BigDecimal price) {
+        return TicketEntity.builder()
+                .ticketId(1L)
+                .eventEntity(eventEntity)
+                .seatEntity(seatEntity)
+                .ticketPrice(price)
+                .ticketStatus(TicketStatus.NO_PAYMENT)
+                .build();
+    }
 }
