@@ -109,6 +109,6 @@ public class EventEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(eventId, eventLocationEntity, eventName, eventDescription, date, startTime, createdAt, modifiedAt);
+        return Objects.hash(eventId);
     }
 }

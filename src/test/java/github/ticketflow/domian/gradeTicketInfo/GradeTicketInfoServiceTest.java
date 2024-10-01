@@ -1,6 +1,5 @@
 package github.ticketflow.domian.gradeTicketInfo;
 
-import github.ticketflow.domian.Fixture;
 import github.ticketflow.domian.event.EventEntity;
 import github.ticketflow.domian.event.dto.EventResponseDTO;
 import github.ticketflow.domian.eventLocation.EventLocationEntity;
@@ -8,10 +7,8 @@ import github.ticketflow.domian.eventLocation.dto.EventLocationResponseDTO;
 import github.ticketflow.domian.gradeTicketInfo.dto.GradeTicketInfoRequestDTO;
 import github.ticketflow.domian.gradeTicketInfo.dto.GradeTicketInfoResponseDTO;
 import github.ticketflow.domian.gradeTicketInfo.dto.GradeTicketInfoUpdateRequestDTO;
-import github.ticketflow.domian.seat.SeatEntity;
 import github.ticketflow.domian.seatGrade.SeatGradeEntity;
 import github.ticketflow.domian.seatGrade.dto.SeatGradeResponseDTO;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,9 +21,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
-import static github.ticketflow.domian.Fixture.*;
+import static github.ticketflow.domian.CommonTestFixture.*;
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 
 @ExtendWith(MockitoExtension.class)

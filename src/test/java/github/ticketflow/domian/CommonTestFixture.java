@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class Fixture {
+public class CommonTestFixture {
 
     public static EventEntity getEventEntity(EventLocationEntity eventLocationEntity, String eventName) {
         return EventEntity.builder()
