@@ -57,11 +57,11 @@ public class EventLocationEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         EventLocationEntity that = (EventLocationEntity) o;
-        return totalSeats == that.totalSeats && Objects.equals(eventLocationId, that.eventLocationId) && Objects.equals(eventLocationName, that.eventLocationName);
+        return Objects.equals(eventLocationId, that.eventLocationId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(eventLocationId, eventLocationName, totalSeats);
+        return Objects.hash(eventLocationId);
     }
 }

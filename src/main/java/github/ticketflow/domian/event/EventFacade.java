@@ -1,16 +1,14 @@
 package github.ticketflow.domian.event;
 
-import github.ticketflow.domian.CategoryEvent.CategoryEventEntity;
-import github.ticketflow.domian.CategoryEvent.CategoryEventService;
+import github.ticketflow.domian.categoryEvent.CategoryEventEntity;
+import github.ticketflow.domian.categoryEvent.CategoryEventService;
 import github.ticketflow.domian.category.CategoryEntity;
 import github.ticketflow.domian.category.CategoryService;
-import github.ticketflow.domian.category.dto.CategoryResponseDTO;
 import github.ticketflow.domian.deletedEvent.DeletedEventService;
 import github.ticketflow.domian.event.dto.EventRequestDTO;
 import github.ticketflow.domian.event.dto.EventResponseDTO;
 import github.ticketflow.domian.event.dto.EventUpdateRequestDTO;
 import github.ticketflow.domian.eventLocation.EventLocationEntity;
-import github.ticketflow.domian.eventLocation.EventLocationRepository;
 import github.ticketflow.domian.eventLocation.EventLocationService;
 import github.ticketflow.domian.eventLocation.dto.EventLocationResponseDTO;
 import lombok.RequiredArgsConstructor;
@@ -36,8 +34,7 @@ public class EventFacade {
 
     @Transactional
     List<EventResponseDTO> getEventByCategoryId (Long categoryId, int page) {
-        CategoryResponseDTO categoryResponseDTO =  categoryService.getCategory(categoryId);
-        CategoryEntity categoryEntity = new CategoryEntity(categoryResponseDTO);
+        CategoryEntity categoryEntity =  categoryService.getCategory(categoryId);
 
         Page<CategoryEventEntity> categoryEventEntities = categoryEventService.getCategoryEventsByCategory(categoryEntity, page);
         return eventService.getEventByCategoryId(categoryEventEntities);
@@ -45,12 +42,8 @@ public class EventFacade {
 
     @Transactional
     EventEntity createEvent(EventRequestDTO dto) {
-        EventLocationResponseDTO eventLocationResponseDTO = eventLocationService.getEventLocation(dto.getEventLocationId());
-        EventLocationEntity eventLocationEntity = new EventLocationEntity(eventLocationResponseDTO);
-
-        CategoryResponseDTO categoryResponseDTO =  categoryService.getCategory(dto.getCategoryId());
-        CategoryEntity categoryEntity = new CategoryEntity(categoryResponseDTO);
-
+        EventLocationEntity eventLocationEntity = eventLocationService.getEventLocation(dto.getEventLocationId());
+        CategoryEntity categoryEntity =  categoryService.getCategory(dto.getCategoryId());
         EventEntity eventEntity = eventService.createEvent(dto, eventLocationEntity);
 
         categoryEventService.createCategoryEvent(categoryEntity, eventEntity);
@@ -62,9 +55,7 @@ public class EventFacade {
         if (dto.getEventLocationId() == null) {
             return eventService.updateEvent(eventId, dto);
         }
-
-        EventLocationResponseDTO eventLocationResponseDTO = eventLocationService.getEventLocation(dto.getEventLocationId());
-        EventLocationEntity eventLocationEntity = new EventLocationEntity(eventLocationResponseDTO);
+        EventLocationEntity eventLocationEntity = eventLocationService.getEventLocation(dto.getEventLocationId());
 
         return eventService.updateEvent(eventId, dto, eventLocationEntity);
     }

@@ -11,6 +11,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Objects;
+
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -88,5 +90,18 @@ public class GradeTicketInfoEntity {
         }
 
         return this;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        GradeTicketInfoEntity that = (GradeTicketInfoEntity) o;
+        return numberTotalTicket == that.numberTotalTicket && numberOfRemainingTickets == that.numberOfRemainingTickets && Objects.equals(gradeTicketInfoId, that.gradeTicketInfoId) && Objects.equals(eventEntity, that.eventEntity) && Objects.equals(eventLocationEntity, that.eventLocationEntity) && Objects.equals(seatGradeEntity, that.seatGradeEntity);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(gradeTicketInfoId, eventEntity, eventLocationEntity, seatGradeEntity, numberTotalTicket, numberOfRemainingTickets);
     }
 }

@@ -19,7 +19,7 @@ public class GradeTicketInfoController {
 
     @GetMapping("/{gradeTicketInfoId}")
     public ResponseEntity<GradeTicketInfoResponseDTO> getGradeTicketInfoById(@PathVariable Long gradeTicketInfoId) {
-        return ResponseEntity.ok(gradeTicketInfoFacade.getGradeTicketInfoById(gradeTicketInfoId));
+        return ResponseEntity.ok(new GradeTicketInfoResponseDTO(gradeTicketInfoFacade.getGradeTicketInfoById(gradeTicketInfoId)));
     }
 
     @GetMapping("/{eventId}")
@@ -30,22 +30,22 @@ public class GradeTicketInfoController {
     @GetMapping("/{eventId}/{seatGradeId}")
     public ResponseEntity<GradeTicketInfoResponseDTO> getGradeTicketInfoByEventEntityAndSeatGradeEntity(@PathVariable Long eventId,
                                                                                                 @PathVariable Long seatGradeId) {
-        return ResponseEntity.ok(gradeTicketInfoFacade.getGradeTicketInfoByEventEntityAndSeatGradeEntity(eventId, seatGradeId));
+        return ResponseEntity.ok(new GradeTicketInfoResponseDTO(gradeTicketInfoFacade.getGradeTicketInfoByEventEntityAndSeatGradeEntity(eventId, seatGradeId)));
     }
 
     @PostMapping
     public ResponseEntity<GradeTicketInfoResponseDTO> createGradeTicketInfo(@Valid @RequestBody GradeTicketInfoRequestDTO dto) {
-        return ResponseEntity.ok(gradeTicketInfoFacade.createGradeTicketInfo(dto));
+        return ResponseEntity.ok(new GradeTicketInfoResponseDTO(gradeTicketInfoFacade.createGradeTicketInfo(dto)));
     }
 
     @PatchMapping("/{gradeTicketInfoId}")
     public ResponseEntity<GradeTicketInfoResponseDTO> updateGradeTicketInfo(@PathVariable Long gradeTicketInfoId,
                                                                             @Valid @RequestBody GradeTicketInfoUpdateRequestDTO dto) {
-        return ResponseEntity.ok(gradeTicketInfoFacade.updateGradeTicketInfo(gradeTicketInfoId, dto));
+        return ResponseEntity.ok(new GradeTicketInfoResponseDTO(gradeTicketInfoFacade.updateGradeTicketInfo(gradeTicketInfoId, dto)));
     }
     @DeleteMapping("/{gradeTicketInfoId}")
     public ResponseEntity<GradeTicketInfoResponseDTO> deleteGradeTicketInfo(@PathVariable Long gradeTicketInfoId) {
-        return ResponseEntity.ok(gradeTicketInfoFacade.deleteGradeTicketInfo(gradeTicketInfoId));
+        return ResponseEntity.ok(new GradeTicketInfoResponseDTO(gradeTicketInfoFacade.deleteGradeTicketInfo(gradeTicketInfoId)));
     }
 
 }

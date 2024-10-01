@@ -43,11 +43,11 @@ class AuthServiceTest {
         BDDMockito.given(userRepository.save(BDDMockito.any(UserEntity.class))).willReturn(userEntity);
 
         // when
-        SignUpResponseDTO saveUser = authService.signUp(dto);
+        UserEntity result = authService.signUp(dto);
 
         // then
-        assertThat(saveUser)
-                .extracting("email", "username", "phoneNumber", "status")
-                .contains("test1234@naver.com", "이상혁", "01044825308", HttpStatus.CREATED);
+        assertThat(result)
+                .extracting("email", "username", "phoneNumber")
+                .contains("test1234@naver.com", "이상혁", "01044825308");
     }
 }

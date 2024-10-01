@@ -16,12 +16,12 @@ public class UserController {
     @PatchMapping("/user/{userId}")
     public ResponseEntity<UserResponseDTO> updateUser(@PathVariable Long userId,
                                                       @Valid @RequestBody UserUpdateRequestDTO dto) {
-        return  ResponseEntity.ok(userService.updateUser(userId, dto));
+        return  ResponseEntity.ok(new UserResponseDTO(userService.updateUser(userId, dto)));
     }
 
     @DeleteMapping("/user/{userId}")
     public ResponseEntity<UserResponseDTO> deleteUser(@PathVariable Long userId) {
-        return ResponseEntity.ok(userService.deletedUser(userId));
+        return ResponseEntity.ok(new UserResponseDTO(userService.deletedUser(userId)));
     }
 
 }

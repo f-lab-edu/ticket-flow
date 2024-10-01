@@ -1,4 +1,4 @@
-package github.ticketflow.domian.CategoryEvent;
+package github.ticketflow.domian.categoryEvent;
 
 import github.ticketflow.domian.category.CategoryEntity;
 import github.ticketflow.domian.event.EventEntity;
@@ -7,8 +7,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor

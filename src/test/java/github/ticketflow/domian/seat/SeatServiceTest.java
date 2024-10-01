@@ -46,21 +46,20 @@ class SeatServiceTest {
         // given
         EventLocationEntity eventLocationEntity = getEventLocationEntity(1L, "서울 월드컵 경기장", 50000);
         SeatGradeEntity seatGradeEntity = getSeatGradeEntity(1L, eventLocationEntity, "1등급", 150000, 5000);
-        SeatGradeResponseDTO dto = new SeatGradeResponseDTO(seatGradeEntity);
         SeatEntity seatEntity = getSeatEntity(1L, seatGradeEntity, "1구역", 2, 25);
 
         BDDMockito.given(seatRepository.findById(any(Long.class)))
                 .willReturn(Optional.of(seatEntity));
 
         // when
-        SeatResponseDTO result = seatService.getSeatById(seatEntity.getSeatId());
+        SeatEntity result = seatService.getSeatById(seatEntity.getSeatId());
 
         // then
         assertThat(result)
                 .extracting("seatId", "seatZone", "seatRow", "seatNumber")
                 .contains(seatEntity.getSeatId(), seatEntity.getSeatZone(), seatEntity.getSeatNumber());
 
-        assertThat(result.getSeatGradeResponseDTO()).isEqualTo(dto);
+        assertThat(result.getSeatGradeEntity()).isEqualTo(seatGradeEntity);
     }
 
     @DisplayName("좌석 등급의 id로 좌석을 가지고 오면 리스트에 담에서 정보를 반환을 한다.")
@@ -109,7 +108,6 @@ class SeatServiceTest {
         // given
         EventLocationEntity eventLocationEntity = getEventLocationEntity(1L, "서울 월드컵 경기장", 50000);
         SeatGradeEntity seatGradeEntity = getSeatGradeEntity(1L, eventLocationEntity, "1등급", 150000, 5000);
-        SeatGradeResponseDTO dto = new SeatGradeResponseDTO(seatGradeEntity);
         SeatRequestDTO seatRequestDTO = new SeatRequestDTO(seatGradeEntity.getSeatGradeId(),"1구역", 2, 25);
         SeatEntity seatEntity = new SeatEntity(seatRequestDTO, seatGradeEntity);
 
@@ -120,14 +118,14 @@ class SeatServiceTest {
                 .willReturn(seatEntity);
 
         // when
-        SeatResponseDTO result = seatService.createSeat(seatRequestDTO);
+        SeatEntity result = seatService.createSeat(seatRequestDTO);
 
         // then
         assertThat(result)
                 .extracting("seatId", "seatZone", "seatRow", "seatNumber")
                 .contains(seatEntity.getSeatId(), seatEntity.getSeatZone(), seatEntity.getSeatNumber());
 
-        assertThat(result.getSeatGradeResponseDTO()).isEqualTo(dto);
+        assertThat(result.getSeatGradeEntity()).isEqualTo(seatGradeEntity);
     }
 
     @DisplayName("좌석의 정보를 수정하면, 수정된 좌석의 정보가 반환이 된다.")
@@ -136,7 +134,6 @@ class SeatServiceTest {
         // given
         EventLocationEntity eventLocationEntity = getEventLocationEntity(1L, "서울 월드컵 경기장", 50000);
         SeatGradeEntity seatGradeEntity = getSeatGradeEntity(1L, eventLocationEntity, "1등급", 150000, 5000);
-        SeatGradeResponseDTO dto = new SeatGradeResponseDTO(seatGradeEntity);
         SeatUpdateRequestDTO updateDTO = SeatUpdateRequestDTO.builder()
                 .seatRow(3)
                 .seatNumber(36)
@@ -150,14 +147,14 @@ class SeatServiceTest {
                 .willReturn(seatEntity);
 
         // when
-        SeatResponseDTO result = seatService.updateSeat(seatEntity.getSeatId(), updateDTO);
+        SeatEntity result = seatService.updateSeat(seatEntity.getSeatId(), updateDTO);
 
         // then
         assertThat(result)
                 .extracting("seatId", "seatZone", "seatRow", "seatNumber")
                 .contains(seatEntity.getSeatId(), seatEntity.getSeatZone(), seatEntity.getSeatNumber());
 
-        assertThat(result.getSeatGradeResponseDTO()).isEqualTo(dto);
+        assertThat(result.getSeatGradeEntity()).isEqualTo(seatGradeEntity);
     }
 
     @DisplayName("좌석을 삭제를 하면, 삭제된 좌석의 정보가 나온다.")
@@ -166,7 +163,6 @@ class SeatServiceTest {
         // given
         EventLocationEntity eventLocationEntity = getEventLocationEntity(1L, "서울 월드컵 경기장", 50000);
         SeatGradeEntity seatGradeEntity = getSeatGradeEntity(1L, eventLocationEntity, "1등급", 150000, 5000);
-        SeatGradeResponseDTO dto = new SeatGradeResponseDTO(seatGradeEntity);
         SeatEntity seatEntity = getSeatEntity(1L, seatGradeEntity, "1구역", 2, 25);
         BDDMockito.given(seatRepository.findById(any(Long.class)))
                 .willReturn(Optional.of(seatEntity));
@@ -174,14 +170,14 @@ class SeatServiceTest {
         BDDMockito.willDoNothing().given(seatRepository).delete(any(SeatEntity.class));
 
         // when
-        SeatResponseDTO result = seatService.deletedSeat(seatEntity.getSeatId());
+        SeatEntity result = seatService.deletedSeat(seatEntity.getSeatId());
 
         // then
         assertThat(result)
                 .extracting("seatId", "seatZone", "seatRow", "seatNumber")
                 .contains(seatEntity.getSeatId(), seatEntity.getSeatZone(), seatEntity.getSeatNumber());
 
-        assertThat(result.getSeatGradeResponseDTO()).isEqualTo(dto);
+        assertThat(result.getSeatGradeEntity()).isEqualTo(seatGradeEntity);
     }
 
 

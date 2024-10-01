@@ -24,17 +24,16 @@ public class GradeTicketInfoFacade {
     private final EventService eventService;
     private final SeatGradeService seatGradeService;
 
-    public GradeTicketInfoResponseDTO getGradeTicketInfoById(Long gradeTicketInfoId) {
+    public GradeTicketInfoEntity getGradeTicketInfoById(Long gradeTicketInfoId) {
         return gradeTicketInfoService.getGradeTicketInfoById(gradeTicketInfoId);
     }
 
     public List<GradeTicketInfoResponseDTO> getGradeTicketInfoByEventEntity(Long eventId) {
         EventEntity eventEntity = eventService.getEventById(eventId);
-
         return gradeTicketInfoService.getGradeTicketInfoByEventEntity(eventEntity);
     }
 
-    public GradeTicketInfoResponseDTO getGradeTicketInfoByEventEntityAndSeatGradeEntity(Long eventId, Long seatGradeId) {
+    public GradeTicketInfoEntity getGradeTicketInfoByEventEntityAndSeatGradeEntity(Long eventId, Long seatGradeId) {
         EventEntity eventEntity = eventService.getEventById(eventId);
         SeatGradeEntity seatGradeEntity = seatGradeService.getSeatGradeById(seatGradeId);
 
@@ -42,7 +41,7 @@ public class GradeTicketInfoFacade {
     }
 
     @Transactional
-    public GradeTicketInfoResponseDTO createGradeTicketInfo(GradeTicketInfoRequestDTO dto) {
+    public GradeTicketInfoEntity createGradeTicketInfo(GradeTicketInfoRequestDTO dto) {
         EventEntity eventEntity = eventService.getEventById(dto.getEventId());
         EventLocationEntity eventLocationEntity = eventEntity.getEventLocationEntity();
         SeatGradeEntity seatGradeEntity = seatGradeService.getSeatGradeById(dto.getSeatGradeId());
@@ -51,7 +50,7 @@ public class GradeTicketInfoFacade {
     }
 
     @Transactional
-    public GradeTicketInfoResponseDTO updateGradeTicketInfo(Long gradeTicketInfoId, GradeTicketInfoUpdateRequestDTO dto) {
+    public GradeTicketInfoEntity updateGradeTicketInfo(Long gradeTicketInfoId, GradeTicketInfoUpdateRequestDTO dto) {
         if (dto.getEventId() != null || dto.getEventLocationId() != null ||dto.getSeatGradeId() != null) {
             EventEntity eventEntity = eventService.getEventById(dto.getEventId());
             EventLocationEntity eventLocationEntity = eventEntity.getEventLocationEntity();
@@ -64,7 +63,7 @@ public class GradeTicketInfoFacade {
     }
 
     @Transactional
-    public GradeTicketInfoResponseDTO deleteGradeTicketInfo(Long gradeTicketInfoId) {
+    public GradeTicketInfoEntity deleteGradeTicketInfo(Long gradeTicketInfoId) {
        return gradeTicketInfoService.deleteGradeTicketInfo(gradeTicketInfoId);
     }
 

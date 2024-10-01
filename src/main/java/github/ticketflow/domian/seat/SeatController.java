@@ -19,7 +19,7 @@ public class SeatController {
 
     @GetMapping("/{seatId}")
     public ResponseEntity<SeatResponseDTO> getSeatById(@PathVariable Long seatId) {
-        return ResponseEntity.ok(seatService.getSeatById(seatId));
+        return ResponseEntity.ok(new SeatResponseDTO(seatService.getSeatById(seatId)));
     }
 
     @GetMapping("/{seatGradeId}")
@@ -29,19 +29,17 @@ public class SeatController {
 
     @PostMapping
     public ResponseEntity<SeatResponseDTO> createSeat(@Valid @RequestBody SeatRequestDTO dto) {
-        return ResponseEntity.ok(seatService.createSeat(dto));
+        return ResponseEntity.ok(new SeatResponseDTO(seatService.createSeat(dto)));
     }
 
     @PatchMapping("/{seatId}")
     public ResponseEntity<SeatResponseDTO> updateSeat(@PathVariable Long seatId,
                                                       @Valid @RequestBody SeatUpdateRequestDTO dto) {
-        return ResponseEntity.ok(seatService.updateSeat(seatId, dto));
+        return ResponseEntity.ok(new SeatResponseDTO(seatService.updateSeat(seatId, dto)));
     }
 
     @DeleteMapping("/{seatId}")
     public ResponseEntity<SeatResponseDTO> deleteSeat(@PathVariable Long seatId) {
-        return ResponseEntity.ok(seatService.deletedSeat(seatId));
+        return ResponseEntity.ok(new SeatResponseDTO(seatService.deletedSeat(seatId)));
     }
-
-
 }

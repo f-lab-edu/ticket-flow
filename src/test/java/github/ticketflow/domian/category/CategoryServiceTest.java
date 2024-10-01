@@ -52,10 +52,10 @@ class CategoryServiceTest {
                 .willReturn(List.of(categoryEntity1, categoryEntity2, categoryEntity3));
 
         // when
-        List<CategoryResponseDTO> categories = categoryService.getCategoryByCategoryLevel(1);
+        List<CategoryResponseDTO> result = categoryService.getCategoryByCategoryLevel(1);
 
         // then
-        assertThat(categories).hasSize(3)
+        assertThat(result).hasSize(3)
                 .extracting("categoryName", "categoryLevel")
                 .containsExactlyInAnyOrder(
                         tuple("스포츠", 1),
@@ -85,10 +85,10 @@ class CategoryServiceTest {
                 .willReturn(List.of(categoryEntity2, categoryEntity3));
 
         // when
-        List<CategoryResponseDTO> categories = categoryService.getCategoryByParentCategoryId(1L);
+        List<CategoryResponseDTO> result = categoryService.getCategoryByParentCategoryId(1L);
 
         // then
-        assertThat(categories).hasSize(2)
+        assertThat(result).hasSize(2)
                 .extracting("categoryName", "categoryLevel", "parentCategoryId")
                 .containsExactlyInAnyOrder(
                         tuple("축구", 2, 1L),
@@ -111,12 +111,12 @@ class CategoryServiceTest {
                 .willReturn(Optional.of(categoryEntity));
 
         // when
-        CategoryResponseDTO category = categoryService.getCategory(categoryEntity.getCategoryId());
+        CategoryEntity result = categoryService.getCategory(categoryEntity.getCategoryId());
 
         // then
-        assertThat(category)
+        assertThat(result)
                 .extracting("categoryId","categoryName", "categoryLevel", "parentCategoryId")
-                .contains(categoryEntity.getCategoryId(), categoryEntity.getCategoryName(), category.getCategoryLevel(), category.getParentCategoryId());
+                .contains(categoryEntity.getCategoryId(), categoryEntity.getCategoryName(), categoryEntity.getCategoryLevel(), categoryEntity.getParentCategoryId());
     }
 
     @DisplayName("카테고리를 추가하면, 추가한 카테고리의 정보가 나온다.")
@@ -133,10 +133,10 @@ class CategoryServiceTest {
                 .willReturn(categoryEntity);
 
         // when
-        CategoryResponseDTO category = categoryService.createCategory(dto);
+        CategoryEntity result = categoryService.createCategory(dto);
 
         // then
-        assertThat(category)
+        assertThat(result)
                 .extracting("categoryName", "categoryLevel", "parentCategoryId")
                 .contains("스포츠", 1, null);
     }
@@ -160,10 +160,10 @@ class CategoryServiceTest {
         BDDMockito.given(categoryRepository.save(any(CategoryEntity.class))).willReturn(categoryEntity);
 
         // when
-        CategoryResponseDTO updateCategory = categoryService.updateCategory(1L, dto);
+        CategoryEntity result = categoryService.updateCategory(1L, dto);
 
         // then
-        assertThat(updateCategory)
+        assertThat(result)
                 .extracting("categoryName", "categoryLevel", "parentCategoryId")
                 .contains("뮤지컬", 1, null);
     }
@@ -183,10 +183,10 @@ class CategoryServiceTest {
         BDDMockito.willDoNothing().given(categoryRepository).deleteById(categoryEntity.getCategoryId());
 
         // when
-        CategoryResponseDTO deletedCategory = categoryService.deletedCategory(categoryEntity.getCategoryId());
+        CategoryEntity result = categoryService.deletedCategory(categoryEntity.getCategoryId());
 
         // then
-        assertThat(deletedCategory)
+        assertThat(result)
                 .extracting("categoryName", "categoryLevel", "parentCategoryId")
                 .contains("스포츠", 1, null);
     }

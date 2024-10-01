@@ -33,35 +33,26 @@ public class CategoryService {
         return categories;
     }
 
-    public CategoryResponseDTO getCategory(Long categoryId) {
-        CategoryEntity categoryEntity = getCategoryByCategoryId(categoryId);
-        return new CategoryResponseDTO(categoryEntity);
-    }
-
-    public CategoryResponseDTO createCategory(CategoryRequestDTO dto) {
-        CategoryEntity categoryEntity = new CategoryEntity(dto);
-        CategoryEntity saveCategoryEntity = categoryRepository.save(categoryEntity);
-        return new CategoryResponseDTO(saveCategoryEntity);
-    }
-
-    public CategoryResponseDTO updateCategory(Long categoryId, CategoryUpdateRequestDTO dto) {
-        CategoryEntity categoryEntity = getCategoryByCategoryId(categoryId);
-        categoryEntity.update(dto);
-        CategoryEntity updateCategoryEntity = categoryRepository.save(categoryEntity);
-
-        return new CategoryResponseDTO(updateCategoryEntity);
-    }
-
-    public CategoryResponseDTO deletedCategory(Long categoryId) {
-        CategoryEntity categoryEntity = getCategoryByCategoryId(categoryId);
-        categoryRepository.deleteById(categoryId);
-        return new CategoryResponseDTO(categoryEntity);
-    }
-
-    private CategoryEntity getCategoryByCategoryId(Long categoryId) {
-        CategoryEntity categoryEntity = categoryRepository.findById(categoryId).orElseThrow(
+    public CategoryEntity getCategory(Long categoryId) {
+        return categoryRepository.findById(categoryId).orElseThrow(
                 () -> new GlobalCommonException(CategoryErrorResponsive.NOT_FOUND_CATEGORY)
         );
+    }
+
+    public CategoryEntity createCategory(CategoryRequestDTO dto) {
+        CategoryEntity categoryEntity = new CategoryEntity(dto);
+        return categoryRepository.save(categoryEntity);
+    }
+
+    public CategoryEntity updateCategory(Long categoryId, CategoryUpdateRequestDTO dto) {
+        CategoryEntity categoryEntity = getCategory(categoryId);
+        categoryEntity.update(dto);
+        return categoryRepository.save(categoryEntity);
+    }
+
+    public CategoryEntity deletedCategory(Long categoryId) {
+        CategoryEntity categoryEntity = getCategory(categoryId);
+        categoryRepository.deleteById(categoryId);
         return categoryEntity;
     }
 }

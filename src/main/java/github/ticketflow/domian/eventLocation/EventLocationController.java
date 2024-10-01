@@ -20,23 +20,23 @@ public class EventLocationController {
 
     @GetMapping("/{eventLocationId}")
     public ResponseEntity<EventLocationResponseDTO> getEventLocationById(@PathVariable Long eventLocationId) {
-        return ResponseEntity.ok(eventLocationService.getEventLocation(eventLocationId));
+        return ResponseEntity.ok(new EventLocationResponseDTO(eventLocationService.getEventLocation(eventLocationId)));
     }
 
     @PostMapping
     public ResponseEntity<EventLocationResponseDTO> createEventLocation(@Valid @RequestBody EventLocationRequestDTO dto) {
-        return ResponseEntity.ok(eventLocationService.createEventLocation(dto));
+        return ResponseEntity.ok(new EventLocationResponseDTO(eventLocationService.createEventLocation(dto)));
     }
 
     @PatchMapping("/{eventLocationId}")
     public ResponseEntity<EventLocationResponseDTO> updateEventLocation(@PathVariable Long eventLocationId,
                                                                         @Valid @RequestBody EventLocationUpdateRequestDTO dto) {
-        return ResponseEntity.ok(eventLocationService.updateEventLocation(eventLocationId, dto));
+        return ResponseEntity.ok(new EventLocationResponseDTO(eventLocationService.updateEventLocation(eventLocationId, dto)));
     }
 
     @DeleteMapping("/{eventLocationId}")
     public ResponseEntity<EventLocationResponseDTO> deleteEventLocation(@PathVariable Long eventLocationId) {
-        return ResponseEntity.ok(eventLocationService.deletedEventLocation(eventLocationId));
+        return ResponseEntity.ok(new EventLocationResponseDTO(eventLocationService.deletedEventLocation(eventLocationId)));
     }
 
 }
