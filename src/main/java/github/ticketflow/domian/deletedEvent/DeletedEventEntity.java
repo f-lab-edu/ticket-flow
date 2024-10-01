@@ -56,7 +56,7 @@ public class DeletedEventEntity {
 
     public DeletedEventEntity(EventEntity eventEntity) {
         this.eventId = eventEntity.getEventId();
-        this.eventLocation = eventEntity.getEventLocation();
+        this.eventLocation = eventEntity.getEventLocationEntity();
         this.eventName = eventEntity.getEventName();
         this.eventDescription = eventEntity.getEventDescription();
         this.date = eventEntity.getDate();

@@ -30,8 +30,8 @@ public class EventFacade {
     private final CategoryEventService categoryEventService;
     private final DeletedEventService deletedEventService;
 
-    EventResponseDTO getEventById(Long eventId) {
-        return eventService.getEventById(eventId);
+    EventEntity getEventById(Long eventId) {
+        return  eventService.getEventById(eventId);
     }
 
     @Transactional
@@ -44,22 +44,21 @@ public class EventFacade {
     }
 
     @Transactional
-    EventResponseDTO createEvent(EventRequestDTO dto) {
+    EventEntity createEvent(EventRequestDTO dto) {
         EventLocationResponseDTO eventLocationResponseDTO = eventLocationService.getEventLocation(dto.getEventLocationId());
         EventLocationEntity eventLocationEntity = new EventLocationEntity(eventLocationResponseDTO);
 
         CategoryResponseDTO categoryResponseDTO =  categoryService.getCategory(dto.getCategoryId());
         CategoryEntity categoryEntity = new CategoryEntity(categoryResponseDTO);
 
-        EventResponseDTO eventResponseDTO = eventService.createEvent(dto, eventLocationEntity);
-        EventEntity eventEntity = new EventEntity(eventResponseDTO);
+        EventEntity eventEntity = eventService.createEvent(dto, eventLocationEntity);
 
         categoryEventService.createCategoryEvent(categoryEntity, eventEntity);
-        return  eventResponseDTO;
+        return eventEntity;
     }
 
     @Transactional
-    EventResponseDTO updateEvent(Long eventId, EventUpdateRequestDTO dto) {
+    EventEntity updateEvent(Long eventId, EventUpdateRequestDTO dto) {
         if (dto.getEventLocationId() == null) {
             return eventService.updateEvent(eventId, dto);
         }
@@ -71,13 +70,11 @@ public class EventFacade {
     }
 
     @Transactional
-    EventResponseDTO deletedEvent(Long eventId) {
-        EventResponseDTO eventResponseDTO = eventService.deletedEvent(eventId);
-        EventEntity eventEntity = new EventEntity(eventResponseDTO);
-
+    EventEntity deletedEvent(Long eventId) {
+        EventEntity eventEntity = eventService.deletedEvent(eventId);
         deletedEventService.createDeletedEvent(eventEntity);
 
-        return eventResponseDTO;
+        return eventEntity;
     }
 
 }

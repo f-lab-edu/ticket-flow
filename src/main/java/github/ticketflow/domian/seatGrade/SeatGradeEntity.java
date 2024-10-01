@@ -2,19 +2,23 @@ package github.ticketflow.domian.seatGrade;
 
 import github.ticketflow.domian.eventLocation.EventLocationEntity;
 import github.ticketflow.domian.seatGrade.dto.SeatGradeRequestDTO;
+import github.ticketflow.domian.seatGrade.dto.SeatGradeResponseDTO;
 import github.ticketflow.domian.seatGrade.dto.SeatGradeUpdateRequestDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "SeatGrade")
+@Builder
 public class SeatGradeEntity {
 
     @Id
@@ -41,6 +45,14 @@ public class SeatGradeEntity {
         this.seatGradeName = dto.getSeatGradeName();
         this.seatGradePrice = dto.getSeatGradePrice();
         this.seatGradeTotalSeats = dto.getSeatGradeTotalSeats();
+    }
+
+    public SeatGradeEntity(SeatGradeResponseDTO responseDTO) {
+        this.seatGradeId = responseDTO.getSeatGradeId();
+        this.eventLocation = new EventLocationEntity(responseDTO.getEventLocation());
+        this.seatGradeName = responseDTO.getSeatGradeName();
+        this.seatGradePrice = responseDTO.getSeatGradePrice();
+        this.seatGradeTotalSeats = responseDTO.getSeatGradeTotalSeats();
     }
 
     public SeatGradeEntity update(SeatGradeUpdateRequestDTO dto,

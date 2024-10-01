@@ -45,20 +45,19 @@ class SeatGradeServiceTest {
     void getSeatGradeByIdTest() {
         // given
         EventLocationEntity eventLocationEntity = getEventLocationEntity(1L, "서울 월드컵 경기장", 50000);
-        EventLocationResponseDTO dto = new EventLocationResponseDTO(eventLocationEntity);
         SeatGradeEntity seatGradeEntity = getSeatGradeEntity(1L, eventLocationEntity, "1등급", 150000, 5000);
         BDDMockito.given(seatGradeRepository.findById(seatGradeEntity.getSeatGradeId()))
                 .willReturn(Optional.of(seatGradeEntity));
 
         // when
-        SeatGradeResponseDTO result = seatGradeService.getSeatGradeById(seatGradeEntity.getSeatGradeId());
+        SeatGradeEntity result = seatGradeService.getSeatGradeById(seatGradeEntity.getSeatGradeId());
 
         // then
         assertThat(result)
                 .extracting("seatGradeId", "seatGradeName", "seatGradePrice", "seatGradeTotalSeats")
                 .contains(1L, seatGradeEntity.getSeatGradeName(), seatGradeEntity.getSeatGradePrice(), seatGradeEntity.getSeatGradeTotalSeats());
 
-        assertThat(result.getEventLocation()).isEqualTo(dto);
+        assertThat(result.getEventLocation()).isEqualTo(eventLocationEntity);
     }
 
 
@@ -107,7 +106,6 @@ class SeatGradeServiceTest {
     void createSeatGradeTest() {
         // give
         EventLocationEntity eventLocationEntity = getEventLocationEntity(1L, "서울 월드컵 경기장", 50000);
-        EventLocationResponseDTO dto = new EventLocationResponseDTO(eventLocationEntity);
         SeatGradeRequestDTO seatGradeRequestDTO = new SeatGradeRequestDTO(1L, "1등급", setBigDecimal(150000), 5000);
         SeatGradeEntity seatGradeEntity = new SeatGradeEntity(seatGradeRequestDTO, eventLocationEntity);
 
@@ -118,14 +116,14 @@ class SeatGradeServiceTest {
                 .willReturn(seatGradeEntity);
 
         // when
-        SeatGradeResponseDTO result = seatGradeService.createSeatGrade(seatGradeRequestDTO);
+        SeatGradeEntity result = seatGradeService.createSeatGrade(seatGradeRequestDTO);
 
         // then
         assertThat(result)
                 .extracting("seatGradeName", "seatGradePrice", "seatGradeTotalSeats")
                 .contains(seatGradeEntity.getSeatGradeName(), seatGradeEntity.getSeatGradePrice(), seatGradeEntity.getSeatGradeTotalSeats());
 
-        assertThat(result.getEventLocation()).isEqualTo(dto);
+        assertThat(result.getEventLocation()).isEqualTo(eventLocationEntity);
 
     }
 
@@ -150,7 +148,7 @@ class SeatGradeServiceTest {
                 .willReturn(seatGradeEntity);
 
         // when
-        SeatGradeResponseDTO result = seatGradeService.updateSeatGrade(seatGradeEntity.getSeatGradeId(), seatGradeUpdateRequestDTO);
+        SeatGradeEntity result = seatGradeService.updateSeatGrade(seatGradeEntity.getSeatGradeId(), seatGradeUpdateRequestDTO);
 
         // then
         assertThat(result)
@@ -164,21 +162,20 @@ class SeatGradeServiceTest {
         // given
         EventLocationEntity eventLocationEntity = getEventLocationEntity(1L, "서울 월드컵 경기장", 50000);
         SeatGradeEntity seatGradeEntity = getSeatGradeEntity(1L, eventLocationEntity, "1등급", 150000, 5000);
-        EventLocationResponseDTO dto = new EventLocationResponseDTO(eventLocationEntity);
         BDDMockito.given(seatGradeRepository.findById(any(Long.class)))
                 .willReturn(Optional.of(seatGradeEntity));
 
         BDDMockito.willDoNothing().given(seatGradeRepository).delete(any(SeatGradeEntity.class));
 
         // when
-        SeatGradeResponseDTO result = seatGradeService.deletedSeatGrade(seatGradeEntity.getSeatGradeId());
+        SeatGradeEntity result = seatGradeService.deletedSeatGrade(seatGradeEntity.getSeatGradeId());
 
         // then
         assertThat(result)
                 .extracting("seatGradeId", "seatGradeName", "seatGradePrice", "seatGradeTotalSeats")
                 .contains(seatGradeEntity.getSeatGradeId(), seatGradeEntity.getSeatGradeName(), seatGradeEntity.getSeatGradePrice(), seatGradeEntity.getSeatGradeTotalSeats());
 
-        assertThat(result.getEventLocation()).isEqualTo(dto);
+        assertThat(result.getEventLocation()).isEqualTo(eventLocationEntity);
 
     }
 

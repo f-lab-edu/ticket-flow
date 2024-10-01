@@ -22,10 +22,10 @@ public class EventService {
 
     private final EventRepository eventRepository;
 
-    public EventResponseDTO getEventById(Long eventId) {
-         EventEntity eventEntity = getEventEntity(eventId);
-
-        return new EventResponseDTO(eventEntity);
+    public EventEntity getEventById(Long eventId) {
+        return eventRepository.findById(eventId).orElseThrow(() ->
+                new GlobalCommonException(EventErrorResponsive.NOT_FOUND_EVENT)
+        );
     }
 
     public List<EventResponseDTO> getEventByCategoryId(Page<CategoryEventEntity> categoryEventEntities) {
@@ -38,39 +38,32 @@ public class EventService {
         return eventEntities;
     }
 
-    public EventResponseDTO createEvent(EventRequestDTO dto,
+    public EventEntity createEvent(EventRequestDTO dto,
                                    EventLocationEntity eventLocationEntity) {
         EventEntity newEventEntity = new EventEntity(dto, eventLocationEntity);
-        EventEntity saveEventEntity = eventRepository.save(newEventEntity);
-        return  new EventResponseDTO(saveEventEntity);
+        return eventRepository.save(newEventEntity);
     }
 
-    public EventResponseDTO updateEvent(Long eventId,
+    public EventEntity updateEvent(Long eventId,
                                    EventUpdateRequestDTO dto) {
-        EventEntity eventEntity = getEventEntity(eventId);
+        EventEntity eventEntity = getEventById(eventId);
         EventEntity updateEventEntity = eventEntity.update(dto);
-        return new EventResponseDTO(eventRepository.save(updateEventEntity));
+        return eventRepository.save(updateEventEntity);
     }
 
-    public EventResponseDTO updateEvent(Long eventId,
+    public EventEntity updateEvent(Long eventId,
                                    EventUpdateRequestDTO dto,
                                    EventLocationEntity eventLocationEntity) {
-        EventEntity eventEntity = getEventEntity(eventId);
+        EventEntity eventEntity = getEventById(eventId);
         EventEntity updateEventEntity = eventEntity.update(dto, eventLocationEntity);
-        return new EventResponseDTO(eventRepository.save(updateEventEntity));
+        return eventRepository.save(updateEventEntity);
 
     }
 
-    public EventResponseDTO deletedEvent(Long eventId) {
-        EventEntity eventEntity = getEventEntity(eventId);
+    public EventEntity deletedEvent(Long eventId) {
+        EventEntity eventEntity = getEventById(eventId);
         eventRepository.delete(eventEntity);
 
-        return new EventResponseDTO(eventEntity);
-    }
-
-    private EventEntity getEventEntity(Long eventId) {
-        return eventRepository.findById(eventId).orElseThrow(() ->
-                new GlobalCommonException(EventErrorResponsive.NOT_FOUND_EVENT)
-        );
+        return eventEntity;
     }
 }

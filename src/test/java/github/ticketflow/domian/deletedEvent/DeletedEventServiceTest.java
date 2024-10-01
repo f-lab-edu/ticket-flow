@@ -35,7 +35,7 @@ class DeletedEventServiceTest {
 
         EventEntity eventEntity = EventEntity.builder()
                 .eventId(1L)
-                .eventLocation(eventLocationEntity)
+                .eventLocationEntity(eventLocationEntity)
                 .eventName("FC 서울 vs 수원 삼성")
                 .eventDescription("축구 경기")
                 .date(LocalDate.of(2024, 10, 15))

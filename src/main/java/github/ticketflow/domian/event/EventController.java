@@ -19,7 +19,7 @@ public class EventController {
 
     @GetMapping("/{eventId}")
     public ResponseEntity<EventResponseDTO> getEventById(@PathVariable Long eventId) {
-        return ResponseEntity.ok(eventFacade.getEventById(eventId));
+        return ResponseEntity.ok(new EventResponseDTO(eventFacade.getEventById(eventId)));
     }
 
     @GetMapping("/category/{categoryId}")
@@ -30,17 +30,17 @@ public class EventController {
 
     @PostMapping
     public ResponseEntity<EventResponseDTO> createEvent(@Valid @RequestBody EventRequestDTO dto) {
-        return ResponseEntity.ok(eventFacade.createEvent(dto));
+        return ResponseEntity.ok(new EventResponseDTO(eventFacade.createEvent(dto)));
     }
 
     @PatchMapping("/{eventId}")
     public ResponseEntity<EventResponseDTO> updateEvent(@PathVariable Long eventId,
                                                     @Valid @RequestBody EventUpdateRequestDTO dto) {
-        return ResponseEntity.ok(eventFacade.updateEvent(eventId, dto));
+        return ResponseEntity.ok(new EventResponseDTO(eventFacade.updateEvent(eventId, dto)));
     }
 
     @DeleteMapping("/{eventId}")
     public ResponseEntity<EventResponseDTO> deleteEvent(@PathVariable Long eventId) {
-        return ResponseEntity.ok(eventFacade.deletedEvent(eventId));
+        return ResponseEntity.ok(new EventResponseDTO(eventFacade.deletedEvent(eventId)));
     }
 }

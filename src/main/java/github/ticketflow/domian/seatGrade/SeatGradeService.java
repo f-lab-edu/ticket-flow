@@ -24,12 +24,11 @@ public class SeatGradeService {
     private final SeatGradeRepository seatGradeRepository;
     private final EventLocationRepository eventLocationRepository;
 
-    public SeatGradeResponseDTO getSeatGradeById(Long seatGradeId) {
-        SeatGradeEntity seatGradeEntity = getSeatGradeEntity(seatGradeId);
-
-        return new SeatGradeResponseDTO(seatGradeEntity);
+    public SeatGradeEntity getSeatGradeById(Long seatGradeId) {
+        return seatGradeRepository.findById(seatGradeId).orElseThrow(() ->
+                new GlobalCommonException(SeatGradeErrorResponsive.NOT_FOUND_SEAT_GRADE)
+        );
     }
-
 
     @Transactional
     public  List<SeatGradeResponseDTO> getSeatGradeByEventLocationId(Long eventLocationId) {
@@ -46,40 +45,29 @@ public class SeatGradeService {
     }
 
     @Transactional
-    public SeatGradeResponseDTO createSeatGrade(SeatGradeRequestDTO dto) {
+    public SeatGradeEntity createSeatGrade(SeatGradeRequestDTO dto) {
         EventLocationEntity eventLocationEntity = getEventLocationEntity(dto.getEventLocationId());
         SeatGradeEntity seatGradeEntity = new SeatGradeEntity(dto, eventLocationEntity);
-        SeatGradeEntity saveSeatGradeEntity = seatGradeRepository.save(seatGradeEntity);
-
-        return new SeatGradeResponseDTO(saveSeatGradeEntity);
+        return seatGradeRepository.save(seatGradeEntity);
     }
 
     @Transactional
-    public SeatGradeResponseDTO updateSeatGrade(Long seatGradeId, SeatGradeUpdateRequestDTO dto) {
-        SeatGradeEntity seatGradeEntity = getSeatGradeEntity(seatGradeId);
+    public SeatGradeEntity updateSeatGrade(Long seatGradeId, SeatGradeUpdateRequestDTO dto) {
+        SeatGradeEntity seatGradeEntity = getSeatGradeById(seatGradeId);
         EventLocationEntity eventLocationEntity = null;
         if (dto.getEventLocationId() != null) {
             eventLocationEntity = getEventLocationEntity(dto.getEventLocationId());
         }
         SeatGradeEntity updateSeatGradeEntity = seatGradeEntity.update(dto, eventLocationEntity);
-        SeatGradeEntity saveSeatGradeEntity = seatGradeRepository.save(updateSeatGradeEntity);
-
-        return new SeatGradeResponseDTO(saveSeatGradeEntity);
-
+        return seatGradeRepository.save(updateSeatGradeEntity);
     }
 
     @Transactional
-    public SeatGradeResponseDTO deletedSeatGrade(Long seatGradeId) {
-        SeatGradeEntity seatGradeEntity = getSeatGradeEntity(seatGradeId);
+    public SeatGradeEntity deletedSeatGrade(Long seatGradeId) {
+        SeatGradeEntity seatGradeEntity = getSeatGradeById(seatGradeId);
         seatGradeRepository.delete(seatGradeEntity);
 
-        return new SeatGradeResponseDTO(seatGradeEntity);
-    }
-
-    private SeatGradeEntity getSeatGradeEntity(Long seatGradeId) {
-        return seatGradeRepository.findById(seatGradeId).orElseThrow(() ->
-                new GlobalCommonException(SeatGradeErrorResponsive.NOT_FOUND_SEAT_GRADE)
-        );
+        return seatGradeEntity;
     }
 
     private EventLocationEntity getEventLocationEntity(Long eventLocationId) {
