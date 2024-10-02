@@ -33,22 +33,23 @@ public class TicketFacade {
     }
 
     public TicketEntity updateTicket(Long ticketId, TicketUpdateRequestDTO dto) {
-        TicketUpdateVO ticketUpdateVO = new TicketUpdateVO();
+        TicketUpdateVO.TicketUpdateVOBuilder builder = TicketUpdateVO.builder();
         if (dto.getEventId() != null) {
             EventEntity eventEntity = eventService.getEventById(dto.getEventId());
-            ticketUpdateVO.setEventEntity(eventEntity);
+            builder.eventEntity(eventEntity);
         }
         if (dto.getSeatId() != null) {
             SeatEntity seatEntity = seatService.getSeatById(dto.getSeatId());
-            ticketUpdateVO.setSeatEntity(seatEntity);
+            builder.seatEntity(seatEntity);
         }
         if (dto.getTicketPrice() != null) {
-            ticketUpdateVO.setTicketPrice(dto.getTicketPrice());
+            builder.ticketPrice(dto.getTicketPrice());
         }
         if (dto.getTicketStatus() != null) {
-            ticketUpdateVO.setTicketStatus(dto.getTicketStatus());
+            builder.ticketStatus(dto.getTicketStatus());
         }
 
+        TicketUpdateVO ticketUpdateVO = builder.build();
         return ticketService.updateTicket(ticketId, ticketUpdateVO);
     }
 
