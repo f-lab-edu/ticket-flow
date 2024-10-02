@@ -2,7 +2,6 @@ package github.ticketflow.domian.ticket;
 
 import github.ticketflow.domian.event.EventEntity;
 import github.ticketflow.domian.seat.SeatEntity;
-import github.ticketflow.domian.ticket.dto.TicketRequestDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -13,7 +12,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -63,17 +61,17 @@ public class TicketEntity {
         this.ticketStatus = TicketStatus.NO_PAYMENT;
     }
 
-    public TicketEntity update(TicketUpdateClass ticketUpdateClass) {
-        if (ticketUpdateClass.getEventEntity() != null) {
-            this.eventEntity = ticketUpdateClass.getEventEntity();
+    public TicketEntity update(TicketUpdateVO ticketUpdateVO) {
+        if (ticketUpdateVO.getEventEntity() != null) {
+            this.eventEntity = ticketUpdateVO.getEventEntity();
 
         }
-        if(ticketUpdateClass.getSeatEntity() != null) {
-            this.seatEntity = ticketUpdateClass.getSeatEntity();
+        if(ticketUpdateVO.getSeatEntity() != null) {
+            this.seatEntity = ticketUpdateVO.getSeatEntity();
 
         }
-        if(ticketUpdateClass.getTicketPrice() != null) {
-            this.ticketPrice = ticketUpdateClass.getTicketPrice();
+        if(ticketUpdateVO.getTicketPrice() != null) {
+            this.ticketPrice = ticketUpdateVO.getTicketPrice();
 
         }
         return this;

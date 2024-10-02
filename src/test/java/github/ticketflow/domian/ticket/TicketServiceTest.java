@@ -5,7 +5,6 @@ import github.ticketflow.domian.event.EventEntity;
 import github.ticketflow.domian.eventLocation.EventLocationEntity;
 import github.ticketflow.domian.seat.SeatEntity;
 import github.ticketflow.domian.seatGrade.SeatGradeEntity;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,7 +17,6 @@ import java.math.BigDecimal;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 
 @ExtendWith(MockitoExtension.class)
@@ -107,7 +105,7 @@ class TicketServiceTest {
         SeatEntity seatEntity = CommonTestFixture.getSeatEntity(1L, seatGradeEntity);
         TicketEntity ticketEntity = CommonTestFixture.getTicketEntity(1L, eventEntity, seatEntity, intToBigDecimal(1000000));
 
-        TicketUpdateClass updateClass = TicketUpdateClass.builder()
+        TicketUpdateVO updateClass = TicketUpdateVO.builder()
                 .ticketPrice(intToBigDecimal(300000))
                 .build();
 

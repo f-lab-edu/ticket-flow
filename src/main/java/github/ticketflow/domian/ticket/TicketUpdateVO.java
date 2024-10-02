@@ -2,7 +2,6 @@ package github.ticketflow.domian.ticket;
 
 import github.ticketflow.domian.event.EventEntity;
 import github.ticketflow.domian.seat.SeatEntity;
-import github.ticketflow.domian.ticket.dto.TicketUpdateRequestDTO;
 import jakarta.annotation.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,7 +16,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class TicketUpdateClass {
+public class TicketUpdateVO {
 
     @Nullable
     private EventEntity eventEntity;

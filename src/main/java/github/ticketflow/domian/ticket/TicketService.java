@@ -30,9 +30,9 @@ public class TicketService {
         return ticketRepository.save(ticketEntity);
     }
 
-    public TicketEntity updateTicket(Long ticketId, TicketUpdateClass ticketUpdateClass) {
+    public TicketEntity updateTicket(Long ticketId, TicketUpdateVO ticketUpdateVO) {
         TicketEntity ticketEntity = getTicketById(ticketId);
-        TicketEntity updateTicketEntity = ticketEntity.update(ticketUpdateClass);
+        TicketEntity updateTicketEntity = ticketEntity.update(ticketUpdateVO);
         return ticketRepository.save(updateTicketEntity);
     }
 
