@@ -84,11 +84,11 @@ public class TicketEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TicketEntity that = (TicketEntity) o;
-        return Objects.equals(ticketId, that.ticketId) && Objects.equals(eventEntity, that.eventEntity) && Objects.equals(seatEntity, that.seatEntity) && Objects.equals(ticketPrice, that.ticketPrice) && ticketStatus == that.ticketStatus && Objects.equals(createdAt, that.createdAt);
+        return Objects.equals(ticketId, that.ticketId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(ticketId, eventEntity, seatEntity, ticketPrice, ticketStatus, createdAt);
+        return Objects.hash(ticketId);
     }
 }
