@@ -3,14 +3,18 @@ package github.ticketflow.domian;
 import github.ticketflow.domian.event.EventEntity;
 import github.ticketflow.domian.eventLocation.EventLocationEntity;
 import github.ticketflow.domian.gradeTicketInfo.GradeTicketInfoEntity;
+import github.ticketflow.domian.payment.PaymentEntity;
+import github.ticketflow.domian.paymentTicket.PaymentTicketEntity;
 import github.ticketflow.domian.seat.SeatEntity;
 import github.ticketflow.domian.seatGrade.SeatGradeEntity;
 import github.ticketflow.domian.ticket.TicketEntity;
 import github.ticketflow.domian.ticket.TicketStatus;
+import github.ticketflow.domian.user.entity.UserEntity;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 public class CommonTestFixture {
 
@@ -33,8 +37,8 @@ public class CommonTestFixture {
         return SeatGradeEntity.builder()
                 .seatGradeId(seatGradeId)
                 .eventLocation(eventLocationEntity)
-                .seatGradeName("1구역")
-                .seatGradePrice(BigDecimal.valueOf(100000))
+                .seatGradeName("1등급")
+                .seatGradePrice(BigDecimal.valueOf(10000))
                 .seatGradeTotalSeats(120)
                 .build();
     }
@@ -69,4 +73,30 @@ public class CommonTestFixture {
                 .ticketStatus(TicketStatus.NO_PAYMENT)
                 .build();
     }
+
+    public static UserEntity getUserEntity(Long userId) {
+        return UserEntity.builder()
+                .id(userId)
+                .email("test@test.com")
+                .password("dltkdgur12")
+                .phoneNumber("01011223344")
+                .build();
+    }
+
+    public static PaymentEntity getPaymentEntity(Long paymentId, UserEntity userEntity) {
+        return PaymentEntity.builder()
+                .paymentId(paymentId)
+                .userEntity(userEntity)
+                .numberOfTicket(1)
+                .paymentPrice(BigDecimal.valueOf(10000))
+                .build();
+    }
+
+    public static PaymentTicketEntity getPaymentTicketEntity(PaymentEntity paymentEntity, TicketEntity ticketEntity) {
+        return PaymentTicketEntity.builder()
+                .paymentEntity(paymentEntity)
+                .ticketEntity(ticketEntity)
+                .build();
+    }
+
 }
