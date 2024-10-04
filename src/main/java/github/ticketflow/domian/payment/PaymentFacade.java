@@ -55,7 +55,7 @@ public class PaymentFacade {
         return paymentEntity;
     }
 
-
+    @Transactional
     public PaymentEntity deletedPayment(Long paymentId) {
         PaymentEntity paymentEntity = getPaymentById(paymentId);
         List<PaymentTicketEntity> paymentTickets = paymentEntity.getPaymentTickets();
