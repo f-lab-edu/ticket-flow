@@ -18,6 +18,11 @@ public class UserService {
     private final UserRepository userRepository;
     private final LeaveUserRepository leaveUserRepository;
 
+    public UserEntity getUserById(Long userId) {
+        return userRepository.findById(userId).orElseThrow(() ->
+                new GlobalCommonException(AuthErrorResponsive.NOT_FOUND_USER));
+    }
+
     public UserEntity updateUser(Long userId, UserUpdateRequestDTO dto) {
         UserEntity userEntity = userRepository
                 .findById(userId)
