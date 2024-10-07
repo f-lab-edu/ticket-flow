@@ -28,6 +28,11 @@ public class EventController {
         return ResponseEntity.ok(eventFacade.getEventByCategoryId(categoryId, pageNo));
     }
 
+    @GetMapping("/{eventName}")
+    public ResponseEntity<List<EventResponseDTO>> getEventByEventName(@PathVariable String eventName) {
+        return ResponseEntity.ok(eventFacade.getEventByEventName(eventName));
+    }
+
     @PostMapping
     public ResponseEntity<EventResponseDTO> createEvent(@Valid @RequestBody EventRequestDTO dto) {
         return ResponseEntity.ok(new EventResponseDTO(eventFacade.createEvent(dto)));

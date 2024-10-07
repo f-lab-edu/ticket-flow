@@ -36,6 +36,15 @@ public class EventService {
         return eventEntities;
     }
 
+    public List<EventResponseDTO> getEventByEventName(String eventName) {
+        List<EventResponseDTO> eventEntities = new ArrayList<>();
+        eventRepository.findAllByEventNameContainingIgnoreCase(eventName).forEach(
+                eventEntity -> eventEntities.add(new EventResponseDTO(eventEntity))
+        );
+
+        return eventEntities;
+    }
+
     public EventEntity createEvent(EventRequestDTO dto,
                                    EventLocationEntity eventLocationEntity) {
         EventEntity newEventEntity = new EventEntity(dto, eventLocationEntity);
