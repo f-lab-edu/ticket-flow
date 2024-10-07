@@ -30,6 +30,9 @@ spring:
 ---
 
 spring:
+  cache:
+    caffeine:
+      spec: expireAfterWrite=10m, maximumSize=1000
   config:
     activate:
       on-profile: test
