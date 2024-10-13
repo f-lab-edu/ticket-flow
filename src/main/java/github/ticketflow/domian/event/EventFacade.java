@@ -11,6 +11,7 @@ import github.ticketflow.domian.event.dto.EventUpdateRequestDTO;
 import github.ticketflow.domian.eventLocation.EventLocationEntity;
 import github.ticketflow.domian.eventLocation.EventLocationService;
 import github.ticketflow.domian.eventLocation.dto.EventLocationResponseDTO;
+import github.ticketflow.domian.popularSearch.PopularSearchService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
@@ -27,6 +28,7 @@ public class EventFacade {
     private final EventLocationService eventLocationService;
     private final CategoryEventService categoryEventService;
     private final DeletedEventService deletedEventService;
+    private final PopularSearchService popularSearchService;
 
     EventEntity getEventById(Long eventId) {
         return  eventService.getEventById(eventId);
@@ -38,6 +40,11 @@ public class EventFacade {
 
         Page<CategoryEventEntity> categoryEventEntities = categoryEventService.getCategoryEventsByCategory(categoryEntity, page);
         return eventService.getEventByCategoryId(categoryEventEntities);
+    }
+
+    List<EventResponseDTO> getEventByEventName (String eventName) {
+        popularSearchService.incrementKeywordCount(eventName);
+        return eventService.getEventByEventName(eventName);
     }
 
     @Transactional
