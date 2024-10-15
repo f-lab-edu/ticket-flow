@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class SeatGradeRequestDTO {
 
-    @NotBlank
+    @NotNull
     private Long eventLocationId;
     @NotBlank
     private String seatGradeName;
