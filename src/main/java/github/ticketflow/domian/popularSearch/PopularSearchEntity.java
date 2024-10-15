@@ -35,4 +35,13 @@ public class PopularSearchEntity {
     @Column(name = "created_at", updatable = false)
     private LocalDate createdAt;
 
+    public PopularSearchEntity(String keyword, int searchCount) {
+        this.keyword = keyword;
+        this.searchCount = searchCount;
+    }
+
+    void update (int addCount) {
+        this.searchCount = this.searchCount + addCount;
+    }
+
 }
