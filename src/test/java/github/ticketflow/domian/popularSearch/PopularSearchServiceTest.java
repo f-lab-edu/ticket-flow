@@ -25,19 +25,19 @@ class PopularSearchServiceTest {
     @Test
     void getPopularKeywordsTest() {
         // give
-        popularSearchService.incrementKeywordCount("서울");
-        popularSearchService.incrementKeywordCount("수원");
-        popularSearchService.incrementKeywordCount("수원");
-        popularSearchService.incrementKeywordCount("서울");
-        popularSearchService.incrementKeywordCount("수원");
+        popularSearchService.saveOrUpdatePopularSearch("서울");
+        popularSearchService.saveOrUpdatePopularSearch("수원");
+        popularSearchService.saveOrUpdatePopularSearch("수원");
+        popularSearchService.saveOrUpdatePopularSearch("서울");
+        popularSearchService.saveOrUpdatePopularSearch("수원");
 
         // when
-        List<String> result = popularSearchService.getPopularKeywords(10);
+        List<PopularSearchEntity> result = popularSearchService.getPopularKeywords();
 
         // then
         assertThat(result).hasSize(2);
-        assertThat(result.get(0)).isEqualTo("수원");
-        assertThat(result.get(1)).isEqualTo("서울");
+        assertThat(result.get(0).getKeyword()).isEqualTo("수원");
+        assertThat(result.get(1).getKeyword()).isEqualTo("서울");
     }
 
 

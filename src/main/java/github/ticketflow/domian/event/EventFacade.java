@@ -43,7 +43,7 @@ public class EventFacade {
     }
 
     List<EventResponseDTO> getEventByEventName (String eventName) {
-        popularSearchService.incrementKeywordCount(eventName);
+        popularSearchService.saveOrUpdatePopularSearch(eventName);
         return eventService.getEventByEventName(eventName);
     }
 
