@@ -17,13 +17,13 @@ public class PopularSearchController {
     private final PopularSearchService popularSearchService;
 
     @GetMapping
-    public List<String> getPopularSearch() {
-        return popularSearchService.getPopularKeywords(10);
+    public List<PopularSearchEntity> getPopularSearch() {
+        return popularSearchService.getPopularKeywords();
     }
 
-    @Scheduled(fixedRate = 3600000)
+    @Scheduled(cron = "0 0 0 * * *")
     public void updatePopularKeywords() {
-        List<String> popularKeywords = popularSearchService.getPopularKeywords(10);
+        List<PopularSearchEntity> popularKeywords = popularSearchService.getPopularKeywords();
     }
 
 }
