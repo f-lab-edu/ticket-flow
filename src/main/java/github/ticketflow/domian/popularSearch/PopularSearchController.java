@@ -3,11 +3,13 @@ package github.ticketflow.domian.popularSearch;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequiredArgsConstructor
@@ -16,14 +18,13 @@ public class PopularSearchController {
 
     private final PopularSearchService popularSearchService;
 
+    @PostMapping
+    public void save(@RequestParam String keyword) {
+        popularSearchService.incrementSearchCount(keyword);
+    }
+
     @GetMapping
-    public List<PopularSearchEntity> getPopularSearch() {
-        return popularSearchService.getPopularKeywords();
+    public Set<String> getPopularSearch() {
+        return popularSearchService.getTop10SearchKeywords();
     }
-
-    @Scheduled(cron = "0 0 0 * * *")
-    public void updatePopularKeywords() {
-        List<PopularSearchEntity> popularKeywords = popularSearchService.getPopularKeywords();
-    }
-
 }
