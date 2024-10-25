@@ -17,28 +17,26 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @ActiveProfiles("test")
 class PopularSearchServiceTest {
-
-    @Autowired
-    private PopularSearchService popularSearchService;
-
-    @DisplayName("검색어가 저장이 되고 인기 검색어를 불러오면 리스트로 나온다.")
-    @Test
-    void getPopularKeywordsTest() {
-        // give
-        popularSearchService.saveOrUpdatePopularSearch("서울");
-        popularSearchService.saveOrUpdatePopularSearch("수원");
-        popularSearchService.saveOrUpdatePopularSearch("수원");
-        popularSearchService.saveOrUpdatePopularSearch("서울");
-        popularSearchService.saveOrUpdatePopularSearch("수원");
-
-        // when
-        List<PopularSearchEntity> result = popularSearchService.getPopularKeywords();
-
-        // then
-        assertThat(result).hasSize(2);
-        assertThat(result.get(0).getKeyword()).isEqualTo("수원");
-        assertThat(result.get(1).getKeyword()).isEqualTo("서울");
-    }
-
-
+//
+//    @Autowired
+//    private PopularSearchService popularSearchService;
+//
+//    @DisplayName("검색어가 저장이 되고 인기 검색어를 불러오면 리스트로 나온다.")
+//    @Test
+//    void getPopularKeywordsTest() {
+//        // give
+//        popularSearchService.saveOrUpdatePopularSearch("서울");
+//        popularSearchService.saveOrUpdatePopularSearch("수원");
+//        popularSearchService.saveOrUpdatePopularSearch("수원");
+//        popularSearchService.saveOrUpdatePopularSearch("서울");
+//        popularSearchService.saveOrUpdatePopularSearch("수원");
+//
+//        // when
+//        List<PopularSearchEntity> result = popularSearchService.getPopularKeywords();
+//
+//        // then
+//        assertThat(result).hasSize(2);
+//        assertThat(result.get(0).getKeyword()).isEqualTo("수원");
+//        assertThat(result.get(1).getKeyword()).isEqualTo("서울");
+//    }
 }

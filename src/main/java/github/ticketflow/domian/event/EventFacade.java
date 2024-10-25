@@ -43,7 +43,6 @@ public class EventFacade {
     }
 
     List<EventResponseDTO> getEventByEventName (String eventName) {
-        popularSearchService.saveOrUpdatePopularSearch(eventName);
         return eventService.getEventByEventName(eventName);
     }
 
