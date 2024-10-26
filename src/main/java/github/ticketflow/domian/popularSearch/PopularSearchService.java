@@ -22,24 +22,36 @@ public class PopularSearchService {
 
     private static final String LOCK_PREFIX = "lock:search:";
     private static final String SEARCH_RANKING_KEY = "popular:search:ranking";
-
+    private static final int RETRY_DELAY = 1000;
+    private static final int LOCK_EXPIRY_TIME = 5;
+    private static final int MAX_RETRIES = 8000;
 
 
     public void incrementSearchCount(String keyword) {
         String lockKey = LOCK_PREFIX + keyword;
+        int retries = 0;
 
-        Boolean lockAcquired = redisTemplate.opsForValue().setIfAbsent(lockKey, "LOCKED", 5, TimeUnit.SECONDS);
+        while (retries < MAX_RETRIES) {
+            Boolean lockAcquired = redisTemplate.opsForValue().setIfAbsent(lockKey, "LOCKED", LOCK_EXPIRY_TIME, TimeUnit.SECONDS);
 
-        if (lockAcquired) {
-            try {
-                updateSearchCount(keyword);
-            } finally {
-                releaseLock(lockKey);
+            if (Boolean.TRUE.equals(lockAcquired)) {
+                try {
+                    updateSearchCount(keyword);
+                } finally {
+                    releaseLock(lockKey);
+                }
+                return;
+            } else {
+                retries++;
+                try {
+                    Thread.sleep(RETRY_DELAY);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             }
-        } else {
-            System.out.println("다른 프로세스에서 이미 락을 획득했습니다. 요청을 무시합니다.");
-        }
 
+        }
+        System.out.println("다른 프로세스에서 이미 락을 획득했습니다. 요청을 무시합니다.");
     }
 
     private void releaseLock(String lockKey) {
