@@ -27,6 +27,11 @@ spring:
         show_sql: true
     database-platform: org.hibernate.dialect.MySQL8Dialect
 
+  data:
+    redis:
+      host: my-cache-server
+      port: 6379
+
 ---
 
 spring:
@@ -56,3 +61,8 @@ spring:
   sql:
     init:
       mode: never
+
+  data:
+    redis:
+      host: my-cache-server
+      port: 6379
