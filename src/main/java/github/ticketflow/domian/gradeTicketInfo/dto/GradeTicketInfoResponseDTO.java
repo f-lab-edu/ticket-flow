@@ -19,7 +19,7 @@ public class GradeTicketInfoResponseDTO {
     private EventLocationResponseDTO eventLocationResponseDTO;
     private SeatGradeResponseDTO seatGradeResponseDTO;
     private int numberTotalTicket;
-    private int numberOfRemainingTickets;
+    private int numberOfReservedTickets;
 
     public GradeTicketInfoResponseDTO(GradeTicketInfoEntity gradeTicketEntity) {
         this.gradeTicketInfoId = gradeTicketEntity.getGradeTicketInfoId();
@@ -27,6 +27,6 @@ public class GradeTicketInfoResponseDTO {
         this.eventLocationResponseDTO = new EventLocationResponseDTO(gradeTicketEntity.getEventLocationEntity());
         this.seatGradeResponseDTO = new SeatGradeResponseDTO(gradeTicketEntity.getSeatGradeEntity());
         this.numberTotalTicket = gradeTicketEntity.getNumberTotalTicket();
-        this.numberOfRemainingTickets = gradeTicketEntity.getNumberOfRemainingTickets();
+        this.numberOfReservedTickets = gradeTicketEntity.getNumberOfReservedTickets();
     }
 }

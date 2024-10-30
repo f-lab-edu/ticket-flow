@@ -18,6 +18,6 @@ public class GradeTicketInfoRequestDTO {
     @Positive
     private int numberTotalTicket;
     @Positive
-    private int numberOfRemainingTickets;
+    private int numberOfReservedTickets;
 
 }

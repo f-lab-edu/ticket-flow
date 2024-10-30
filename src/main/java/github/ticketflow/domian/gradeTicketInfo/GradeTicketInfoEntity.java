@@ -42,7 +42,7 @@ public class GradeTicketInfoEntity {
     private int numberTotalTicket;
 
     @Column(name = "number_of_remaining_tickets")
-    private int numberOfRemainingTickets;
+    private int numberOfReservedTickets;
 
     public GradeTicketInfoEntity(GradeTicketInfoRequestDTO dto,
                                  EventEntity eventEntity,
@@ -52,7 +52,12 @@ public class GradeTicketInfoEntity {
         this.eventLocationEntity = eventLocationEntity;
         this.seatGradeEntity = seatGradeEntity;
         this.numberTotalTicket = dto.getNumberTotalTicket();
-        this.numberOfRemainingTickets = dto.getNumberOfRemainingTickets();
+        this.numberOfReservedTickets = dto.getNumberOfReservedTickets();
+    }
+
+    public GradeTicketInfoEntity update (int numberOfReservedTickets) {
+        this.numberOfReservedTickets = numberOfReservedTickets;
+        return this;
     }
 
     public GradeTicketInfoEntity update(GradeTicketInfoUpdateRequestDTO dto) {
@@ -60,8 +65,8 @@ public class GradeTicketInfoEntity {
             this.numberTotalTicket = dto.getNumberTotalTicket();
         }
 
-        if (dto.getNumberOfRemainingTickets() != this.numberOfRemainingTickets) {
-            this.numberOfRemainingTickets = dto.getNumberOfRemainingTickets();
+        if (dto.getNumberOfReservedTickets() != this.numberOfReservedTickets) {
+            this.numberOfReservedTickets = dto.getNumberOfReservedTickets();
         }
 
         return this;
@@ -85,8 +90,8 @@ public class GradeTicketInfoEntity {
             this.numberTotalTicket = dto.getNumberTotalTicket();
         }
 
-        if (dto.getNumberOfRemainingTickets() != this.numberOfRemainingTickets) {
-            this.numberOfRemainingTickets = dto.getNumberOfRemainingTickets();
+        if (dto.getNumberOfReservedTickets() != this.numberOfReservedTickets) {
+            this.numberOfReservedTickets = dto.getNumberOfReservedTickets();
         }
 
         return this;
@@ -97,11 +102,11 @@ public class GradeTicketInfoEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         GradeTicketInfoEntity that = (GradeTicketInfoEntity) o;
-        return numberTotalTicket == that.numberTotalTicket && numberOfRemainingTickets == that.numberOfRemainingTickets && Objects.equals(gradeTicketInfoId, that.gradeTicketInfoId) && Objects.equals(eventEntity, that.eventEntity) && Objects.equals(eventLocationEntity, that.eventLocationEntity) && Objects.equals(seatGradeEntity, that.seatGradeEntity);
+        return numberTotalTicket == that.numberTotalTicket && numberOfReservedTickets == that.numberOfReservedTickets && Objects.equals(gradeTicketInfoId, that.gradeTicketInfoId) && Objects.equals(eventEntity, that.eventEntity) && Objects.equals(eventLocationEntity, that.eventLocationEntity) && Objects.equals(seatGradeEntity, that.seatGradeEntity);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(gradeTicketInfoId, eventEntity, eventLocationEntity, seatGradeEntity, numberTotalTicket, numberOfRemainingTickets);
+        return Objects.hash(gradeTicketInfoId, eventEntity, eventLocationEntity, seatGradeEntity, numberTotalTicket, numberOfReservedTickets);
     }
 }
