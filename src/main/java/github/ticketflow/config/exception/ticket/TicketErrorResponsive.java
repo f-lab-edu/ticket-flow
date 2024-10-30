@@ -7,7 +7,8 @@ import org.springframework.http.HttpStatus;
 
 @AllArgsConstructor
 public enum TicketErrorResponsive implements ErrorResponsive {
-    NOT_FOUND_TICKET(HttpStatus.NOT_FOUND, "티켓을 찾을 수 없습니다.");
+    NOT_FOUND_TICKET(HttpStatus.NOT_FOUND, "티켓을 찾을 수 없습니다."),
+    SOLD_OUT_TICKET(HttpStatus.BAD_REQUEST, "티켓이 매진되었습니다.");
 
     private final HttpStatus status;
     private final String message;
