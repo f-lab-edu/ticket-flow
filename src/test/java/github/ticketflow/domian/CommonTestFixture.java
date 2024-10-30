@@ -43,14 +43,14 @@ public class CommonTestFixture {
                 .build();
     }
 
-    public static GradeTicketInfoEntity gradeTicketInfoEntity(Long gradeTicketId, EventEntity eventEntity, SeatGradeEntity seatGradeEntity) {
+    public static GradeTicketInfoEntity getGradeTicketInfoEntity(Long gradeTicketId, EventEntity eventEntity, SeatGradeEntity seatGradeEntity) {
         return GradeTicketInfoEntity.builder()
                 .gradeTicketInfoId(gradeTicketId)
                 .eventEntity(eventEntity)
                 .eventLocationEntity(eventEntity.getEventLocationEntity())
                 .seatGradeEntity(seatGradeEntity)
                 .numberTotalTicket(120)
-                .numberOfRemainingTickets(120)
+                .numberOfReservedTickets(0)
                 .build();
     }
 
