@@ -15,6 +15,6 @@ public class GradeTicketInfoUpdateRequestDTO {
     private Long eventLocationId;
     private Long seatGradeId;
     private Integer numberTotalTicket;
-    private Integer numberOfRemainingTickets;
+    private Integer numberOfReservedTickets;
 
 }
