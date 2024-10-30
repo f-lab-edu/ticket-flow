@@ -54,6 +54,12 @@ public class TicketEntity {
     @Column(name = "created_at", updatable = false)
     private LocalDate createdAt;
 
+    public TicketEntity(EventEntity eventEntity, BigDecimal ticketPrice) {
+        this.eventEntity = eventEntity;
+        this.ticketPrice = ticketPrice;
+        this.ticketStatus = TicketStatus.NO_PAYMENT;
+    }
+
     public TicketEntity(EventEntity eventEntity, SeatEntity seatEntity, BigDecimal ticketPrice) {
         this.eventEntity = eventEntity;
         this.seatEntity = seatEntity;

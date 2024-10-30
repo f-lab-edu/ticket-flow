@@ -17,7 +17,7 @@ public class TicketRequestDTO {
     @NotNull
     private Long eventId;
     @NotNull
-    private Long seatId;
+    private Long seatGradeId;
     @NotNull
     @Positive
     private BigDecimal ticketPrice;

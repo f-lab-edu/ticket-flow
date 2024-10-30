@@ -1,9 +1,16 @@
 package github.ticketflow.domian.ticket;
 
+import github.ticketflow.aop.DistributedLock;
+import github.ticketflow.config.exception.GlobalCommonException;
+import github.ticketflow.config.exception.ticket.TicketErrorResponsive;
 import github.ticketflow.domian.event.EventEntity;
 import github.ticketflow.domian.event.EventService;
+import github.ticketflow.domian.gradeTicketInfo.GradeTicketInfoEntity;
+import github.ticketflow.domian.gradeTicketInfo.GradeTicketInfoService;
 import github.ticketflow.domian.seat.SeatEntity;
 import github.ticketflow.domian.seat.SeatService;
+import github.ticketflow.domian.seatGrade.SeatGradeEntity;
+import github.ticketflow.domian.seatGrade.SeatGradeService;
 import github.ticketflow.domian.ticket.dto.TicketRequestDTO;
 import github.ticketflow.domian.ticket.dto.TicketUpdateRequestDTO;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +23,8 @@ public class TicketFacade {
     private final TicketService ticketService;
     private final EventService eventService;
     private final SeatService seatService;
+    private final SeatGradeService seatGradeService;
+    private final GradeTicketInfoService gradeTicketInfoService;
 
     public TicketEntity getTicketById(Long ticketId) {
         return ticketService.getTicketById(ticketId);
@@ -28,8 +37,10 @@ public class TicketFacade {
 
     public TicketEntity createTicket(TicketRequestDTO dto) {
         EventEntity eventEntity = eventService.getEventById(dto.getEventId());
-        SeatEntity seatEntity = seatService.getSeatById(dto.getSeatId());
-        return ticketService.createTicket(eventEntity, seatEntity, dto.getTicketPrice());
+        SeatGradeEntity seatGradeEntity = seatGradeService.getSeatGradeById(dto.getSeatGradeId());
+        GradeTicketInfoEntity gradeTicketInfoEntity = gradeTicketInfoService.getGradeTicketInfoByEventEntityAndSeatGradeEntity(eventEntity, seatGradeEntity);
+
+        return ticketService.createTicket(eventEntity, dto.getTicketPrice());
     }
 
     public TicketEntity updateTicket(Long ticketId, TicketUpdateRequestDTO dto) {

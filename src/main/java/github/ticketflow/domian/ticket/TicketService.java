@@ -1,5 +1,6 @@
 package github.ticketflow.domian.ticket;
 
+import github.ticketflow.aop.DistributedLock;
 import github.ticketflow.config.exception.GlobalCommonException;
 import github.ticketflow.config.exception.ticket.TicketErrorResponsive;
 import github.ticketflow.domian.event.EventEntity;
@@ -23,6 +24,11 @@ public class TicketService {
     public TicketEntity getTicketBySeatEntity(SeatEntity seatEntity) {
         return  ticketRepository.findBySeatEntity(seatEntity).orElseThrow(() ->
                 new GlobalCommonException(TicketErrorResponsive.NOT_FOUND_TICKET));
+    }
+
+    public TicketEntity createTicket(EventEntity eventEntity, BigDecimal ticketPrice) {
+        TicketEntity ticketEntity = new TicketEntity(eventEntity, ticketPrice);
+        return ticketRepository.save(ticketEntity);
     }
 
     public TicketEntity createTicket(EventEntity eventEntity, SeatEntity seatEntity, BigDecimal ticketPrice) {
