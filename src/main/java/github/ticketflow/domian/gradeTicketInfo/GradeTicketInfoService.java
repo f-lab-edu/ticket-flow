@@ -52,6 +52,11 @@ public class GradeTicketInfoService {
         return gradeTicketInfoRepository.save(gradeTicketInfoEntity);
     }
 
+    public GradeTicketInfoEntity updateNumberOfReservedTickets(GradeTicketInfoEntity entity, int numberOfReservedTickets) {
+        entity.update(numberOfReservedTickets);
+        return gradeTicketInfoRepository.save(entity);
+    }
+
     public GradeTicketInfoEntity updateGradeTicketInfo (Long gradeTicketInfoId,
                                                              GradeTicketInfoUpdateRequestDTO dto
                                                              ) {
