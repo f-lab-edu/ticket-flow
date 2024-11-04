@@ -36,11 +36,21 @@ public class SeatEntity {
     @Column(name = "seat_number")
     private int seatNumber;
 
+    @Column(name = "seat_status")
+    @Enumerated(EnumType.STRING)
+    private SeatStatus seatStatus;
+
     public SeatEntity(SeatRequestDTO dto, SeatGradeEntity seatGradeEntity) {
         this.seatGradeEntity = seatGradeEntity;
         this.seatZone = dto.getSeatZone();
         this.seatRow = dto.getSeatRow();
         this.seatNumber = dto.getSeatNumber();
+        this.seatStatus = SeatStatus.EMPTY;
+    }
+
+    public SeatEntity updateSeatStatus(SeatStatus seatStatus) {
+        this.seatStatus = seatStatus;
+        return this;
     }
 
     public SeatEntity update(SeatUpdateRequestDTO dto, SeatGradeEntity seatGradeEntity) {
