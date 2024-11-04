@@ -74,6 +74,15 @@ public class CommonTestFixture {
                 .build();
     }
 
+    public static TicketEntity getTicketEntity(Long ticketId, EventEntity eventEntity, BigDecimal price) {
+        return TicketEntity.builder()
+                .ticketId(1L)
+                .eventEntity(eventEntity)
+                .ticketPrice(price)
+                .ticketStatus(TicketStatus.NO_PAYMENT)
+                .build();
+    }
+
     public static UserEntity getUserEntity(Long userId) {
         return UserEntity.builder()
                 .id(userId)

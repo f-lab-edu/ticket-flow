@@ -31,11 +31,6 @@ public class TicketService {
         return ticketRepository.save(ticketEntity);
     }
 
-    public TicketEntity createTicket(EventEntity eventEntity, SeatEntity seatEntity, BigDecimal ticketPrice) {
-        TicketEntity ticketEntity = new TicketEntity(eventEntity, seatEntity, ticketPrice);
-        return ticketRepository.save(ticketEntity);
-    }
-
     public TicketEntity updateTicket(Long ticketId, TicketUpdateVO ticketUpdateVO) {
         TicketEntity ticketEntity = getTicketById(ticketId);
         TicketEntity updateTicketEntity = ticketEntity.update(ticketUpdateVO);

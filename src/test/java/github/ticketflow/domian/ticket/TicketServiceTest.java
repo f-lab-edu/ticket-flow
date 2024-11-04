@@ -81,13 +81,13 @@ class TicketServiceTest {
         EventEntity eventEntity = CommonTestFixture.getEventEntity(eventLocationEntity, "FC서울 vs 수원 삼성");
         SeatGradeEntity seatGradeEntity = CommonTestFixture.getSeatGradeEntity(1L, eventLocationEntity);
         SeatEntity seatEntity = CommonTestFixture.getSeatEntity(1L, seatGradeEntity);
-        TicketEntity ticketEntity = CommonTestFixture.getTicketEntity(1L, eventEntity, seatEntity, intToBigDecimal(1000000));
+        TicketEntity ticketEntity = CommonTestFixture.getTicketEntity(1L, eventEntity, intToBigDecimal(1000000));
 
         BDDMockito.given(ticketRepository.save(any(TicketEntity.class)))
                 .willReturn(ticketEntity);
 
         // when
-        TicketEntity result = ticketService.createTicket(eventEntity, seatEntity, ticketEntity.getTicketPrice());
+        TicketEntity result = ticketService.createTicket(eventEntity, ticketEntity.getTicketPrice());
 
         // then
         assertThat(result).isEqualTo(ticketEntity);
