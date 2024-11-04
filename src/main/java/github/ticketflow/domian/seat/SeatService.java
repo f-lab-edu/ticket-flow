@@ -74,4 +74,13 @@ public class SeatService {
         return seatGradeRepository.findById(seatGradeId).orElseThrow(() ->
                 new GlobalCommonException(SeatGradeErrorResponsive.NOT_FOUND_SEAT_GRADE));
     }
+
+    public SeatEntity selectSeat(Long seatId) {
+        SeatEntity seatEntity = getSeatById(seatId);
+        if(seatEntity.getSeatStatus() == SeatStatus.SELECT) {
+            throw new GlobalCommonException(SeatErrorResponsive.FILL_SEAT);
+        }
+        seatEntity.updateSeatStatus(SeatStatus.SELECT);
+        return seatRepository.save(seatEntity);
+    }
 }

@@ -32,6 +32,11 @@ public class SeatController {
         return ResponseEntity.ok(new SeatResponseDTO(seatService.createSeat(dto)));
     }
 
+    @PatchMapping("select/{seatId}")
+    public ResponseEntity<SeatResponseDTO> selectSeatById(@PathVariable Long seatId) {
+        return ResponseEntity.ok(new SeatResponseDTO(seatService.selectSeat(seatId)));
+    }
+
     @PatchMapping("/{seatId}")
     public ResponseEntity<SeatResponseDTO> updateSeat(@PathVariable Long seatId,
                                                       @Valid @RequestBody SeatUpdateRequestDTO dto) {
