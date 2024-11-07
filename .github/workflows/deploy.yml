@@ -11,6 +11,11 @@ on:
 jobs:
   Deploy:
     runs-on: ubuntu-latest
+    services:
+      redis:
+        image: redis:6.2.6
+        ports:
+          - 6379:6379
     steps:
       - name: Github Repository에 올린 파일응 불러온다.
         uses: actions/checkout@v4
