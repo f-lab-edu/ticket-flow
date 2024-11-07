@@ -59,7 +59,7 @@ spring:
 
   data:
     redis:
-      host: localhost
+      host: my-cache-server
       port: 6379
 
   sql:
