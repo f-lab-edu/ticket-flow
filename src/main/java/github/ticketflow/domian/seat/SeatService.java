@@ -9,11 +9,14 @@ import github.ticketflow.domian.seat.dto.SeatUpdateRequestDTO;
 import github.ticketflow.domian.seatGrade.SeatGradeEntity;
 import github.ticketflow.domian.seatGrade.SeatGradeRepository;
 import lombok.RequiredArgsConstructor;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
@@ -21,6 +24,7 @@ public class SeatService {
 
     private final SeatRepository seatRepository;
     private final SeatGradeRepository seatGradeRepository;
+    private final RedissonClient redissonClient;
 
     public SeatEntity getSeatById(Long seatId) {
        return seatRepository.findById(seatId).orElseThrow(() ->
@@ -75,12 +79,32 @@ public class SeatService {
                 new GlobalCommonException(SeatGradeErrorResponsive.NOT_FOUND_SEAT_GRADE));
     }
 
+    @Transactional
     public SeatEntity selectSeat(Long seatId) {
-        SeatEntity seatEntity = getSeatById(seatId);
-        if(seatEntity.getSeatStatus() == SeatStatus.SELECT) {
-            throw new GlobalCommonException(SeatErrorResponsive.FILL_SEAT);
+        String lockKey = "seat-lock:" + seatId;
+        RLock lock = redissonClient.getLock(lockKey);
+
+        boolean isLocked = false;
+
+        try {
+            isLocked = lock.tryLock(1, 300, TimeUnit.SECONDS);
+            if (!isLocked) {
+                throw new GlobalCommonException(SeatErrorResponsive.FILL_SEAT);
+            }
+
+            SeatEntity seatEntity = getSeatById(seatId);
+            if(seatEntity.getSeatStatus() == SeatStatus.SELECT) {
+                throw new GlobalCommonException(SeatErrorResponsive.FILL_SEAT);
+            }
+            seatEntity.updateSeatStatus(SeatStatus.SELECT);
+            return seatRepository.save(seatEntity);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new IllegalStateException("Thread was interrupted while waiting for lock", e);
+        } finally {
+            if (isLocked) {
+                lock.unlock();
+            }
         }
-        seatEntity.updateSeatStatus(SeatStatus.SELECT);
-        return seatRepository.save(seatEntity);
     }
 }
