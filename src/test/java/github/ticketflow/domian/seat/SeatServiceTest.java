@@ -1,5 +1,7 @@
 package github.ticketflow.domian.seat;
 
+import github.ticketflow.config.exception.GlobalCommonException;
+import github.ticketflow.config.exception.seat.SeatErrorResponsive;
 import github.ticketflow.domian.CommonTestFixture;
 import github.ticketflow.domian.eventLocation.EventLocationEntity;
 import github.ticketflow.domian.seat.dto.SeatRequestDTO;
@@ -16,6 +18,8 @@ import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.math.BigDecimal;
@@ -23,12 +27,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.locks.ReentrantLock;
 
 import static github.ticketflow.domian.CommonTestFixture.getEventLocationEntity;
 import static github.ticketflow.domian.CommonTestFixture.getSeatGradeEntity;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 
 @ExtendWith(MockitoExtension.class)
 @ActiveProfiles("test")
@@ -39,6 +50,9 @@ class SeatServiceTest {
 
     @Mock
     private SeatGradeRepository seatGradeRepository;
+
+    @Mock
+    private RedissonClient redissonClient;
 
     @InjectMocks
     private SeatService seatService;
@@ -129,6 +143,65 @@ class SeatServiceTest {
                 .contains(seatEntity.getSeatId(), seatEntity.getSeatZone(), seatEntity.getSeatNumber());
 
         assertThat(result.getSeatGradeEntity()).isEqualTo(seatGradeEntity);
+    }
+
+    @DisplayName("")
+    @Test
+    void testConcurrentSeatSelection() throws InterruptedException {
+        RLock mockLock = mock(RLock.class);
+
+        final ReentrantLock internalLock = new ReentrantLock();
+
+        BDDMockito.given(redissonClient.getLock(any(String.class))).willReturn(mockLock);
+        BDDMockito.given(mockLock.tryLock(any(Long.class), any(Long.class), any(TimeUnit.class)))
+            .willAnswer(invocation -> {
+                if (internalLock.tryLock()) {
+                    return true; // 한 번에 하나의 스레드만 true 반환
+                }
+                return false;
+            });
+        BDDMockito.doNothing().when(mockLock).unlock();
+
+        EventLocationEntity eventLocationEntity = getEventLocationEntity(1L, "서울 월드컵 경기장");
+        SeatGradeEntity seatGradeEntity = getSeatGradeEntity(1L, eventLocationEntity);
+        SeatEntity seatEntity = CommonTestFixture.getSeatEntity(1L, seatGradeEntity);
+
+        BDDMockito.given(seatRepository.findById(any(Long.class)))
+                .willReturn(Optional.of(seatEntity));
+        BDDMockito.given(seatRepository.save(any(SeatEntity.class)))
+                .willAnswer(invocation -> invocation.getArgument(0));
+
+        int numberOfThreads = 10;
+        ExecutorService executorService = Executors.newFixedThreadPool(numberOfThreads);
+        CountDownLatch countDownLatch = new CountDownLatch(numberOfThreads);
+
+        AtomicInteger successCount = new AtomicInteger(0);
+        AtomicInteger failureCount = new AtomicInteger(0);
+
+        for (int i = 0; i < numberOfThreads; i++) {
+            executorService.submit(() -> {
+                try {
+                    seatService.selectSeat(1L);
+                    successCount.incrementAndGet();
+                } catch (GlobalCommonException e) {
+                    assertThat(e.getErrorCode()).isEqualTo(SeatErrorResponsive.FILL_SEAT);
+                    failureCount.incrementAndGet();
+                } finally {
+                    countDownLatch.countDown();
+                }
+            });
+
+        }
+
+        executorService.shutdown();
+        executorService.awaitTermination(1, TimeUnit.MINUTES);
+
+        System.out.println("Success Count: " + successCount.get());
+        System.out.println("Failure Count: " + failureCount.get());
+
+        assertThat(successCount.get()).isEqualTo(1);
+        assertThat(failureCount.get()).isEqualTo(9);
+
     }
 
     @DisplayName("좌석의 정보를 수정하면, 수정된 좌석의 정보가 반환이 된다.")
