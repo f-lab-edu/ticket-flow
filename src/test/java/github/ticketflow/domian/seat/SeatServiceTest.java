@@ -156,7 +156,7 @@ class SeatServiceTest {
         BDDMockito.given(mockLock.tryLock(any(Long.class), any(Long.class), any(TimeUnit.class)))
             .willAnswer(invocation -> {
                 if (internalLock.tryLock()) {
-                    return true; // 한 번에 하나의 스레드만 true 반환
+                    return true;
                 }
                 return false;
             });
