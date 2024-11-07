@@ -48,6 +48,15 @@ public class SeatEntity {
         this.seatStatus = SeatStatus.EMPTY;
     }
 
+    public SeatEntity(Long id, SeatGradeEntity seatGradeEntity, String seatZone, int seatRow, int seatNumber) {
+        this.seatId = id;
+        this.seatGradeEntity = seatGradeEntity;
+        this.seatZone = seatZone;
+        this.seatRow = seatRow;
+        this.seatNumber = seatNumber;
+        this.seatStatus = SeatStatus.EMPTY;
+    }
+
     public SeatEntity updateSeatStatus(SeatStatus seatStatus) {
         this.seatStatus = seatStatus;
         return this;
