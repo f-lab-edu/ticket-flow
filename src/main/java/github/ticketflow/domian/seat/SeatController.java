@@ -42,4 +42,10 @@ public class SeatController {
     public ResponseEntity<SeatResponseDTO> deleteSeat(@PathVariable Long seatId) {
         return ResponseEntity.ok(new SeatResponseDTO(seatService.deletedSeat(seatId)));
     }
+
+    @PatchMapping("select/{seatId}")
+    public ResponseEntity<SeatResponseDTO> selectSeatById(@PathVariable Long seatId) {
+        return ResponseEntity.ok(new SeatResponseDTO(seatService.selectSeat(seatId)));
+    }
+
 }
