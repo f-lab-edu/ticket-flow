@@ -22,10 +22,4 @@ public class RedissonConfig {
         return Redisson.create(config);
     }
 
-    @Bean
-    @Profile("test")
-    public RedissonClient redissonTest() {
-        return Redisson.create();
-    }
-
 }
