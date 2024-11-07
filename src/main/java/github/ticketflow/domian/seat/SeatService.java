@@ -1,5 +1,6 @@
 package github.ticketflow.domian.seat;
 
+import github.ticketflow.config.aop.DistributedLock;
 import github.ticketflow.config.exception.GlobalCommonException;
 import github.ticketflow.config.exception.seat.SeatErrorResponsive;
 import github.ticketflow.config.exception.seatGrade.SeatGradeErrorResponsive;
@@ -80,32 +81,13 @@ public class SeatService {
     }
 
     @Transactional
+    @DistributedLock(key = "seat-lock:#seatId")
     public SeatEntity selectSeat(Long seatId) {
-        String lockKey = "seat-lock:" + seatId;
-        RLock lock = redissonClient.getLock(lockKey);
-
-        boolean isLocked = false;
-
-        try {
-            isLocked = lock.tryLock(1, 300, TimeUnit.SECONDS);
-            if (!isLocked) {
-                throw new GlobalCommonException(SeatErrorResponsive.FILL_SEAT);
-            }
-
-            SeatEntity seatEntity = getSeatById(seatId);
-            if (seatEntity.getSeatStatus() == SeatStatus.SELECT) {
-                throw new GlobalCommonException(SeatErrorResponsive.FILL_SEAT);
-            }
-            seatEntity.updateSeatStatus(SeatStatus.SELECT);
-            return seatRepository.save(seatEntity);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            throw new IllegalStateException("Thread was interrupted while waiting for lock", e);
-        } finally {
-            if (isLocked) {
-                lock.unlock();
-            }
+        SeatEntity seatEntity = getSeatById(seatId);
+        if (seatEntity.getSeatStatus() == SeatStatus.SELECT) {
+            throw new GlobalCommonException(SeatErrorResponsive.FILL_SEAT);
         }
-
+        seatEntity.updateSeatStatus(SeatStatus.SELECT);
+        return seatRepository.save(seatEntity);
     }
 }
