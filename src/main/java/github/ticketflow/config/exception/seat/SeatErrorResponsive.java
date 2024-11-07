@@ -6,7 +6,8 @@ import org.springframework.http.HttpStatus;
 
 @AllArgsConstructor
 public enum SeatErrorResponsive implements ErrorResponsive {
-    NOT_FOUND_SEAT(HttpStatus.NOT_FOUND, "좌석을 찾을 수 없습니다.");
+    NOT_FOUND_SEAT(HttpStatus.NOT_FOUND, "좌석을 찾을 수 없습니다."),
+    FILL_SEAT(HttpStatus.BAD_REQUEST, "이미 선택된 자석입니다.");
 
     private final HttpStatus status;
     private final String message;
