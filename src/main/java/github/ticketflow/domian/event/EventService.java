@@ -28,7 +28,7 @@ public class EventService {
         );
     }
 
-    @Cacheable(value = "events", key = "#categoryId")
+    @Cacheable(value = "events", key = "#categoryEventEntities.content[0].categoryEntity.categoryId")
     public List<EventResponseDTO> getEventByCategoryId(Page<CategoryEventEntity> categoryEventEntities) {
         List<EventResponseDTO> eventEntities = new ArrayList<>();
 
