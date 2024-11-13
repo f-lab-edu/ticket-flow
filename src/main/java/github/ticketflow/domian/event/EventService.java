@@ -8,6 +8,8 @@ import github.ticketflow.domian.event.dto.EventResponseDTO;
 import github.ticketflow.domian.event.dto.EventUpdateRequestDTO;
 import github.ticketflow.domian.eventLocation.EventLocationEntity;
 import lombok.RequiredArgsConstructor;
+import org.redisson.api.RedissonClient;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +28,7 @@ public class EventService {
         );
     }
 
+    @Cacheable(value = "events", key = "#categoryEventEntities.content[0].categoryEntity.categoryId")
     public List<EventResponseDTO> getEventByCategoryId(Page<CategoryEventEntity> categoryEventEntities) {
         List<EventResponseDTO> eventEntities = new ArrayList<>();
 
