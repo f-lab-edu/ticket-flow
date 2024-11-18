@@ -12,16 +12,6 @@
 - 냄새나는 코드가 아닌 읽기 좋은 코드를 작성하려고 했습니다.
 - docker를 통해 일괄된 개발 환경을 제공하고자 했습니다.
 
-### 🌟 프로젝트의 서버 구조도
-![스크린샷 2024-09-25 오후 5 15 54](https://github.com/user-attachments/assets/9e7491cd-957e-4cf9-994e-6f7c3e293be2)
-
-### 🌟 프로젝트의 ERD
-https://www.erdcloud.com/d/B2ESKfPBPiPHyu4fw
-<img width="1055" alt="스크린샷 2024-11-15 오후 8 25 47" src="https://github.com/user-attachments/assets/eb0703e3-f1c0-4471-8749-887aebfa8ee9">
-
-### 🌟 프로젝트의 사용한 기술 스택
-![Section 1](https://github.com/user-attachments/assets/78866dfd-d050-4624-96b8-1fe6c068f2ab)
-
 ### 🌟 프로젝트 진행 중 이슈와 해결 과정
 #### CI/CD 구축을 위해 Github Actions로 CI/CD 구축하는 과정
 - [프로젝트 개발 효율성을 위한 CI/CD 적용 과정](https://velog.io/@sang_hyeok_2/Project-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EA%B0%9C%EB%B0%9C-%ED%9A%A8%EC%9C%A8%EC%84%B1%EC%9D%84-%EC%9C%84%ED%95%9C-CICD-%EC%A0%81%EC%9A%A9-%EA%B3%BC%EC%A0%95)
@@ -42,3 +32,13 @@ https://www.erdcloud.com/d/B2ESKfPBPiPHyu4fw
 
 #### 가독성과 코드 개선 과정
 - [프로젝트에서 Test Fixture를 어떻게 사용할 지 고민해보기](https://velog.io/@sang_hyeok_2/Project-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%EC%97%90%EC%84%9C-Test-Fixture%EB%A5%BC-%EC%96%B4%EB%96%BB%EA%B2%8C-%EC%82%AC%EC%9A%A9%ED%95%A0-%EC%A7%80-%EA%B3%A0%EB%AF%BC%ED%95%B4%EB%B3%B4%EA%B8%B0)
+
+### 🌟 프로젝트의 서버 구조도
+![스크린샷 2024-09-25 오후 5 15 54](https://github.com/user-attachments/assets/9e7491cd-957e-4cf9-994e-6f7c3e293be2)
+
+### 🌟 프로젝트의 ERD
+https://www.erdcloud.com/d/B2ESKfPBPiPHyu4fw
+<img width="1055" alt="스크린샷 2024-11-15 오후 8 25 47" src="https://github.com/user-attachments/assets/eb0703e3-f1c0-4471-8749-887aebfa8ee9">
+
+### 🌟 프로젝트의 사용한 기술 스택
+![Section 1](https://github.com/user-attachments/assets/78866dfd-d050-4624-96b8-1fe6c068f2ab)
