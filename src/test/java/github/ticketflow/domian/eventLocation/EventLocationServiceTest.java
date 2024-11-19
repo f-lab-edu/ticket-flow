@@ -14,6 +14,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
+
+import static github.ticketflow.domian.CommonTestFixture.getEventLocationEntity;
 import static org.mockito.ArgumentMatchers.any;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -31,12 +33,12 @@ class EventLocationServiceTest {
     @Test
     void getEventLocationByIdTest() {
         // given
-        EventLocationEntity eventLocationEntity = new EventLocationEntity(1L, "서울 월드컵 경기장", 50000);
+        EventLocationEntity eventLocationEntity = getEventLocationEntity(1L, "서울월드컵 경기장");
         BDDMockito.given(eventLocationRepository.findById(eventLocationEntity.getEventLocationId()))
                 .willReturn(Optional.of(eventLocationEntity));
 
         // when
-        EventLocationResponseDTO result = eventLocationService.getEventLocation(eventLocationEntity.getEventLocationId());
+        EventLocationEntity result = eventLocationService.getEventLocation(eventLocationEntity.getEventLocationId());
 
         // then
         assertThat(result).extracting("eventLocationId", "eventLocationName", "totalSeats")
@@ -54,7 +56,7 @@ class EventLocationServiceTest {
 
 
         // when
-        EventLocationResponseDTO result = eventLocationService.createEventLocation(dto);
+        EventLocationEntity result = eventLocationService.createEventLocation(dto);
 
         // then
         assertThat(result).extracting("eventLocationName", "totalSeats")
@@ -65,7 +67,7 @@ class EventLocationServiceTest {
     @Test
     void updateEventLocationTest() {
         // given
-        EventLocationEntity eventLocationEntity = new EventLocationEntity(1L, "서울 월드컵 경기장", 50000);
+        EventLocationEntity eventLocationEntity = getEventLocationEntity(1L, "서울월드컵 경기장");
         EventLocationUpdateRequestDTO dto = new EventLocationUpdateRequestDTO("빅버드 스타디움", 40000);
         EventLocationEntity updateEventLocationEntity = eventLocationEntity.update(dto);
 
@@ -78,7 +80,7 @@ class EventLocationServiceTest {
                 .willReturn(updateEventLocationEntity);
 
         // when
-        EventLocationResponseDTO result = eventLocationService.updateEventLocation(eventLocationEntity.getEventLocationId(), dto);
+        EventLocationEntity result = eventLocationService.updateEventLocation(eventLocationEntity.getEventLocationId(), dto);
 
         // then
         assertThat(result).extracting("eventLocationId", "eventLocationName", "totalSeats")
@@ -89,13 +91,13 @@ class EventLocationServiceTest {
     @Test
     void deleteEventLocationTest() {
         // given
-        EventLocationEntity eventLocationEntity = new EventLocationEntity(1L, "서울 월드컵 경기장", 50000);
+        EventLocationEntity eventLocationEntity =  getEventLocationEntity(1L, "서울월드컵 경기장");
         BDDMockito.given(eventLocationRepository.findById(eventLocationEntity.getEventLocationId()))
                 .willReturn(Optional.of(eventLocationEntity));
         BDDMockito.willDoNothing().given(eventLocationRepository).delete(eventLocationEntity);
 
         // when
-        EventLocationResponseDTO result = eventLocationService.deletedEventLocation(eventLocationEntity.getEventLocationId());
+        EventLocationEntity result = eventLocationService.deletedEventLocation(eventLocationEntity.getEventLocationId());
 
         // then
         assertThat(result).extracting("eventLocationId", "eventLocationName", "totalSeats")

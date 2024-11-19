@@ -53,10 +53,10 @@ class UserServiceTest {
 
 
         // when
-        UserResponseDTO updateUser = userService.updateUser(userEntity.getId(), dto);
+        UserEntity result = userService.updateUser(userEntity.getId(), dto);
 
         // then
-        assertThat(updateUser)
+        assertThat(result)
                 .extracting("username", "phoneNumber")
                 .containsExactly("권예정", "01011111111");
     }
@@ -80,11 +80,11 @@ class UserServiceTest {
         BDDMockito.willDoNothing().given(userRepository).deleteById(userEntity.getId());
 
         // when
-        UserResponseDTO dto = userService.deletedUser(userEntity.getId());
+        UserEntity result = userService.deletedUser(userEntity.getId());
 
         // then
-        assertThat(dto)
-                .extracting("userId", "email", "username", "phoneNumber")
+        assertThat(result)
+                .extracting("id", "email", "username", "phoneNumber")
                 .containsExactly(1L, "test1@gmail.com", "이상혁", "01044554455");
     }
 

@@ -6,6 +6,7 @@ import github.ticketflow.domian.seat.dto.SeatUpdateRequestDTO;
 import github.ticketflow.domian.seatGrade.SeatGradeEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -14,6 +15,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table(name = "Seat")
+@Builder
 public class SeatEntity {
 
     @Id
@@ -34,11 +36,30 @@ public class SeatEntity {
     @Column(name = "seat_number")
     private int seatNumber;
 
+    @Column(name = "seat_status")
+    @Enumerated(EnumType.STRING)
+    private SeatStatus seatStatus;
+
     public SeatEntity(SeatRequestDTO dto, SeatGradeEntity seatGradeEntity) {
         this.seatGradeEntity = seatGradeEntity;
         this.seatZone = dto.getSeatZone();
         this.seatRow = dto.getSeatRow();
         this.seatNumber = dto.getSeatNumber();
+        this.seatStatus = SeatStatus.EMPTY;
+    }
+
+    public SeatEntity(Long id, SeatGradeEntity seatGradeEntity, String seatZone, int seatRow, int seatNumber) {
+        this.seatId = id;
+        this.seatGradeEntity = seatGradeEntity;
+        this.seatZone = seatZone;
+        this.seatRow = seatRow;
+        this.seatNumber = seatNumber;
+        this.seatStatus = SeatStatus.EMPTY;
+    }
+
+    public SeatEntity updateSeatStatus(SeatStatus seatStatus) {
+        this.seatStatus = seatStatus;
+        return this;
     }
 
     public SeatEntity update(SeatUpdateRequestDTO dto, SeatGradeEntity seatGradeEntity) {

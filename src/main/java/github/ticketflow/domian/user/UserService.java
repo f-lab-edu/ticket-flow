@@ -18,18 +18,21 @@ public class UserService {
     private final UserRepository userRepository;
     private final LeaveUserRepository leaveUserRepository;
 
-    public UserResponseDTO updateUser(Long userId, UserUpdateRequestDTO dto) {
+    public UserEntity getUserById(Long userId) {
+        return userRepository.findById(userId).orElseThrow(() ->
+                new GlobalCommonException(AuthErrorResponsive.NOT_FOUND_USER));
+    }
+
+    public UserEntity updateUser(Long userId, UserUpdateRequestDTO dto) {
         UserEntity userEntity = userRepository
                 .findById(userId)
                 .orElseThrow(() -> new GlobalCommonException(AuthErrorResponsive.FAIL_UPDATE));
 
         userEntity.update(dto);
-        UserEntity updateUserEntity = userRepository.save(userEntity);
-
-        return new UserResponseDTO(updateUserEntity);
+        return userRepository.save(userEntity);
     }
 
-    public UserResponseDTO deletedUser(Long userId) {
+    public UserEntity deletedUser(Long userId) {
         UserEntity userEntity = userRepository
                 .findById(userId)
                 .orElseThrow(() -> new GlobalCommonException(AuthErrorResponsive.NOT_FOUND_USER));
@@ -37,6 +40,6 @@ public class UserService {
         LeaveUserEntity saveLeaveUserEntity = leaveUserRepository.save(new LeaveUserEntity(userEntity));
         userRepository.deleteById(userId);
 
-        return new UserResponseDTO(saveLeaveUserEntity);
+        return userEntity;
     }
 }

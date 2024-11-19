@@ -1,12 +1,15 @@
 package github.ticketflow.domian.category;
 
 import github.ticketflow.domian.category.dto.CategoryRequestDTO;
+import github.ticketflow.domian.category.dto.CategoryResponseDTO;
 import github.ticketflow.domian.category.dto.CategoryUpdateRequestDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.Objects;
 
 @Getter
 @Entity
@@ -37,6 +40,13 @@ public class CategoryEntity {
     }
 
     public CategoryEntity(CategoryRequestDTO dto) {
+        this.categoryName = dto.getCategoryName();
+        this.categoryLevel = dto.getCategoryLevel();
+        this.parentCategoryId = dto.getParentCategoryId();
+    }
+
+    public CategoryEntity(CategoryResponseDTO dto) {
+        this.categoryId = dto.getCategoryId();
         this.categoryName = dto.getCategoryName();
         this.categoryLevel = dto.getCategoryLevel();
         this.parentCategoryId = dto.getParentCategoryId();

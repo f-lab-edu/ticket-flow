@@ -19,7 +19,7 @@ public class SeatGradeController {
 
     @GetMapping("/{seatGradeId}")
     public ResponseEntity<SeatGradeResponseDTO> getSeatGradeById(@PathVariable Long seatGradeId) {
-        return ResponseEntity.ok(seatGradeService.getSeatGradeById(seatGradeId));
+        return ResponseEntity.ok(new SeatGradeResponseDTO(seatGradeService.getSeatGradeById(seatGradeId)));
     }
 
     @GetMapping("event-location/{eventLocationId}")
@@ -29,17 +29,17 @@ public class SeatGradeController {
 
     @PostMapping
     public ResponseEntity<SeatGradeResponseDTO> createSeatGrade(@Valid @RequestBody SeatGradeRequestDTO dto) {
-        return ResponseEntity.ok(seatGradeService.createSeatGrade(dto));
+        return ResponseEntity.ok(new SeatGradeResponseDTO(seatGradeService.createSeatGrade(dto)));
     }
 
     @PatchMapping("/{seatGradeId}")
     public ResponseEntity<SeatGradeResponseDTO> updateSeatGrade(@PathVariable Long seatGradeId,
                                                                 @Valid @RequestBody SeatGradeUpdateRequestDTO dto) {
-        return ResponseEntity.ok(seatGradeService.updateSeatGrade(seatGradeId, dto));
+        return ResponseEntity.ok(new SeatGradeResponseDTO(seatGradeService.updateSeatGrade(seatGradeId, dto)));
     }
 
     @DeleteMapping("/{seatGradeId}")
     public ResponseEntity<SeatGradeResponseDTO> deleteSeatGrade(@PathVariable Long seatGradeId) {
-        return ResponseEntity.ok(seatGradeService.deletedSeatGrade(seatGradeId));
+        return ResponseEntity.ok(new SeatGradeResponseDTO(seatGradeService.deletedSeatGrade(seatGradeId)));
     }
 }

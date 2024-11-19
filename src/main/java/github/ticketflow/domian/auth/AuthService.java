@@ -17,7 +17,7 @@ public class AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public SignUpResponseDTO signUp(SignUpRequestDTO dto) {
+    public UserEntity signUp(SignUpRequestDTO dto) {
         if (userRepository.existsByEmail(dto.getEmail())) {
             throw new GlobalCommonException(AuthErrorResponsive.DUPLICATED_EMAIL);
         }
@@ -29,8 +29,7 @@ public class AuthService {
                 dto.getPhoneNumber()
         );
 
-        UserEntity saveUser = userRepository.save(newUser);
-        return SignUpResponseDTO.toSignUpResponseDTO(saveUser);
+        return userRepository.save(newUser);
     }
 
 }
