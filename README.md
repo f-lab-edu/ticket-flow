@@ -32,6 +32,7 @@
 
 #### 가독성과 코드 개선 과정
 - [프로젝트에서 Test Fixture를 어떻게 사용할 지 고민해보기](https://velog.io/@sang_hyeok_2/Project-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%EC%97%90%EC%84%9C-Test-Fixture%EB%A5%BC-%EC%96%B4%EB%96%BB%EA%B2%8C-%EC%82%AC%EC%9A%A9%ED%95%A0-%EC%A7%80-%EA%B3%A0%EB%AF%BC%ED%95%B4%EB%B3%B4%EA%B8%B0)
+- [Facade 패턴으로 의존성 개선하기](https://velog.io/@sang_hyeok_2/Project-Facade-%ED%8C%A8%ED%84%B4%EC%9C%BC%EB%A1%9C-%EC%9D%98%EC%A1%B4%EC%84%B1-%EA%B0%9C%EC%84%A0%ED%95%98%EA%B8%B0)
 
 ### 🌟 프로젝트의 서버 구조도
 ![스크린샷 2024-09-25 오후 5 15 54](https://github.com/user-attachments/assets/9e7491cd-957e-4cf9-994e-6f7c3e293be2)
